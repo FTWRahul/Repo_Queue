@@ -22,17 +22,13 @@ public class BoardMono : MonoBehaviour
         
     }
 
-
     [ContextMenu("GenerateBoard")]
     public void GenerateBoard()
     {
         board = new Board(boardData);
-        for (int i = 0; i < board._board.height; i++)
+        foreach (var cell in board.Cells)
         {
-            for (int j = 0; j < board._board.width; j++)
-            {
-                board._board[i][j] = new Cell();
-            }
+            Instantiate(tile, new Vector3(cell.CellPositon.x, 0, cell.CellPositon.y), Quaternion.identity);
         }
     }
 }

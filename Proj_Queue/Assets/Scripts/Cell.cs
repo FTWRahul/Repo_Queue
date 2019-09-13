@@ -15,6 +15,6 @@ public class Cell
 
     public Cell(Vector2 _cellPosition)
     {
-        CellPositon = _cellPosition;
+        this.CellPositon = _cellPosition;
     }
 }

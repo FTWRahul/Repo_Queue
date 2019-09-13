@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 055d00008d0b14d409f9a7e26cd7a81d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  internalStuff: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
-  tile: {fileID: 7545015660182130427, guid: 284889b42c59be44ca2a9f5d8f7f82bb, type: 3}
+  boardData: {fileID: 11400000, guid: 2a4b8e2fb4ffa09448db0f885f6ca804, type: 2}
+  tile: {fileID: 1949056387794046293, guid: e95cd36d8e86db0459fa3f979ce5f126, type: 3}
 --- !u!1 &852226715
 GameObject:
   m_ObjectHideFlags: 0
