@@ -5,7 +5,15 @@ using UnityEngine;
 [System.Serializable]
 public class Board
 {
-    public List<List<Cell>> board;
+    List<List<Cell>> board;
+
+    public List<List<Cell>> _board
+    {
+        get
+        {
+            return this.board;
+        }
+    }
 
     public Board(BoardData boardData)
     {

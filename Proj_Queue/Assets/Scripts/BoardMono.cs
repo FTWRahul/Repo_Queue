@@ -4,21 +4,9 @@ using UnityEngine;
 
 public class BoardMono : MonoBehaviour
 {
-    [SerializeField]
-    List<List<int>> coordinates;
-    [SerializeField]
-    List<int> internalStuff;
-    public List<List<int>> Coordinates
-    {
-        get
-        {
-            return this.coordinates;
-        }
-        set
-        {
-            this.coordinates = value;
-        }
-    }
+    public BoardData boardData;
+
+    Board board;
 
     [SerializeField]
     GameObject tile;
@@ -38,16 +26,13 @@ public class BoardMono : MonoBehaviour
     [ContextMenu("GenerateBoard")]
     public void GenerateBoard()
     {
-        Coordinates.Add(internalStuff);
-
-        int i = 0;
-        foreach (List<int> row in coordinates)
+        board = new Board(boardData);
+        for (int i = 0; i < board._board.height; i++)
         {
-            foreach (var collom in row)
+            for (int j = 0; j < board._board.width; j++)
             {
-                Instantiate(tile, new Vector3(i, 0, collom), Quaternion.identity);
+                board._board[i][j] = new Cell();
             }
-            i++;
         }
     }
 }
