@@ -7,14 +7,6 @@ public class Board
 {
     List<List<Cell>> board;
 
-    public List<List<Cell>> _board
-    {
-        get
-        {
-            return this.board;
-        }
-    }
-
     public Board(BoardData boardData)
     {
         board = new List<List<Cell>>(); 
@@ -23,8 +15,34 @@ public class Board
         {
             for (int j = 0; j < boardData.width; j++)
             {
-                board[i][j] = new Cell();
+                board[i][j] = new Cell(Vector2(i, j));
             }
+        }
+    }
+
+    public Cell Cell(int i, int j)
+    {
+        //i - row
+        //j - column
+
+        return board[i][j];
+    }
+
+    public List<Cell> Cells
+    {
+        get
+        {
+            List<Cell> _return = new List<Cell>();
+
+            for (int i = 0; i < board.Count; i++)
+            {
+                for (int j = 0; j < board[i].Count; j++)
+                {
+                    _return.Add(board[i][j]);
+                }
+            }
+
+            return _return;
         }
     }
 }
