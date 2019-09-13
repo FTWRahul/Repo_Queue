@@ -4,5 +4,11 @@ using UnityEngine;
 
 public class PlayerMono : MonoBehaviour
 {
-    Player player;
+    [SerializeField]
+    public Player playerInfo;
+
+    private void Start()
+    {
+        GetComponent<MeshRenderer>().material.color = playerInfo.Color;
+    }
 }
