@@ -9,26 +9,8 @@ public class Board
     int height;
     int width;
 
-
-    public Board(BoardData boardData)
-    {
-        height = boardData.height;
-        width = boardData.width;
-        board = new Cell[boardData.height, boardData.width];
-
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                board[i, j] = new Cell(new Vector2(i, j));
-            }
-        }
-    }
-
     public Cell this[int i, int j]
     {
-        //i - row
-        //j - column
         get
         {
             return board[i, j];
@@ -52,4 +34,30 @@ public class Board
             return _return;
         }
     }
+
+    public Board(BoardData boardData)
+    {
+        height = boardData.height;
+        width = boardData.width;
+        board = new Cell[boardData.height, boardData.width];
+
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                board[i, j] = new Cell(new Vector2(i, j));
+            }
+        }
+    }
+
+    public void PlaceObject(GameObject obj, Vector2Int pos)
+    {
+        board[pos.x, pos.y].AddObject(obj);
+    }
+
+    public void PlaceObject(GameObject obj, Cell cell)
+    {
+        Cells.Find(x => x == cell).AddObject(obj);
+    }
+
 }
