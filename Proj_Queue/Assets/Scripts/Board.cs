@@ -15,7 +15,7 @@ public class Board
         {
             for (int j = 0; j < boardData.width; j++)
             {
-                board[i][j] = new Cell(Vector2(i, j));
+                board[i][j] = new Cell(new Vector2(i, j));
             }
         }
     }
