@@ -5,27 +5,34 @@ using UnityEngine;
 [System.Serializable]
 public class Board
 {
-    List<List<Cell>> board;
+    Cell [,] board;
+    int height;
+    int width;
+
 
     public Board(BoardData boardData)
     {
-        board = new List<List<Cell>>(); 
+        height = boardData.height;
+        width = boardData.width;
+        board = new Cell[boardData.height, boardData.width];
 
-        for (int i = 0; i < boardData.height; i++)
+        for (int i = 0; i < height; i++)
         {
-            for (int j = 0; j < boardData.width; j++)
+            for (int j = 0; j < width; j++)
             {
-                board[i][j] = new Cell(new Vector2(i, j));
+                board[i, j] = new Cell(new Vector2(i, j));
             }
         }
     }
 
-    public Cell Cell(int i, int j)
+    public Cell this[int i, int j]
     {
         //i - row
         //j - column
-
-        return board[i][j];
+        get
+        {
+            return board[i, j];
+        }
     }
 
     public List<Cell> Cells
@@ -34,11 +41,11 @@ public class Board
         {
             List<Cell> _return = new List<Cell>();
 
-            for (int i = 0; i < board.Count; i++)
+            for (int i = 0; i < height; i++)
             {
-                for (int j = 0; j < board[i].Count; j++)
+                for (int j = 0; j < width; j++)
                 {
-                    _return.Add(board[i][j]);
+                    _return.Add(board[i, j]);
                 }
             }
 
