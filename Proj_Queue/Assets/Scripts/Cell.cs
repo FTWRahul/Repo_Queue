@@ -7,7 +7,7 @@ public class Cell
 {
     [SerializeField]
     List<GameObject> objectsOnTheCell = new List<GameObject>();
-    public List<GameObject> ObjectsOnTheCell { get { return objectsOnTheCell; } }
+    public List<GameObject> ObjectsOnTheCell { get { return objectsOnTheCell; } set { objectsOnTheCell = value; } }
 
     [SerializeField]
     Vector2 cellPosition;
@@ -16,5 +16,10 @@ public class Cell
     public Cell(Vector2 _cellPosition)
     {
         this.CellPositon = _cellPosition;
+    }
+
+    void AddObjectOnTheCell(GameObject _object)
+    {
+        ObjectsOnTheCell.Add(_object);
     }
 }
