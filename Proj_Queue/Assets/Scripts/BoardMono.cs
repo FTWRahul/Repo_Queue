@@ -26,9 +26,11 @@ public class BoardMono : MonoBehaviour
     public void GenerateBoard()
     {
         board = new Board(boardData);
-        foreach (var cell in board.Cells)
+        foreach (Cell cell in board.Cells)
         {
-            Instantiate(tile, new Vector3(cell.CellPositon.x, 0, cell.CellPositon.y), Quaternion.identity);
+           GameObject newCell = Instantiate(tile, new Vector3(cell.CellPositon.x, 0, cell.CellPositon.y), Quaternion.identity);
+            newCell.GetComponent<CellMono>().cellInfo = cell;
+           /// Debug.Log(cell.CellPositon.x);
         }
     }
 }
