@@ -2,9 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player
 {
-    public Cell currentCell;
+    [SerializeField]
+    Cell currentCell;
+    public Cell CurrentCell { get { return currentCell; } set { currentCell = value; } }
 
+    [SerializeField]
+    int health;
+    [SerializeField]
+    Color32 color;
 
+    public Player(PlayerData playerData)
+    {
+        health = playerData.Health;
+        color = playerData.Color;
+    }
 }

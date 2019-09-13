@@ -18,7 +18,7 @@ public class Cell
         this.CellPositon = _cellPosition;
     }
 
-    void AddObject(GameObject _object)
+    public void AddObject(GameObject _object)
     {
         ObjectsOnTheCell.Add(_object);
     }
