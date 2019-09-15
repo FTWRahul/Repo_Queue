@@ -1,21 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    PlayerData data;
-    [SerializeField]
+
     int health;
     public int Health { get { return health; } set { health = value; } }
-    [SerializeField]
-    Color32 color;
-    public Color32 Color { get { return color; } set { color = value; } }
 
-    private void Start()
+    public void MakePlayer(PlayerData playerData)
     {
-        health = data.Health;
-        GetComponent<MeshRenderer>().material.color = data.Color;
+        health = playerData.health;
+
+        var block = new MaterialPropertyBlock();
+        block.SetColor("_BaseColor", playerData.color);
+        GetComponent<Renderer>().SetPropertyBlock(block);
     }
 }

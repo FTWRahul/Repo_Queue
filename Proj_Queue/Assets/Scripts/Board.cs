@@ -6,9 +6,12 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     [SerializeField]
-    GameObject tile;
+    GameObject cellPrefab;
 
-    Cell[,] board;
+
+    Cell[,] cellLayer;
+    GameObject[,] playerLayer;
+
     int height;
     int width;
 
@@ -17,30 +20,61 @@ public class Board : MonoBehaviour
 
         height = boardData.height;
         width = boardData.width;
-        board = new Cell[boardData.height, boardData.width];
+
+        cellLayer = new Cell[height, width];
+        playerLayer = new GameObject[height, width];
+
+        bool isWhite = true;
 
         for (int z = 0; z < height; z++)
         {
             for (int x = 0; x < width; x++)
             {
-                Cell cell = Instantiate(tile, new Vector3(x, 0, -z), Quaternion.identity, gameObject.transform).GetComponent<Cell>();
+                Cell cell = Instantiate(cellPrefab, new Vector3(x, 0, -z), Quaternion.identity, gameObject.transform).GetComponent<Cell>();
                 cell.CellPosition = new Vector2Int(x, z);
-                board[x, z] = cell;
+                cellLayer[x, z] = cell;
+
+                var block = new MaterialPropertyBlock();
+                block.SetColor("_BaseColor", isWhite ? Color.white : Color.black);
+                cell.GetComponent<Renderer>().SetPropertyBlock(block);
+
+                isWhite = !isWhite;
+            }
+
+            if (width % 2 == 0)
+            {
+                isWhite = !isWhite;
             }
         }
     }
 
-    /// <summary>
-    /// Gets the cell at given J and I coordinate
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
+    public void PlacePlayer(GameObject player, Vector2Int pos)
+    {
+        playerLayer[pos.x, pos.y] = player;
+        player.transform.position = cellLayer[pos.x, pos.y].transform.position;
+        player.transform.position += Vector3.up * 1;
+    }
+
+    //public void MakePlayer(GameObject playerPrefab, PlayerData playerData)
+    //{
+    //    cellLayer = new Cell[boardData.height, boardData.width];
+
+    //    for (int z = 0; z < height; z++)
+    //    {
+    //        for (int x = 0; x < width; x++)
+    //        {
+    //            Cell cell = Instantiate(cellPrefab, new Vector3(x, 0, -z), Quaternion.identity, gameObject.transform).GetComponent<Cell>();
+    //            cell.CellPosition = new Vector2Int(x, z);
+    //            cellLayer[x, z] = cell;
+    //        }
+    //    }
+    //}
+
     public Cell this[int x, int z]
     {
         get
         {
-            return board[x, z];
+            return cellLayer[x, z];
         }
     }
 
@@ -55,7 +89,7 @@ public class Board : MonoBehaviour
             {
                 for (int x = 0; x < width; x++)
                 {
-                    _return.Add(board[x, z]);
+                    _return.Add(cellLayer[x, z]);
                 }
             }
 
