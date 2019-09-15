@@ -5,5 +5,6 @@ using UnityEngine;
 public class CellMono : MonoBehaviour
 {
     [SerializeField]
-    public Cell cellInfo;
+    Vector2Int cellPosition;
+    public Vector2Int CellPositon { get { return cellPosition; } set { cellPosition = value; } }
 }
