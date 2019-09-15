@@ -1,21 +1,49 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Board
+public class Board : MonoBehaviour
 {
-    Cell [,] board;
+    [SerializeField]
+    GameObject tile;
+
+    Cell[,] board;
     int height;
     int width;
 
-    public Cell this[int i, int j]
+    public void MakeBoard(BoardData boardData)
+    {
+
+        height = boardData.height;
+        width = boardData.width;
+        board = new Cell[boardData.height, boardData.width];
+
+        for (int z = 0; z < height; z++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                Cell cell = Instantiate(tile, new Vector3(x, 0, -z), Quaternion.identity, gameObject.transform).GetComponent<Cell>();
+                cell.CellPositon = new Vector2Int(x, z);
+                board[x, z] = cell;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets the cell at given J and I coordinate
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
+    public Cell this[int x, int z]
     {
         get
         {
-            return board[i, j];
+            return board[x, z];
         }
     }
+
 
     public List<Cell> Cells
     {
@@ -23,41 +51,16 @@ public class Board
         {
             List<Cell> _return = new List<Cell>();
 
-            for (int i = 0; i < height; i++)
+            for (int z = 0; z < height; z++)
             {
-                for (int j = 0; j < width; j++)
+                for (int x = 0; x < width; x++)
                 {
-                    _return.Add(board[i, j]);
+                    _return.Add(board[x, z]);
                 }
             }
 
             return _return;
         }
-    }
-
-    public Board(BoardData boardData)
-    {
-        height = boardData.height;
-        width = boardData.width;
-        board = new Cell[boardData.height, boardData.width];
-
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                board[i, j] = new Cell(new Vector2Int(i, j));
-            }
-        }
-    }
-
-    public void PlaceObject(GameObject obj, Vector2Int pos)
-    {
-        board[pos.x, pos.y].AddObject(obj);
-    }
-
-    public void PlaceObject(GameObject obj, Cell cell)
-    {
-        Cells.Find(x => x == cell).AddObject(obj);
     }
 
 }

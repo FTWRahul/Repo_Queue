@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player
+public class PlayerMono : MonoBehaviour
 {
     [SerializeField]
-    Cell currentCell;
-    public Cell CurrentCell { get { return currentCell; } set { currentCell = value; } }
-
+    PlayerData data;
     [SerializeField]
     int health;
     public int Health { get { return health; } set { health = value; } }
@@ -15,9 +13,9 @@ public class Player
     Color32 color;
     public Color32 Color { get { return color; } set { color = value; } }
 
-    public Player(PlayerData playerData)
+    private void Start()
     {
-        health = playerData.Health;
-        color = playerData.Color;
+        health = data.Health;
+        GetComponent<MeshRenderer>().material.color = data.Color;
     }
 }

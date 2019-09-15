@@ -7,13 +7,4 @@ public class BoardData : ScriptableObject
 {
     public int height;
     public int width;
-
-    //public GameObject boardPrefab;
-
-    //public void MakeBoard()
-    //{
-    //   // GameObject newObj = new GameObject();
-    //    GameObject go = Instantiate(boardPrefab, Vector3.zero, Quaternion.identity);
-    //    go.GetComponent<BoardMono>().Initilize(this);        
-    //}
 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03e2d4815bac5544e9c664576befd842, type: 3}
-  m_Name: WeirdBoard
+  m_Name: Board
   m_EditorClassIdentifier: 
-  height: 50
-  width: 2
+  height: 6
+  width: 6
