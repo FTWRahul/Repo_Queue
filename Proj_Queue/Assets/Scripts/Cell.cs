@@ -5,7 +5,7 @@ using UnityEngine;
 public class Cell : MonoBehaviour
 {
     [SerializeField]
-    Vector2Int gridPosition;
-    public Vector2Int GridPositon { get { return gridPosition; } set { gridPosition = value; } }
+    Vector2Int cellPosition;
+    public Vector2Int CellPosition { get { return cellPosition; } set { cellPosition = value; } }
 }
 

@@ -24,7 +24,7 @@ public class Board : MonoBehaviour
             for (int x = 0; x < width; x++)
             {
                 Cell cell = Instantiate(tile, new Vector3(x, 0, -z), Quaternion.identity, gameObject.transform).GetComponent<Cell>();
-                cell.GridPositon = new Vector2Int(x, z);
+                cell.CellPosition = new Vector2Int(x, z);
                 board[x, z] = cell;
             }
         }
