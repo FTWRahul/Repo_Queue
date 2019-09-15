@@ -6,6 +6,6 @@ public class Cell : MonoBehaviour
 {
     [SerializeField]
     Vector2Int gridPosition;
-    public Vector2Int CellPositon { get { return gridPosition; } set { gridPosition = value; } }
+    public Vector2Int GridPositon { get { return gridPosition; } set { gridPosition = value; } }
 }
 
