@@ -20,7 +20,7 @@ public class CellSelector : MonoBehaviour
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, cellLayerMask))
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, cellLayerMask))
             {
                 Vector2Int cellPos = hit.collider.gameObject.GetComponent<Cell>().CellPosition;
 
