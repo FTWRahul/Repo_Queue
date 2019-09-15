@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMono : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [SerializeField]
     PlayerData data;
