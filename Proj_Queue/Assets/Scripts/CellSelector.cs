@@ -5,9 +5,8 @@ using UnityEngine;
 public class CellSelector : MonoBehaviour
 {
     [SerializeField]
-    int cellLayerMask;
+    LayerMask cellLayerMask;
 
-    [SerializeField]
     Camera cam;
 
     private void Awake()
@@ -20,9 +19,8 @@ public class CellSelector : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, cellLayerMask))
+            if (Physics.Raycast(ray, out RaycastHit hit, cellLayerMask))
             {
                 Vector2Int cellPos = hit.collider.gameObject.GetComponent<Cell>().CellPosition;
 
