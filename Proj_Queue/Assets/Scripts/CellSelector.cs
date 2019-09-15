@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseInput : MonoBehaviour
+public class CellSelector : MonoBehaviour
 {
     [SerializeField]
     int cellLayerMask;
@@ -25,6 +25,7 @@ public class MouseInput : MonoBehaviour
             if (Physics.Raycast(ray, out hit, cellLayerMask))
             {
                 Vector2Int cellPos = hit.collider.gameObject.GetComponent<Cell>().CellPosition;
+
                 Debug.Log(cellPos);
             }
         }
