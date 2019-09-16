@@ -7,4 +7,5 @@ public class PlayerData : ScriptableObject
 {
     public int health;
     public Color32 color;
+    public List<Vector2Int> movementPattern;
 }

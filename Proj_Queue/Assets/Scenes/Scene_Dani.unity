@@ -154,6 +154,9 @@ MonoBehaviour:
   playerPrefab: {fileID: 6901225422828506750, guid: cd82abb50c489a44db406b2d1d7b9bca,
     type: 3}
   playerData: {fileID: 11400000, guid: ad3d4817ad37d4a49a3d602f129958a2, type: 2}
+  player1Data: {fileID: 11400000, guid: e3edeed5595de714d8fb26ca2595cd42, type: 2}
+  currentPlayer: {fileID: 0}
+  otherPlayer: {fileID: 0}
 --- !u!4 &658190605
 Transform:
   m_ObjectHideFlags: 0
@@ -226,6 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 129eb0074ce8a1545baac848655aff9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gm: {fileID: 658190604}
   cellLayerMask:
     serializedVersion: 2
     m_Bits: 512

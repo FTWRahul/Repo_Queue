@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CellSelector : MonoBehaviour
 {
+    public GameManager gm;
+
     [SerializeField]
     LayerMask cellLayerMask;
 
@@ -22,9 +24,11 @@ public class CellSelector : MonoBehaviour
 
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, cellLayerMask))
             {
-                Vector2Int cellPos = hit.collider.gameObject.GetComponent<Cell>().CellPosition;
-
-                Debug.Log(cellPos);
+                if (hit.collider.GetComponent<Cell>().highlighted)
+                {
+                    Vector2Int cellPos = hit.collider.gameObject.GetComponent<Cell>().CellPosition;
+                    gm.MakeMove(cellPos);
+                }
             }
         }
     }

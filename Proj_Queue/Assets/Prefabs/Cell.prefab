@@ -106,3 +106,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellPosition: {x: 0, y: 0}
+  defaultColor: {r: 0, g: 0, b: 0, a: 0}
+  highlightedColor: {r: 1, g: 0, b: 0, a: 0}
