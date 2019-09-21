@@ -20,8 +20,8 @@ public class Board : MonoBehaviour
         height = boardData.height;
         width = boardData.width;
 
-        cellLayer = new Cell[height, width];
-        playerLayer = new GameObject[height, width];
+        cellLayer = new Cell[width, height];
+        playerLayer = new GameObject[width, height];
 
         bool isWhite = true;
 
@@ -46,7 +46,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void MovePlayer(GameObject player, Vector2Int cellPos)
+    public Vector2Int GetPlayerPosition(GameObject player)
     {
         for (int z = 0; z < height; z++)
         {
@@ -54,28 +54,25 @@ public class Board : MonoBehaviour
             {
                 if (playerLayer[x, z] == player)
                 {
-                    playerLayer[x, z] = null;
+                    return new Vector2Int(x, z);
                 }
             }
         }
+        return new Vector2Int(-1, -1);
+    }
+
+    public void MovePlayer(GameObject player, Vector2Int cellPos)
+    {
+        Vector2Int playerPos = GetPlayerPosition(player);
+        playerLayer[playerPos.x, playerPos.y] = null;
 
         PlacePlayer(player, cellPos);
     }
 
+
     public void HighlightMovementCells(GameObject player)
     {
-        Vector2Int playerPos = new Vector2Int();
-
-        for (int z = 0; z < height; z++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                if (playerLayer[x, z] == player)
-                {
-                    playerPos = new Vector2Int(x, z);
-                }
-            }
-        }
+        Vector2Int playerPos = GetPlayerPosition(player);
 
         List<Vector2Int> movementPattern = new List<Vector2Int>();
 
