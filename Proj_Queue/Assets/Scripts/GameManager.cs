@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public Board board;
-    public BoardData boardData;
+    [SerializeField] private Board board;
+    [SerializeField] private BoardData boardData;
+    
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private PlayerData playerData;
+    [SerializeField] private PlayerData player1Data;
 
-    public GameObject playerPrefab;
-    public PlayerData playerData;
-    public PlayerData player1Data;
-
-    public GameObject currentPlayer;
-    public GameObject otherPlayer;
+    [SerializeField] private GameObject currentPlayer;
+    [SerializeField] private GameObject otherPlayer;
 
     void Start()
     {
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         Turn(currentPlayer);
     }
 
-    public void Turn(GameObject player)
+    private void Turn(GameObject player)
     {
         board.HighlightMovementCells(player.gameObject);
     }

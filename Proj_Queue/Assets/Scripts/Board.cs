@@ -5,33 +5,31 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    [SerializeField]
-    GameObject cellPrefab;
+    [SerializeField] private GameObject cellPrefab;
 
-    Cell[,] cellLayer;
-    GameObject[,] playerLayer;
-
-    int height;
-    int width;
+    private Cell[,] _cellLayer;
+    private GameObject[,] _playerLayer;
+    private int _height;
+    private int _width;
 
     public void MakeBoard(BoardData boardData)
     {
 
-        height = boardData.height;
-        width = boardData.width;
+        _height = boardData.height;
+        _width = boardData.width;
 
-        cellLayer = new Cell[width, height];
-        playerLayer = new GameObject[width, height];
+        _cellLayer = new Cell[_width, _height];
+        _playerLayer = new GameObject[_width, _height];
 
         bool isWhite = true;
 
-        for (int z = 0; z < height; z++)
+        for (int z = 0; z < _height; z++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < _width; x++)
             {
                 Cell cell = Instantiate(cellPrefab, new Vector3(x, 0, -z), Quaternion.identity, gameObject.transform).GetComponent<Cell>();
                 cell.CellPosition = new Vector2Int(x, z);
-                cellLayer[x, z] = cell;
+                _cellLayer[x, z] = cell;
 
                 cell.defaultColor = isWhite ? Color.white : Color.black;
                 cell.Dehighlight();
@@ -39,7 +37,7 @@ public class Board : MonoBehaviour
                 isWhite = !isWhite;
             }
 
-            if (width % 2 == 0)
+            if (_width % 2 == 0)
             {
                 isWhite = !isWhite;
             }
@@ -48,11 +46,11 @@ public class Board : MonoBehaviour
 
     public Vector2Int GetPlayerPosition(GameObject player)
     {
-        for (int z = 0; z < height; z++)
+        for (int z = 0; z < _height; z++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < _width; x++)
             {
-                if (playerLayer[x, z] == player)
+                if (_playerLayer[x, z] == player)
                 {
                     return new Vector2Int(x, z);
                 }
@@ -64,7 +62,7 @@ public class Board : MonoBehaviour
     public void MovePlayer(GameObject player, Vector2Int cellPos)
     {
         Vector2Int playerPos = GetPlayerPosition(player);
-        playerLayer[playerPos.x, playerPos.y] = null;
+        _playerLayer[playerPos.x, playerPos.y] = null;
 
         PlacePlayer(player, cellPos);
     }
@@ -81,13 +79,13 @@ public class Board : MonoBehaviour
             movementPattern.Add(playerPos + pos);
         }
 
-        movementPattern.RemoveAll(x => x.x < 0 || x.x > width - 1 || x.y < 0 || x.y > height - 1);
+        movementPattern.RemoveAll(x => x.x < 0 || x.x > _width - 1 || x.y < 0 || x.y > _height - 1);
 
-        for (int z = 0; z < height; z++)
+        for (int z = 0; z < _height; z++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < _width; x++)
             {
-                if (playerLayer[x, z] != null)
+                if (_playerLayer[x, z] != null)
                 {
                     movementPattern.Remove(new Vector2Int(x, z));
                 }
@@ -96,14 +94,14 @@ public class Board : MonoBehaviour
 
         foreach (Vector2Int move in movementPattern)
         {
-            cellLayer[move.x, move.y].Highlight();
+            _cellLayer[move.x, move.y].Highlight();
         }
     }
 
     public void PlacePlayer(GameObject player, Vector2Int pos)
     {
-        playerLayer[pos.x, pos.y] = player;
-        player.transform.position = cellLayer[pos.x, pos.y].transform.position;
+        _playerLayer[pos.x, pos.y] = player;
+        player.transform.position = _cellLayer[pos.x, pos.y].transform.position;
         player.transform.position += Vector3.up * 1;
     }
 
@@ -111,22 +109,22 @@ public class Board : MonoBehaviour
     {
         get
         {
-            return cellLayer[x, z];
+            return _cellLayer[x, z];
         }
     }
 
 
-    public List<Cell> Cells
+    private List<Cell> Cells
     {
         get
         {
             List<Cell> _return = new List<Cell>();
 
-            for (int z = 0; z < height; z++)
+            for (int z = 0; z < _height; z++)
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < _width; x++)
                 {
-                    _return.Add(cellLayer[x, z]);
+                    _return.Add(_cellLayer[x, z]);
                 }
             }
 

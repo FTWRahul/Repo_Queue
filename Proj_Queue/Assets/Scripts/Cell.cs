@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    [SerializeField]
-    Vector2Int cellPosition;
-    public Vector2Int CellPosition { get { return cellPosition; } set { cellPosition = value; } }
+    [SerializeField] private Vector2Int cellPosition;
+    public Vector2Int CellPosition { get => cellPosition; set => cellPosition = value; }
 
     public Color defaultColor;
-    public Color highlightedColor;
+    [SerializeField] private Color highlightedColor;
     public bool highlighted;
+    
+    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
     public void Highlight()
     {
         highlighted = true;
         var block = new MaterialPropertyBlock();
-        block.SetColor("_BaseColor", highlightedColor);
+        block.SetColor(BaseColor, highlightedColor);
         GetComponent<Renderer>().SetPropertyBlock(block);
     }
 
@@ -24,7 +25,7 @@ public class Cell : MonoBehaviour
     {
         highlighted = false;
         var block = new MaterialPropertyBlock();
-        block.SetColor("_BaseColor", defaultColor);
+        block.SetColor(BaseColor, defaultColor);
         GetComponent<Renderer>().SetPropertyBlock(block);
     }
 }

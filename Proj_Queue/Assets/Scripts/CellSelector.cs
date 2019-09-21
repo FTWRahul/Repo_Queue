@@ -4,23 +4,21 @@ using UnityEngine;
 
 public class CellSelector : MonoBehaviour
 {
-    public GameManager gm;
-
-    [SerializeField]
-    LayerMask cellLayerMask;
-
-    Camera cam;
+    [SerializeField] private GameManager gm;
+    [SerializeField] private LayerMask cellLayerMask;
+    private Camera _camera;
 
     private void Awake()
     {
-        cam = Camera.main;
+        gm = FindObjectOfType<GameManager>();
+        _camera = Camera.main;
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, cellLayerMask))
             {

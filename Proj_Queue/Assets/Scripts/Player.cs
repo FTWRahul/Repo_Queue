@@ -5,17 +5,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    int health;
-    public int Health { get { return health; } set { health = value; } }
+    private int _health;
+    public int Health => _health;
     public List<Vector2Int> movementPattern;
+    
+    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
     public void MakePlayer(PlayerData playerData)
     {
-        health = playerData.health;
+        _health = playerData.health;
         movementPattern = playerData.movementPattern;
 
         var block = new MaterialPropertyBlock();
-        block.SetColor("_BaseColor", playerData.color);
+        block.SetColor(BaseColor, playerData.color);
         GetComponent<Renderer>().SetPropertyBlock(block);
     }
 }
