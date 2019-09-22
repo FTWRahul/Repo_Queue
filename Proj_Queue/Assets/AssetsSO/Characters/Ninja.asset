@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2bd542be8e4bcc4596cb3ced1e5a653, type: 3}
+  m_Name: Ninja
+  m_EditorClassIdentifier: 
+  health: 100
+  color:
+    serializedVersion: 2
+    rgba: 255
+  movementPatterns:
+  - {fileID: 11400000, guid: 6022d2a827b773e4d97c303c6c4843ae, type: 2}
+  - {fileID: 11400000, guid: c35db44d9154dc84481641c12cc51c2e, type: 2}
+  - {fileID: 11400000, guid: 7e23b3eb7f8811847a14f3554076dd72, type: 2}
+  - {fileID: 11400000, guid: 601b124cbb9e2cf4dbb1c3398fef66d3, type: 2}

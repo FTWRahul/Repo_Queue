@@ -28,7 +28,7 @@ public class Board : MonoBehaviour
             for (int x = 0; x < _width; x++)
             {
                 Cell cell = Instantiate(cellPrefab, new Vector3(x, 0, -z), Quaternion.identity, gameObject.transform).GetComponent<Cell>();
-                cell.CellPosition = new Vector2Int(x, z);
+                cell.cellPosition = new Vector2Int(x, z);
                 _cellLayer[x, z] = cell;
 
                 cell.defaultColor = isWhite ? Color.white : Color.black;
@@ -71,30 +71,25 @@ public class Board : MonoBehaviour
     public void HighlightMovementCells(GameObject player)
     {
         Vector2Int playerPos = GetPlayerPosition(player);
-
-        List<Vector2Int> movementPattern = new List<Vector2Int>();
-
-        foreach (Vector2Int pos in player.GetComponent<Player>().movementPattern)
+        
+        foreach (Pattern pattern in player.GetComponent<Player>().movementPatterns)
         {
-            movementPattern.Add(playerPos + pos);
-        }
-
-        movementPattern.RemoveAll(x => x.x < 0 || x.x > _width - 1 || x.y < 0 || x.y > _height - 1);
-
-        for (int z = 0; z < _height; z++)
-        {
-            for (int x = 0; x < _width; x++)
+            foreach (Vector2Int pos in pattern.positions)
             {
-                if (_playerLayer[x, z] != null)
+                Vector2Int resultingPos = playerPos + pos;
+                
+                if (resultingPos.x < 0 || resultingPos.x > _width - 1 || resultingPos.y < 0 || resultingPos.y > _height - 1) // outside of the board
                 {
-                    movementPattern.Remove(new Vector2Int(x, z));
+                    break;
                 }
-            }
-        }
 
-        foreach (Vector2Int move in movementPattern)
-        {
-            _cellLayer[move.x, move.y].Highlight();
+                if (_playerLayer[resultingPos.x, resultingPos.y] != null) // player is on cell
+                {
+                    break;
+                }
+                
+                _cellLayer[resultingPos.x, resultingPos.y].Highlight();
+            }
         }
     }
 

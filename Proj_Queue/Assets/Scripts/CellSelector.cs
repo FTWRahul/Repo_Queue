@@ -14,20 +14,17 @@ public class CellSelector : MonoBehaviour
         _camera = Camera.main;
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        if (!Input.GetMouseButtonDown(0)) return;
+        
+        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, cellLayerMask))
-            {
-                if (hit.collider.GetComponent<Cell>().highlighted)
-                {
-                    Vector2Int cellPos = hit.collider.gameObject.GetComponent<Cell>().CellPosition;
-                    gm.MakeMove(cellPos);
-                }
-            }
-        }
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, cellLayerMask)) return;
+        
+        if (!hit.collider.GetComponent<Cell>().highlighted) return;
+        
+        Vector2Int cellPos = hit.collider.gameObject.GetComponent<Cell>().cellPosition;
+        gm.MakeMove(cellPos);
     }
 }

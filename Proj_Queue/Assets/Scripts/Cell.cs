@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Cell : MonoBehaviour
 {
-    [SerializeField] private Vector2Int cellPosition;
-    public Vector2Int CellPosition { get => cellPosition; set => cellPosition = value; }
+    [FormerlySerializedAs("CellPosition")] public Vector2Int cellPosition;
 
     public Color defaultColor;
     [SerializeField] private Color highlightedColor;
