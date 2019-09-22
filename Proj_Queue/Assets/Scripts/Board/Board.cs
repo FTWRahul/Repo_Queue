@@ -11,7 +11,6 @@ public class Board : MonoBehaviour
     private GameObject[,] _playerLayer;
     private int _height;
     private int _width;
-
     public void MakeBoard(BoardData boardData)
     {
 
