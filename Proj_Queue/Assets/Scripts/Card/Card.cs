@@ -10,7 +10,7 @@ public class Card
     public readonly int energyCost;
     public readonly int damage;
 
-    public List<BehaviourData> behaviours;
+    public List<ActionData> actions;
     
     public Card(CardData cardData)
     {
@@ -19,7 +19,7 @@ public class Card
         energyCost = cardData.energyCost;
         damage = cardData.damage;
 
-        behaviours = cardData.behaviours;
+        actions = cardData.actions;
     }
     
 }

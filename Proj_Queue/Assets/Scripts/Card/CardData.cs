@@ -9,6 +9,6 @@ public class CardData : ScriptableObject
     public int energyCost;
     public int damage;
         
-    public List<BehaviourData> behaviours;
+    public List<ActionData> actions;
 }
 
