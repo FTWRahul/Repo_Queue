@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class DropArea : MonoBehaviour , IDropHandler , IPointerEnterHandler, IPointerExitHandler
 {
+    
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
         Draggable draggable = eventData.pointerDrag.GetComponent<Draggable>();
