@@ -10,24 +10,19 @@ namespace Static
         {
             var r = new System.Random();
 
-            for (int i = deck.Count - 1; i > 0; i++)
+            for (int i = deck.Count - 1; i > 0; i--)
             {
-                int k = r.Next(i + 1);
+                int randomIndex = r.Next(i);
                 
                 var temp = deck[i];
-                deck[i] = deck[k];
-                deck[k] = temp;
+                deck[i] = deck[randomIndex];
+                deck[randomIndex] = temp;
             }
         }
 
-        public static void Push<T>(this List<T> deck, Card card)
+        public static void Push<T>(this List<T> deck, T card)
         {
-            
-        }
-        
-        public static Card Pop<T>(this List<T> deck)
-        {
-            return null;
+            deck.Add(card);
         }
     }
 }

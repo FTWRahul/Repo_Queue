@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6901225422828506748}
   - component: {fileID: 6901225422828506751}
   - component: {fileID: -7439759045256691414}
+  - component: {fileID: 5492468099340401957}
   m_Layer: 10
   m_Name: Character
   m_TagString: Untagged
@@ -106,3 +107,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0118b2d08a8b4439aa22376892d5be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementPatterns: []
+  originalDeck: []
+--- !u!114 &5492468099340401957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6901225422828506750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9adc7eea54feb2c4db34841daea39112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalDeck: []
+  hand: []

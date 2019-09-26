@@ -3,24 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Static;
-using UnityEngine.Serialization;
 
 public class DeckManager : MonoBehaviour
-{ 
-    public List<Card> originalDeckList = new List<Card>();
+{
+    public List<Card> originalDeck = new List<Card>();
     public Stack<Card> deck = new Stack<Card>();
     public List<Card> hand = new List<Card>();
 
     private void Start()
     {
+        
         ResetDeck();
     }
 
     void ResetDeck()
     {
-        originalDeckList.Shuffle();
+        originalDeck.Shuffle();
 
-        foreach (Card card in originalDeckList)
+        foreach (Card card in originalDeck)
         {
             deck.Push(card);
         }
@@ -33,18 +33,12 @@ public class DeckManager : MonoBehaviour
             ResetDeck();
         }
         
-        Card newCard = Instantiate(deck.Pop());
+        hand.Add(deck.Pop());
+    }
 
-        foreach (Card card in hand)
-        {
-            if (card.cardName == newCard.cardName)
-            {
-                return;
-            }
-        }
-        
-        hand.Add(newCard);
-        
+    public void SetDeck(List<Card> cards)
+    {
+        originalDeck = cards;
     }
 }
 

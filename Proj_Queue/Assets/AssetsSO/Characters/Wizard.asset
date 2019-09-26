@@ -21,3 +21,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f7c68a79cec4854a8ec088f4e4eeb8f, type: 2}
   - {fileID: 11400000, guid: 5f2bcc5e0e5d0654fb30aff16b23fa94, type: 2}
   - {fileID: 11400000, guid: b26bd07aea6bd4548bf307633c41a520, type: 2}
+  playerOriginalDeck:
+  - {fileID: 11400000, guid: 43d17ffd14315884e8deecc551b75464, type: 2}
+  - {fileID: 11400000, guid: 639aff56569faec4b8e328ad1cd616f7, type: 2}
+  - {fileID: 11400000, guid: 43d17ffd14315884e8deecc551b75464, type: 2}
+  - {fileID: 11400000, guid: 43d17ffd14315884e8deecc551b75464, type: 2}
+  - {fileID: 11400000, guid: 639aff56569faec4b8e328ad1cd616f7, type: 2}
