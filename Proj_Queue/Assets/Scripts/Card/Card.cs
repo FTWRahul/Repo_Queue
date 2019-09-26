@@ -5,20 +5,20 @@ using UnityEngine;
 [System.Serializable]
 public class Card
 {
-    public readonly string cardName;
-    public readonly string cardDescription;
-        
-    public readonly int energyCost;
-    public readonly int damage;
+    private readonly string _cardName;
+    private readonly string _cardDescription;
+
+    private readonly int _energyCost;
+    private readonly int _damage;
 
     public List<ActionData> actions;
     
     public Card(CardData cardData)
     {
-        cardName = cardData.cardName;
-        cardDescription = cardData.cardDescription;
-        energyCost = cardData.energyCost;
-        damage = cardData.damage;
+        _cardName = cardData.cardName;
+        _cardDescription = cardData.cardDescription;
+        _energyCost = cardData.energyCost;
+        _damage = cardData.damage;
 
         actions = cardData.actions;
     }

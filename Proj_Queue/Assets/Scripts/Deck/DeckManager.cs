@@ -10,6 +10,10 @@ public class DeckManager : MonoBehaviour
     public Stack<Card> deck = new Stack<Card>();
     public List<Card> hand = new List<Card>();
 
+
+    public Transform handPanel;
+    
+    
     private void Start()
     {
         

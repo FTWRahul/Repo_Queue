@@ -5,6 +5,7 @@ using UnityEngine;
 public class CardData : ScriptableObject
 {
     public string cardName;
+    [TextArea]
     public string cardDescription;
         
     public int energyCost;
