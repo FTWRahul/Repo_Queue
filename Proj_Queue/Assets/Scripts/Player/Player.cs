@@ -24,4 +24,10 @@ public class Player : MonoBehaviour
         block.SetColor(BaseColor, playerData.color);
         GetComponent<Renderer>().SetPropertyBlock(block);
     }
+
+    public void TakeDamage(int amount)
+    {
+        _health -= amount;
+    }
+    
 }
