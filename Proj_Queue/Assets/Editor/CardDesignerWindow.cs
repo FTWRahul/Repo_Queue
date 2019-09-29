@@ -21,7 +21,7 @@ public class CardDesignerWindow : EditorWindow
     //Card data and actions references
     private static CardData _cardData;
     private static List<ActionData> _actionDataList = new List<ActionData>();
-    
+   
     //GUI skin for editor window
     private GUISkin _skin;
 
@@ -49,6 +49,9 @@ public class CardDesignerWindow : EditorWindow
     {
         _cardData = (CardData) ScriptableObject.CreateInstance(typeof(CardData));
         _actionDataList.Add((ActionData) ScriptableObject.CreateInstance(typeof(ActionData)));
+        
+        _actionDataList[_actionDataList.Count-1].patterns = new List<PatternData>();
+        _actionDataList[_actionDataList.Count-1].patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
     }
     
     //Creating the textures
@@ -111,30 +114,59 @@ public class CardDesignerWindow : EditorWindow
         EditorGUILayout.EndHorizontal();
         _cardData.cardDescription = EditorGUILayout.TextArea(_cardData.cardDescription);
         
-        EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Actions");
-        EditorGUILayout.EndHorizontal();
-        
+
         if (GUILayout.Button("Create new action", GUILayout.Height(40)))
         {
             _actionDataList.Add((ActionData) ScriptableObject.CreateInstance(typeof(ActionData)));
+            
+            _actionDataList[_actionDataList.Count-1].patterns = new List<PatternData>();
+            _actionDataList[_actionDataList.Count-1].patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
         }
 
         for (int i = 0; i < _actionDataList.Count; i++)
         {
             EditorGUILayout.BeginHorizontal();
+            
             GUILayout.Label("Action Name:");
             _actionDataList[i].actionName = EditorGUILayout.TextField(_actionDataList[i].actionName);
+            
             EditorGUILayout.EndHorizontal();
             
             EditorGUILayout.BeginHorizontal();
+            
             GUILayout.Label("Behaviour");
             _actionDataList[i].behaviour =
                 (BehaviourData) EditorGUILayout.ObjectField(_actionDataList[i].behaviour, typeof(BehaviourData), false);
-            GUILayout.Label("Pattern");
-            _actionDataList[i].patterns =
-                (PatternData) EditorGUILayout.ObjectField(_actionDataList[i].patterns, typeof(PatternData), false);
 
+            GUILayout.Label("Pattern");
+
+            EditorGUILayout.BeginVertical();
+            
+            for (int j = 0; j < _actionDataList[i].patterns.Count; j++)
+            {
+                _actionDataList[i].patterns[j] = (PatternData) EditorGUILayout.ObjectField(_actionDataList[i].patterns[j], typeof(PatternData), false);
+            }
+            
+            EditorGUILayout.BeginHorizontal();
+            
+            if (GUILayout.Button(("-"), GUILayout.Height(20)))
+            {
+                if (_actionDataList[i].patterns.Count > 1)
+                {
+                    _actionDataList[i].patterns.RemoveAt(_actionDataList[i].patterns.Count - 1);
+                    break;
+                }
+            }
+            else if(GUILayout.Button(("+"), GUILayout.Height(20)))
+            {
+                _actionDataList[i].patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
+                break;
+            }
+            
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
+            
             if (GUILayout.Button("-", GUILayout.Height(20)))
             {
                 if (_actionDataList.Count > 1)
@@ -169,13 +201,12 @@ public class CardDesignerWindow : EditorWindow
                 }
                 EditorGUILayout.EndVertical();
             }
-            
-            
-            
+
             EditorGUILayout.EndHorizontal();
         }
         
         EditorGUILayout.BeginHorizontal();
+        
         if (GUILayout.Button("Create new behaviour", GUILayout.Height(20)))
         {
             GeneralSettings.OpenWindow(GeneralSettings.SettingType.BEHAVIOUR);
@@ -184,13 +215,23 @@ public class CardDesignerWindow : EditorWindow
         {
             GeneralSettings.OpenWindow(GeneralSettings.SettingType.PATTERN);
         }
+        
         EditorGUILayout.EndHorizontal();
 
         bool canSave = true;
 
         foreach (var action in _actionDataList)
         {
-            if (action.behaviour == null || action.patterns == null)
+            foreach (var pattern in action.patterns)
+            {
+                if (pattern == null)
+                {
+                    canSave = false;
+                    break;
+                }
+            }
+            
+            if (action.behaviour == null)
             {
                 canSave = false;
                 break;
