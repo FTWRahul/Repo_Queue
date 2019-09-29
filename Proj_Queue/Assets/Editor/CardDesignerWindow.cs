@@ -129,8 +129,8 @@ public class CardDesignerWindow : EditorWindow
             
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label("Behaviour");
-            _actionDataList[i].behaviours =
-                (BehaviourData) EditorGUILayout.ObjectField(_actionDataList[i].behaviours, typeof(BehaviourData), false);
+            _actionDataList[i].behaviour =
+                (BehaviourData) EditorGUILayout.ObjectField(_actionDataList[i].behaviour, typeof(BehaviourData), false);
             GUILayout.Label("Pattern");
             _actionDataList[i].patterns =
                 (PatternData) EditorGUILayout.ObjectField(_actionDataList[i].patterns, typeof(PatternData), false);
@@ -190,7 +190,7 @@ public class CardDesignerWindow : EditorWindow
 
         foreach (var action in _actionDataList)
         {
-            if (action.behaviours == null || action.patterns == null)
+            if (action.behaviour == null || action.patterns == null)
             {
                 canSave = false;
                 break;
