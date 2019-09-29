@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Player : MonoBehaviour
     public List<Card> originalDeck;
     
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+    
 
     public void MakePlayer(PlayerData playerData)
     {
@@ -41,28 +43,15 @@ public class Player : MonoBehaviour
         _health -= amount;
     }
     
+    /// <summary>
+    /// Changes the reference to its on the board and moves itself
+    /// </summary>
+    /// <param name="cellPos"></param>
     public void Move(Vector2Int cellPos)
     {
+        //Changing refrence on board
         Board.boardInstance.ChangePlayerPos(gameObject, cellPos);
-        StartCoroutine(LerpPlayer(cellPos));
-        //transform.position = Board.boardInstance.CellLayer[cellPos.x, cellPos.y].transform.position;
-        Board.boardInstance.DehighlightCells();
-        //board.DehighlightCells();
-        
-        //Turn(currentPlayer);
-    }
-
-    IEnumerator LerpPlayer(Vector2Int cellPos)
-    {
-        float t = 0;
-        while (t < 3)
-        {
-            t += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position,
-                Board.boardInstance.CellLayer[cellPos.x, cellPos.y].transform.position + Vector3.up, t);
-            //transform.position += Vector3.up * 1;
-            yield return new WaitForEndOfFrame();
-        }
-        //transform.position += Vector3.up * 5;
+        //Physically lerping the player
+        transform.DOMove(Board.boardInstance.CellLayer[cellPos.x, cellPos.y].transform.position + Vector3.up, 2f).SetEase(Ease.OutQuint);
     }
 }

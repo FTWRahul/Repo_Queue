@@ -79,7 +79,7 @@ public class Board : MonoBehaviour
         _playerLayer[playerPos.x, playerPos.y] = null;
         
         _playerLayer[cellPos.x, cellPos.y] = player;
-        
+        DehighlightCells();
         //PlacePlayer(player, cellPos);
     }
 

@@ -43,15 +43,7 @@ public class GameManager : MonoBehaviour
 
         Turn(CurrentPlayer);
     }
-
-/*    public void Move(Vector2Int cellPos)
-    {
-        board.MovePlayer(CurrentPlayer, cellPos);
-        board.DehighlightCells();
-        
-        //Turn(currentPlayer);
-    }*/
-
+    
     /// <summary>
     /// Changes the current player and removes all the previous possible move space
     /// </summary>
