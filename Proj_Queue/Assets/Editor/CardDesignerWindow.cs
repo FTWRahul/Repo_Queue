@@ -111,32 +111,59 @@ public class CardDesignerWindow : EditorWindow
             _actionDataList.Add((ActionData) ScriptableObject.CreateInstance(typeof(ActionData)));
         }
 
-        foreach (var actionData in _actionDataList)
+        for (int i = 0; i < _actionDataList.Count; i++)
         {
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label("Action Name:");
-            actionData.actionName = EditorGUILayout.TextField(actionData.actionName);
+            _actionDataList[i].actionName = EditorGUILayout.TextField(_actionDataList[i].actionName);
             EditorGUILayout.EndHorizontal();
             
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label("Behaviour");
-            actionData.behaviours =
-                (BehaviourData) EditorGUILayout.ObjectField(actionData.behaviours, typeof(BehaviourData), false);
+            _actionDataList[i].behaviours =
+                (BehaviourData) EditorGUILayout.ObjectField(_actionDataList[i].behaviours, typeof(BehaviourData), false);
             GUILayout.Label("Pattern");
-            actionData.patterns =
-                (PatternData) EditorGUILayout.ObjectField(actionData.patterns, typeof(PatternData), false);
+            _actionDataList[i].patterns =
+                (PatternData) EditorGUILayout.ObjectField(_actionDataList[i].patterns, typeof(PatternData), false);
 
             if (GUILayout.Button("-", GUILayout.Height(20)))
             {
                 if (_actionDataList.Count > 1)
                 {
-                    _actionDataList.Remove(actionData);
+                    _actionDataList.Remove(_actionDataList[i]);
                     break;
                 }
             }
 
+            if (_actionDataList.Count >= 2)
+            {
+                EditorGUILayout.BeginVertical();
+                if (GUILayout.Button("^", GUILayout.Height(20)))
+                {
+                    if (i > 0)
+                    {
+                        ActionData temp = _actionDataList[i];
+                        _actionDataList.RemoveAt(i);
+                        _actionDataList.Insert( i - 1, temp);
+                        break;
+                    }
+                }
+                else if (GUILayout.Button("v", GUILayout.Height(20)))
+                {
+                    if (i < _actionDataList.Count - 1)
+                    {
+                        ActionData temp = _actionDataList[i];
+                        _actionDataList.RemoveAt(i);
+                        _actionDataList.Insert( i + 1, temp);
+                        break;
+                    }
+                }
+                EditorGUILayout.EndVertical();
+            }
+            
+            
+            
             EditorGUILayout.EndHorizontal();
-
         }
         
         EditorGUILayout.BeginHorizontal();
