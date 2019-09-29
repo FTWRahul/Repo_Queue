@@ -7,17 +7,32 @@ public class Board : MonoBehaviour
 {
     [SerializeField] private GameObject cellPrefab;
 
-    private Cell[,] _cellLayer;
+    public static Board boardInstance { get; private set; }
+
+    public Cell[,] CellLayer { get; private set; }
     private GameObject[,] _playerLayer;
     private int _height;
     private int _width;
+
+    private void Start()
+    {
+        if (Board.boardInstance == null)
+        {
+            boardInstance = this;
+        }
+        else
+        {
+            Destroy(boardInstance);
+        }
+    }
+
     public void MakeBoard(BoardData boardData)
     {
 
         _height = boardData.height;
         _width = boardData.width;
 
-        _cellLayer = new Cell[_width, _height];
+        CellLayer = new Cell[_width, _height];
         _playerLayer = new GameObject[_width, _height];
 
         bool isWhite = true;
@@ -28,7 +43,7 @@ public class Board : MonoBehaviour
             {
                 Cell cell = Instantiate(cellPrefab, new Vector3(x, 0, -z), Quaternion.identity, gameObject.transform).GetComponent<Cell>();
                 cell.cellPosition = new Vector2Int(x, z);
-                _cellLayer[x, z] = cell;
+                CellLayer[x, z] = cell;
 
                 cell.defaultColor = isWhite ? Color.white : Color.black;
                 cell.Dehighlight();
@@ -58,12 +73,14 @@ public class Board : MonoBehaviour
         return new Vector2Int(-1, -1);
     }
 
-    public void MovePlayer(GameObject player, Vector2Int cellPos)
+    public void ChangePlayerPos(GameObject player, Vector2Int cellPos)
     {
         Vector2Int playerPos = GetPlayerPosition(player);
         _playerLayer[playerPos.x, playerPos.y] = null;
-
-        PlacePlayer(player, cellPos);
+        
+        _playerLayer[cellPos.x, cellPos.y] = player;
+        
+        //PlacePlayer(player, cellPos);
     }
 
 
@@ -87,7 +104,7 @@ public class Board : MonoBehaviour
                     break;
                 }
                 
-                _cellLayer[resultingPos.x, resultingPos.y].Highlight();
+                CellLayer[resultingPos.x, resultingPos.y].Highlight();
             }
         }
     }
@@ -95,7 +112,7 @@ public class Board : MonoBehaviour
     public void PlacePlayer(GameObject player, Vector2Int pos)
     {
         _playerLayer[pos.x, pos.y] = player;
-        player.transform.position = _cellLayer[pos.x, pos.y].transform.position;
+        player.transform.position = CellLayer[pos.x, pos.y].transform.position;
         player.transform.position += Vector3.up * 1;
     }
 
@@ -103,7 +120,7 @@ public class Board : MonoBehaviour
     {
         get
         {
-            return _cellLayer[x, z];
+            return CellLayer[x, z];
         }
     }
 
@@ -118,7 +135,7 @@ public class Board : MonoBehaviour
             {
                 for (int x = 0; x < _width; x++)
                 {
-                    _return.Add(_cellLayer[x, z]);
+                    _return.Add(CellLayer[x, z]);
                 }
             }
 

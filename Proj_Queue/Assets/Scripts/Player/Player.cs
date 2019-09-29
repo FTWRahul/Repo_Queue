@@ -41,4 +41,28 @@ public class Player : MonoBehaviour
         _health -= amount;
     }
     
+    public void Move(Vector2Int cellPos)
+    {
+        Board.boardInstance.ChangePlayerPos(gameObject, cellPos);
+        StartCoroutine(LerpPlayer(cellPos));
+        //transform.position = Board.boardInstance.CellLayer[cellPos.x, cellPos.y].transform.position;
+        Board.boardInstance.DehighlightCells();
+        //board.DehighlightCells();
+        
+        //Turn(currentPlayer);
+    }
+
+    IEnumerator LerpPlayer(Vector2Int cellPos)
+    {
+        float t = 0;
+        while (t < 3)
+        {
+            t += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position,
+                Board.boardInstance.CellLayer[cellPos.x, cellPos.y].transform.position + Vector3.up, t);
+            //transform.position += Vector3.up * 1;
+            yield return new WaitForEndOfFrame();
+        }
+        //transform.position += Vector3.up * 5;
+    }
 }

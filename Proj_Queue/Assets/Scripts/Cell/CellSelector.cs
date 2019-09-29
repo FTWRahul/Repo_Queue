@@ -25,6 +25,6 @@ public class CellSelector : MonoBehaviour
         if (!hit.collider.GetComponent<Cell>().highlighted) return;
         
         Vector2Int cellPos = hit.collider.gameObject.GetComponent<Cell>().cellPosition;
-        gm.MakeMove(cellPos);
+        gm.CurrentPlayer.GetComponent<Player>().Move(cellPos);
     }
 }

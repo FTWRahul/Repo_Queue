@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerData playerData;
     [SerializeField] private PlayerData player1Data;
 
-    [SerializeField] private GameObject currentPlayer;
+    [field: SerializeField] public GameObject CurrentPlayer { get; private set; }
     [SerializeField] private GameObject otherPlayer;
 
     void Start()
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
         GameObject go = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
-        currentPlayer = go;
+        CurrentPlayer = go;
 
         Player player = go.GetComponent<Player>();
 
@@ -41,19 +41,30 @@ public class GameManager : MonoBehaviour
 
         board.PlacePlayer(player1.gameObject, new Vector2Int(2, 0));
 
-        Turn(currentPlayer);
+        Turn(CurrentPlayer);
     }
 
-    public void MakeMove(Vector2Int cellPos)
+/*    public void Move(Vector2Int cellPos)
     {
-        board.MovePlayer(currentPlayer, cellPos);
+        board.MovePlayer(CurrentPlayer, cellPos);
         board.DehighlightCells();
+        
+        //Turn(currentPlayer);
+    }*/
 
-        GameObject temp = currentPlayer;
-        currentPlayer = otherPlayer;
+    /// <summary>
+    /// Changes the current player and removes all the previous possible move space
+    /// </summary>
+    [ContextMenu("EndTurn")]
+    void EndPlayerTurn()
+    {
+        GameObject temp = CurrentPlayer;
+        CurrentPlayer = otherPlayer;
         otherPlayer = temp;
-
-        Turn(currentPlayer);
+        
+        board.DehighlightCells();
+        
+        board.HighlightMovementCells(CurrentPlayer);
     }
 
     private void Turn(GameObject player)
