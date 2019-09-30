@@ -54,13 +54,13 @@ public class GameManager : MonoBehaviour
         CurrentPlayer = otherPlayer;
         otherPlayer = temp;
         
-        board.DehighlightCells();
+        board.BoardHighlighter.DehighlightCells();
         
-        board.HighlightMovementCells(CurrentPlayer);
+        board.BoardHighlighter.HighlightMovementCells(CurrentPlayer);
     }
 
     private void Turn(GameObject player)
     {
-        board.HighlightMovementCells(player.gameObject);
+        board.BoardHighlighter.HighlightMovementCells(player.gameObject);
     }
 }
