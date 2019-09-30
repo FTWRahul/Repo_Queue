@@ -48,8 +48,10 @@ public class CardDesignerWindow : EditorWindow
     private static void InitData()
     {
         _cardData = (CardData) ScriptableObject.CreateInstance(typeof(CardData));
-        _actionDataList.Add((ActionData) ScriptableObject.CreateInstance(typeof(ActionData)));
         
+        if (_actionDataList.Count > 0) return;
+        
+        _actionDataList.Add((ActionData) ScriptableObject.CreateInstance(typeof(ActionData)));
         _actionDataList[_actionDataList.Count-1].patterns = new List<PatternData>();
         _actionDataList[_actionDataList.Count-1].patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
     }
@@ -274,6 +276,7 @@ public class CardDesignerWindow : EditorWindow
         cardDataPath += _cardData.cardName + ".asset";
         AssetDatabase.CreateAsset(_cardData, cardDataPath);
     }
+    
 }
 
 public class GeneralSettings : EditorWindow
