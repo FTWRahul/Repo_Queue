@@ -5,9 +5,7 @@ using UnityEngine;
 public class ActionData : ScriptableObject
 {
     public string actionName;
-    
-    public PatternData patterns;
-    public BehaviourData behaviours;
-    
 
+    public List<PatternData> patterns;
+    public BehaviourData behaviour;
 }

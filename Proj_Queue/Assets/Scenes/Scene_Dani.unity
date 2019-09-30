@@ -155,7 +155,7 @@ MonoBehaviour:
     type: 3}
   playerData: {fileID: 11400000, guid: ad3d4817ad37d4a49a3d602f129958a2, type: 2}
   player1Data: {fileID: 11400000, guid: e3edeed5595de714d8fb26ca2595cd42, type: 2}
-  currentPlayer: {fileID: 0}
+  <CurrentPlayer>k__BackingField: {fileID: 0}
   otherPlayer: {fileID: 0}
 --- !u!4 &658190605
 Transform:
@@ -181,6 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 660783855}
   - component: {fileID: 660783856}
+  - component: {fileID: 660783858}
   - component: {fileID: 660783857}
   m_Layer: 0
   m_Name: Board
@@ -233,6 +234,18 @@ MonoBehaviour:
   cellLayerMask:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &660783858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660783854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b7c5a51ae13a04eb4eeb4f7b2cb537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &852226715
 GameObject:
   m_ObjectHideFlags: 0

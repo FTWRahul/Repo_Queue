@@ -41,7 +41,9 @@ public class GameManager : MonoBehaviour
 
         board.PlacePlayer(player1.gameObject, new Vector2Int(2, 0));
 
-        Turn(CurrentPlayer);
+        //EndPlayerTurn();
+        //board.BoardHighlighter.HighlightMovementCells(CurrentPlayer);
+        //Turn(CurrentPlayer);
     }
     
     /// <summary>
@@ -61,6 +63,6 @@ public class GameManager : MonoBehaviour
 
     private void Turn(GameObject player)
     {
-        board.BoardHighlighter.HighlightMovementCells(player.gameObject);
+        board.BoardHighlighter.HighlightMovementCells(CurrentPlayer.gameObject);
     }
 }
