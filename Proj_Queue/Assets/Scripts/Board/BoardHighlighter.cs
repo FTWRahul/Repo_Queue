@@ -12,12 +12,12 @@ public class BoardHighlighter : MonoBehaviour
         _board = GetComponent<Board>();
     }
 
-    public void HighlightCells(Pattern pattern, Vector2Int origin)
+    public void HighlightCells(PatternData pattern)
     {
         foreach (Vector2Int pos in pattern.positions)
         {
-            Vector2Int resultingPos = origin + pos;
-            _board.CellLayer[resultingPos.x, resultingPos.y].Highlight();
+             //Vector2Int resultingPos = origin + pos;
+            _board.CellLayer[pos.x, pos.y].Highlight();
         }
     }
     
@@ -25,7 +25,7 @@ public class BoardHighlighter : MonoBehaviour
     {
         Vector2Int playerPos = _board.GetPlayerPosition(player);
         
-        foreach (Pattern pattern in player.GetComponent<Player>().movementPatterns)
+        foreach (PatternData pattern in player.GetComponent<Player>().movementPatterns)
         {
             foreach (Vector2Int pos in pattern.positions)
             {

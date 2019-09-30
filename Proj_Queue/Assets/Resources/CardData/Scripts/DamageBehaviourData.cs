@@ -11,19 +11,20 @@ public class DamageBehaviourData : BehaviourData
         Debug.Log("Damage "+ damage );
     }
 
-    public override List<Pattern> InterpretPattern(List<Pattern> patterns, Vector2Int origin)
+    public override List<PatternData> InterpretPattern(List<PatternData> patterns, Vector2Int origin)
     {
         patterns = base.InterpretPattern(patterns, origin);
-        List<Pattern> returnList = new List<Pattern>();
+        List<PatternData> returnList = new List<PatternData>();
                                               
-        foreach (Pattern pat in patterns)
+        foreach (PatternData pat in patterns)
         {
-            Pattern tempPat = pat;
+            PatternData tempPat = pat;
             foreach (Vector2Int pos in pat.positions)
             {
                 Vector2Int resultingPos = origin + pos;
                                               
                // Conditions for modifying the pattern
+               
                tempPat.positions.Add(pos);
             }
             returnList.Add(tempPat);

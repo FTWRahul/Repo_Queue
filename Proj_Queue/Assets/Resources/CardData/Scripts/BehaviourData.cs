@@ -9,14 +9,20 @@ public class BehaviourData : ScriptableObject
                Debug.Log("Here"); 
         }
         
-        //Takes pattern and calls the function to highlight the moves
-        public virtual List<Pattern> InterpretPattern(List<Pattern> patterns, Vector2Int origin)
+        /// <summary>
+        /// Takes a pattern and its origin point and removes all the patterns that fall outside board.
+        /// 
+        /// </summary>
+        /// <param name="patterns"></param>
+        /// <param name="origin"></param>
+        /// <returns></returns>
+        public virtual List<PatternData> InterpretPattern(List<PatternData> patterns, Vector2Int origin)
         {
-            List<Pattern> returnList = new List<Pattern>();
+            List<PatternData> returnList = new List<PatternData>();
                 
-            foreach (Pattern pat in patterns)
+            foreach (PatternData pat in patterns)
             {
-                Pattern tempPat = pat;
+                PatternData tempPat = pat;
                 foreach (Vector2Int pos in pat.positions)
                 {
                     Vector2Int resultingPos = origin + pos;
@@ -26,14 +32,6 @@ public class BehaviourData : ScriptableObject
                         break;
                     }
                     tempPat.positions.Add(pos);
-                    
-
-                    /*if (Board.boardInstance.PlayerLayer[resultingPos.x, resultingPos.y] != null) // player is on cell
-                    {
-                        break;
-                    }*/
-                    
-                    
                     //Board.boardInstance.CellLayer[resultingPos.x, resultingPos.y].Highlight();
                 }
                 returnList.Add(tempPat);

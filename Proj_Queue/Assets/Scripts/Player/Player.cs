@@ -8,7 +8,8 @@ public class Player : MonoBehaviour
 {
     private int _health;
     public int Health => _health;
-    public List<Pattern> movementPatterns;
+   // public List<Pattern> movementPatterns;
+    public List<PatternData> movementPatterns;
 
     public List<Card> originalDeck;
     
@@ -18,11 +19,7 @@ public class Player : MonoBehaviour
     public void MakePlayer(PlayerData playerData)
     {
         _health = playerData.health;
-        
-        foreach (PatternData patternData in playerData.movementPatterns)
-        {
-            movementPatterns.Add(new Pattern(patternData));
-        }
+        movementPatterns = playerData.movementPatterns;
 
         foreach (CardData cardData in playerData.originalDeck)
         {
