@@ -7,29 +7,34 @@ using UnityEngine;
 
 public class CardDesignerWindow : EditorWindow
 {
-    private static CardDesignerWindow window;
-    private Texture2D _headerSectionTexture;
-    readonly Color _headerSectionColor = Color.gray;
-    private Texture2D _bodySectionTexture;
-    
+    //Sections Rect
     private Rect _headerSection;
     private Rect _bodySection;
+    
+    //Textures for sections
+    private Texture2D _headerSectionTexture;
+    private Texture2D _bodySectionTexture;
+    
+    //Color for sections
+    readonly Color _headerSectionColor = Color.gray;
 
+    //Card data and actions references
     private static CardData _cardData;
     private static List<ActionData> _actionDataList = new List<ActionData>();
-    
+   
+    //GUI skin for editor window
     private GUISkin _skin;
 
-    private bool _showAction;
-
+    //Setting the parameters of the window 
     [MenuItem("Window/Card Designer")]
     static void OpenMenu()
     {
-        window = (CardDesignerWindow) GetWindow(typeof(CardDesignerWindow));
+        CardDesignerWindow window = (CardDesignerWindow) GetWindow(typeof(CardDesignerWindow));
         window.minSize = new Vector2(600,300); 
         window.Show();
     }
     
+    //Init all data and textures
     private void OnEnable()
     {
         InitData();
@@ -38,12 +43,18 @@ public class CardDesignerWindow : EditorWindow
         _skin = Resources.Load<GUISkin>("GUIstyle/CardDesignerSkin");
     }
     
+    
+    //Creating the instance of data
     private static void InitData()
     {
         _cardData = (CardData) ScriptableObject.CreateInstance(typeof(CardData));
         _actionDataList.Add((ActionData) ScriptableObject.CreateInstance(typeof(ActionData)));
+        
+        _actionDataList[_actionDataList.Count-1].patterns = new List<PatternData>();
+        _actionDataList[_actionDataList.Count-1].patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
     }
     
+    //Creating the textures
     void InitTexture()
     {
         _headerSectionTexture = new Texture2D(1,1);
@@ -60,6 +71,7 @@ public class CardDesignerWindow : EditorWindow
         DrawBody();
     }
     
+    //Setting the layouts and drawing the textures
     void DrawLayouts()
     {
         _headerSection.x = 0;
@@ -102,30 +114,59 @@ public class CardDesignerWindow : EditorWindow
         EditorGUILayout.EndHorizontal();
         _cardData.cardDescription = EditorGUILayout.TextArea(_cardData.cardDescription);
         
-        EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Actions");
-        EditorGUILayout.EndHorizontal();
-        
+
         if (GUILayout.Button("Create new action", GUILayout.Height(40)))
         {
             _actionDataList.Add((ActionData) ScriptableObject.CreateInstance(typeof(ActionData)));
+            
+            _actionDataList[_actionDataList.Count-1].patterns = new List<PatternData>();
+            _actionDataList[_actionDataList.Count-1].patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
         }
 
         for (int i = 0; i < _actionDataList.Count; i++)
         {
             EditorGUILayout.BeginHorizontal();
+            
             GUILayout.Label("Action Name:");
             _actionDataList[i].actionName = EditorGUILayout.TextField(_actionDataList[i].actionName);
+            
             EditorGUILayout.EndHorizontal();
             
             EditorGUILayout.BeginHorizontal();
+            
             GUILayout.Label("Behaviour");
-            _actionDataList[i].behaviours =
-                (BehaviourData) EditorGUILayout.ObjectField(_actionDataList[i].behaviours, typeof(BehaviourData), false);
-            GUILayout.Label("Pattern");
-            _actionDataList[i].patterns =
-                (PatternData) EditorGUILayout.ObjectField(_actionDataList[i].patterns, typeof(PatternData), false);
+            _actionDataList[i].behaviour =
+                (BehaviourData) EditorGUILayout.ObjectField(_actionDataList[i].behaviour, typeof(BehaviourData), false);
 
+            GUILayout.Label("Pattern");
+
+            EditorGUILayout.BeginVertical();
+            
+            for (int j = 0; j < _actionDataList[i].patterns.Count; j++)
+            {
+                _actionDataList[i].patterns[j] = (PatternData) EditorGUILayout.ObjectField(_actionDataList[i].patterns[j], typeof(PatternData), false);
+            }
+            
+            EditorGUILayout.BeginHorizontal();
+            
+            if (GUILayout.Button(("-"), GUILayout.Height(20)))
+            {
+                if (_actionDataList[i].patterns.Count > 1)
+                {
+                    _actionDataList[i].patterns.RemoveAt(_actionDataList[i].patterns.Count - 1);
+                    break;
+                }
+            }
+            else if(GUILayout.Button(("+"), GUILayout.Height(20)))
+            {
+                _actionDataList[i].patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
+                break;
+            }
+            
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
+            
             if (GUILayout.Button("-", GUILayout.Height(20)))
             {
                 if (_actionDataList.Count > 1)
@@ -160,13 +201,12 @@ public class CardDesignerWindow : EditorWindow
                 }
                 EditorGUILayout.EndVertical();
             }
-            
-            
-            
+
             EditorGUILayout.EndHorizontal();
         }
         
         EditorGUILayout.BeginHorizontal();
+        
         if (GUILayout.Button("Create new behaviour", GUILayout.Height(20)))
         {
             GeneralSettings.OpenWindow(GeneralSettings.SettingType.BEHAVIOUR);
@@ -175,13 +215,23 @@ public class CardDesignerWindow : EditorWindow
         {
             GeneralSettings.OpenWindow(GeneralSettings.SettingType.PATTERN);
         }
+        
         EditorGUILayout.EndHorizontal();
 
         bool canSave = true;
 
         foreach (var action in _actionDataList)
         {
-            if (action.behaviours == null || action.patterns == null)
+            foreach (var pattern in action.patterns)
+            {
+                if (pattern == null)
+                {
+                    canSave = false;
+                    break;
+                }
+            }
+            
+            if (action.behaviour == null)
             {
                 canSave = false;
                 break;
@@ -206,9 +256,12 @@ public class CardDesignerWindow : EditorWindow
 
     void SaveCard()
     {
+        //Default path for saving action data 
         string actionDataPath = "Assets/Resources/CardData/Data/Actions/";
+        //Default path for saving card data 
         string cardDataPath = "Assets/Resources/CardData/Data/Cards/";
 
+        //Saving every new action data inside of list of actions
         foreach (var action in _actionDataList)
         {
             string newActionPath = actionDataPath;
@@ -216,6 +269,7 @@ public class CardDesignerWindow : EditorWindow
             AssetDatabase.CreateAsset(action, newActionPath);
         }
 
+        //Saving new card data
         _cardData.actions = _actionDataList;
         cardDataPath += _cardData.cardName + ".asset";
         AssetDatabase.CreateAsset(_cardData, cardDataPath);
@@ -224,25 +278,29 @@ public class CardDesignerWindow : EditorWindow
 
 public class GeneralSettings : EditorWindow
 {
+    //Enum for new Scriptable Object Setting
     public enum SettingType
     {
         BEHAVIOUR,
         PATTERN
     }
-    
-    public enum BehaviourType
+
+    //Enum for new Behaviour type
+    private enum BehaviourType
     {
         DAMAGE,
         POISON
     }
 
+    private static GeneralSettings _window;
     private static SettingType _dataSetting;
     private static BehaviourType _behaviourType;
-    private static GeneralSettings _window;
-    
+
+    //Behaviours data references
     private static DamageBehaviourData _damageBehaviourData;
     private static PoisonBehaviourData _poisonBehaviourData;
     
+    //Setting the parameters of the window 
     public static void OpenWindow(SettingType type)
     {
         _dataSetting = type;
@@ -255,9 +313,17 @@ public class GeneralSettings : EditorWindow
     {
         InitData();
     }
+    
+    void InitData()
+    {
+        //Creating the instances of behaviour data scriptable objects
+        _damageBehaviourData = (DamageBehaviourData) ScriptableObject.CreateInstance(typeof(DamageBehaviourData));
+        _poisonBehaviourData = (PoisonBehaviourData) ScriptableObject.CreateInstance(typeof(PoisonBehaviourData));
+    }
 
     private void OnGUI()
     {
+        //Showing different parameters depends on the type of settings
         switch (_dataSetting)
         {
             case SettingType.BEHAVIOUR:
@@ -269,28 +335,28 @@ public class GeneralSettings : EditorWindow
                 break;
         }
     }
-    void InitData()
-    {
-        _damageBehaviourData = (DamageBehaviourData) ScriptableObject.CreateInstance(typeof(DamageBehaviourData));
-        _poisonBehaviourData = (PoisonBehaviourData) ScriptableObject.CreateInstance(typeof(PoisonBehaviourData));
-    }
-    
+
     void DrawBehaviourSettings()
     {
+        //Choosing the type of behaviour
+        
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Behaviour type");
         _behaviourType = (BehaviourType) EditorGUILayout.EnumPopup(_behaviourType);
         EditorGUILayout.EndHorizontal();
 
+        //Showing different parameters depends on the type of behaviour
         switch (_behaviourType)
         {
             case BehaviourType.DAMAGE:
                 
+                //Damage amount
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.Label("Damage");
                 _damageBehaviourData.damage = EditorGUILayout.IntField(_damageBehaviourData.damage);
                 EditorGUILayout.EndHorizontal();
                 
+                //Checking if can be saved
                 if (_damageBehaviourData.damage == 0)
                 {
                     EditorGUILayout.HelpBox("This behaviour needs a [Damage] before it can be created", MessageType.Warning);
@@ -301,18 +367,22 @@ public class GeneralSettings : EditorWindow
                     _window.Close();
                 }
                 break;
+            
             case BehaviourType.POISON:
                 
+                //Damage amount
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.Label("Damage");
                 _poisonBehaviourData.damage = EditorGUILayout.IntField(_poisonBehaviourData.damage);
                 EditorGUILayout.EndHorizontal(); 
                 
+                //How many turns it will keeps
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.Label("Turns");
                 _poisonBehaviourData.turns = EditorGUILayout.IntField(_poisonBehaviourData.turns);
                 EditorGUILayout.EndHorizontal(); 
                 
+                //Checking if can be saved
                 if (_poisonBehaviourData.damage == 0)
                 {
                     EditorGUILayout.HelpBox("This behaviour needs a [Damage] before it can be created", MessageType.Warning);
@@ -332,14 +402,18 @@ public class GeneralSettings : EditorWindow
 
     void SaveBehaviourData()
     {
+        //Default path for saving behaviour data 
         string behavioursDataPath = "Assets/Resources/CardData/Data/Behaviours/";
 
+        
+        //Changing th path and saving 
         switch (_behaviourType)
         {
             case BehaviourType.DAMAGE:
                 behavioursDataPath += "Damage/Damage" + _damageBehaviourData.damage + ".asset";
                 AssetDatabase.CreateAsset(_damageBehaviourData, behavioursDataPath);
                 break;
+            
             case BehaviourType.POISON:
                 behavioursDataPath += "Poison/Poison" + _poisonBehaviourData.damage+"_"+_poisonBehaviourData.turns + ".asset";
                 AssetDatabase.CreateAsset(_poisonBehaviourData, behavioursDataPath);

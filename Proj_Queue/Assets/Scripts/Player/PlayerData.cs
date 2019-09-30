@@ -10,5 +10,5 @@ public class PlayerData : ScriptableObject
     public Color32 color;
     public List<PatternData> movementPatterns;
 
-    public List<CardData> originalDeck = new List<CardData>();
+    public List<CardData> originalDeck;
 }
