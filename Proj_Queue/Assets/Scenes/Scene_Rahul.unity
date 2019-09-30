@@ -222,7 +222,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -493,7 +493,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -618,12 +618,12 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 446.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -190
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
@@ -643,7 +643,7 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
@@ -653,7 +653,7 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
@@ -863,12 +863,12 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1041.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -190
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
@@ -888,7 +888,7 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
@@ -898,7 +898,7 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
@@ -1056,7 +1056,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &468297287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1246,7 +1246,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -1694,12 +1694,12 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 743.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -190
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
@@ -1719,7 +1719,7 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
@@ -1729,7 +1729,7 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
@@ -2502,7 +2502,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -2918,7 +2918,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -3256,6 +3256,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardTemplate
       objectReference: {fileID: 0}
+    - target: {fileID: 273331613007367424, guid: f7aa6df5bc789904daacef1e0d466f99,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3314,12 +3319,12 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 148.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -190
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
@@ -3339,7 +3344,7 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
@@ -3349,7 +3354,7 @@ PrefabInstance:
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273331613007367425, guid: f7aa6df5bc789904daacef1e0d466f99,
         type: 3}
