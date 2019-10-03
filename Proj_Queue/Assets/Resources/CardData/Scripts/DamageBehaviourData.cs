@@ -18,7 +18,7 @@ public class DamageBehaviourData : BehaviourData
                                               
         foreach (PatternData pat in patterns)
         {
-            PatternData tempPat = pat;
+            /*PatternData tempPat = pat;
             foreach (Vector2Int pos in pat.positions)
             {
                 Vector2Int resultingPos = origin + pos;
@@ -27,8 +27,11 @@ public class DamageBehaviourData : BehaviourData
                
                tempPat.positions.Add(pos);
             }
-            returnList.Add(tempPat);
+            returnList.Add(tempPat);*/
         }
-        return returnList;
+
+        return patterns;
+        // return returnList;
+
     }
 }

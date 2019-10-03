@@ -17,9 +17,11 @@ public class ActionData : ScriptableObject
     {
         List<PatternData> patternToSend = behaviour.InterpretPattern(patterns, origin);
 
-        foreach (PatternData pat in patternToSend)
+        for (int i = 0; i < patternToSend.Count; i++)
         {
-            Board.boardInstance.BoardHighlighter.HighlightCells(pat);
+            //Debug.Log( "Display Pattern is " + patternToSend[i]);
+            Board.boardInstance.BoardHighlighter.HighlightCells(patternToSend[i]);
         }
     }
+    
 }

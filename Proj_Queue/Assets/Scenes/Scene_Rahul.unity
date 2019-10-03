@@ -1509,7 +1509,7 @@ MonoBehaviour:
   gm: {fileID: 0}
   cellLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!1 &786476711
 GameObject:
   m_ObjectHideFlags: 0
@@ -3389,3 +3389,24 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2083869277}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2083869279 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 273331613007367424, guid: f7aa6df5bc789904daacef1e0d466f99,
+    type: 3}
+  m_PrefabInstance: {fileID: 2083869277}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2083869280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083869279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b79deac16f480f647bb92a0028e06c7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carddata: {fileID: 11400000, guid: 3aacf878fcaece34ca0efb362c859f24, type: 2}
+  card:
+    actions: []
