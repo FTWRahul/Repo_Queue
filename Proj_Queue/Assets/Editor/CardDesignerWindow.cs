@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 public class CardDesignerWindow : EditorWindow
@@ -148,119 +149,24 @@ public class CardDesignerWindow : EditorWindow
     
     void DrawBodySection()
     {
-        GUILayout.BeginArea(_bodySection);
-
-        GUILayout.Label("Actions");
-
-        if (GUILayout.Button("Create new action", GUILayout.Height(30)))
+        /*if (GUILayout.Button("Create new action", GUILayout.Height(30)))
+    {
+    _actionDataList.Add((ActionData) ScriptableObject.CreateInstance(typeof(ActionData)));
+    
+    _actionDataList[_actionDataList.Count-1].patterns = new List<PatternData>();
+    _actionDataList[_actionDataList.Count-1].patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
+    }
+        
+        if (GUILayout.Button("-", GUILayout.Height(20)))
         {
-            _actionDataList.Add((ActionData) ScriptableObject.CreateInstance(typeof(ActionData)));
-            
-            _actionDataList[_actionDataList.Count-1].patterns = new List<PatternData>();
-            _actionDataList[_actionDataList.Count-1].patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
-        }
-
-        for (int i = 0; i < _actionDataList.Count; i++)
-        {
-            EditorGUILayout.BeginHorizontal();
-            
-            GUILayout.Label("Action Name:");
-            _actionDataList[i].actionName = EditorGUILayout.TextField(_actionDataList[i].actionName);
-            
-            EditorGUILayout.EndHorizontal();
-            
-            EditorGUILayout.BeginHorizontal();
-            
-            GUILayout.Label("Behaviour");
-            _actionDataList[i].behaviour =
-                (BehaviourData) EditorGUILayout.ObjectField(_actionDataList[i].behaviour, typeof(BehaviourData), false);
-
-            GUILayout.Label("Pattern");
-
-            EditorGUILayout.BeginVertical();
-            
-            for (int j = 0; j < _actionDataList[i].patterns.Count; j++)
+            if (_actionDataList.Count > 1)
             {
-                _actionDataList[i].patterns[j] = (PatternData) EditorGUILayout.ObjectField(_actionDataList[i].patterns[j], typeof(PatternData), false);
-            }
-            
-            EditorGUILayout.BeginHorizontal();
-            
-            if (GUILayout.Button(("-"), GUILayout.Height(20)))
-            {
-                if (_actionDataList[i].patterns.Count > 1)
-                {
-                    _actionDataList[i].patterns.RemoveAt(_actionDataList[i].patterns.Count - 1);
-                    break;
-                }
-            }
-            else if(GUILayout.Button(("+"), GUILayout.Height(20)))
-            {
-                _actionDataList[i].patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
-                break;
-            }
-            
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndVertical();
-            
-            if (GUILayout.Button("-", GUILayout.Height(20)))
-            {
-                if (_actionDataList.Count > 1)
-                {
-                    _actionDataList.Remove(_actionDataList[i]);
-                    break;
-                }
-            }
-
-            if (_actionDataList.Count >= 2)
-            {
-                EditorGUILayout.BeginVertical();
-                if (GUILayout.Button("^", GUILayout.Height(20)))
-                {
-                    if (i > 0)
-                    {
-                        ActionData temp = _actionDataList[i];
-                        _actionDataList.RemoveAt(i);
-                        _actionDataList.Insert( i - 1, temp);
-                        break;
-                    }
-                }
-                else if (GUILayout.Button("v", GUILayout.Height(20)))
-                {
-                    if (i < _actionDataList.Count - 1)
-                    {
-                        ActionData temp = _actionDataList[i];
-                        _actionDataList.RemoveAt(i);
-                        _actionDataList.Insert( i + 1, temp);
-                        break;
-                    }
-                }
-                EditorGUILayout.EndVertical();
-            }
-
-            EditorGUILayout.EndHorizontal();
-        }
-
-        canSave = true;
-
-        foreach (var action in _actionDataList)
-        {
-            foreach (var pattern in action.patterns)
-            {
-                if (pattern != null) continue;
-                
-                canSave = false;
-                break;
-            }
-            
-            if (action.behaviour == null)
-            {
-                canSave = false;
+                _actionDataList.Remove(_actionDataList[i]);
                 break;
             }
         }
+        */
 
-        GUILayout.EndArea();
     }
 
     void DrawButtonsSection()
@@ -474,3 +380,95 @@ public class GeneralSettings : EditorWindow
     }
 }
 
+
+public class ActionSettings : EditorWindow
+{
+    private static ActionSettings _window;
+
+    private static ActionData _actionData;
+    
+    public static void OpenWindow()
+    {
+        _window = (ActionSettings) GetWindow(typeof(ActionSettings));
+        _window.minSize = new Vector2(250,200);
+        _window.Show();
+    }
+    
+    private void OnEnable()
+    {
+        InitData();
+    }
+    
+    void InitData()
+    {
+        //Creating the instances of behaviour data scriptable objects
+        _actionData = (ActionData) ScriptableObject.CreateInstance(typeof(ActionData));
+    }
+
+    private void OnGUI()
+    {
+        GUILayout.Label("Action");
+        
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Label("Action Name:");
+        _actionData.actionName = EditorGUILayout.TextField(_actionData.actionName);
+        EditorGUILayout.EndHorizontal();
+            
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Label("Behaviour");
+        _actionData.behaviour = (BehaviourData) EditorGUILayout.ObjectField(_actionData.behaviour, typeof(BehaviourData), false);
+
+        GUILayout.Label("Pattern");
+        EditorGUILayout.BeginVertical();
+        
+        for (int j = 0; j < _actionData.patterns.Count; j++)
+        {
+            _actionData.patterns[j] = (PatternData) EditorGUILayout.ObjectField(_actionData.patterns[j], typeof(PatternData), false);
+        }
+        
+        EditorGUILayout.BeginHorizontal();
+        
+        if (GUILayout.Button(("-"), GUILayout.Height(20)))
+        {
+            if (_actionData.patterns.Count > 1)
+            {
+                _actionData.patterns.RemoveAt(_actionData.patterns.Count - 1);
+            }
+        }
+        if(GUILayout.Button(("+"), GUILayout.Height(20)))
+        {
+            _actionData.patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
+        }
+
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.EndVertical();
+       
+        
+        
+            
+            /*
+            
+
+            EditorGUILayout.EndHorizontal();
+
+        canSave = true;
+
+        foreach (var action in _actionDataList)
+        {
+            foreach (var pattern in action.patterns)
+            {
+                if (pattern != null) continue;
+                
+                canSave = false;
+                break;
+            }
+            
+            if (action.behaviour == null)
+            {
+                canSave = false;
+                break;
+            }
+        }*/
+    }
+}
+                
