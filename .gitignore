@@ -1,21 +1,9 @@
-
-# Created by https://www.gitignore.io/api/unity
-# Edit at https://www.gitignore.io/?templates=unity
-
-# Jetbrain Rider Cache
-.idea/
-Assets/Plugins/Editor/JetBrains*
-
-# Visual Studio Code
-.vscode/
-
-
-### Unity ###
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
 [Bb]uilds/
+.idea/
 Assets/AssetStoreTools*
 
 # Visual Studio cache directory
@@ -36,7 +24,7 @@ ExportedObj/
 *.svd
 *.pdb
 *.opendb
-*.VC.db
+*.idea
 
 # Unity3D generated meta files
 *.pidb.meta
@@ -48,5 +36,5 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-
-# End of https://www.gitignore.io/api/unity
+*.meta
+*.meta
