@@ -21,6 +21,7 @@ public class CardDesignerWindow : EditorWindow
 
     //Card data and actions references
     private static CardData _cardData;
+    
 
     //GUI skin for editor window
     private GUISkin _skin;
