@@ -9,14 +9,20 @@ public class CardDesignerWindow : EditorWindow
 {
     //Sections Rect
     private Rect _headerSection;
+    private Rect _cardSettingsSection;
     private Rect _bodySection;
+    private Rect _buttonsSection;
     
     //Textures for sections
     private Texture2D _headerSectionTexture;
+    private Texture2D _cardSettingsSectionTexture;
     private Texture2D _bodySectionTexture;
+    private Texture2D _buttonsSectionTexture;
     
     //Color for sections
     readonly Color _headerSectionColor = Color.gray;
+    readonly Color _cardSettingsColor = Color.white;
+    readonly Color _buttonsSectionColor = Color.white;
 
     //Card data and actions references
     private static CardData _cardData;
@@ -24,6 +30,8 @@ public class CardDesignerWindow : EditorWindow
    
     //GUI skin for editor window
     private GUISkin _skin;
+    
+    bool canSave;
 
     //Setting the parameters of the window 
     [MenuItem("Window/Card Designer")]
@@ -31,6 +39,7 @@ public class CardDesignerWindow : EditorWindow
     {
         CardDesignerWindow window = (CardDesignerWindow) GetWindow(typeof(CardDesignerWindow));
         window.minSize = new Vector2(600,300); 
+        window.maxSize = new Vector2(600,600);
         window.Show();
     }
     
@@ -63,14 +72,24 @@ public class CardDesignerWindow : EditorWindow
         _headerSectionTexture .SetPixel(0,0, _headerSectionColor);
         _headerSectionTexture.Apply();
         
+        _cardSettingsSectionTexture = new Texture2D(1,1);
+        _cardSettingsSectionTexture .SetPixel(0,0, _cardSettingsColor);
+        _cardSettingsSectionTexture.Apply();
+        
+        _buttonsSectionTexture = new Texture2D(1,1);
+        _buttonsSectionTexture .SetPixel(0,0, _buttonsSectionColor);
+        _buttonsSectionTexture.Apply();
+        
         _bodySectionTexture = Resources.Load<Texture2D>("Icons/gradient");
     }
     
     private void OnGUI()
     {
         DrawLayouts();
-        DrawHeader();
-        DrawBody();
+        DrawHeaderSection();
+        DrawCardSettingsSection();
+        DrawBodySection();
+        DrawButtonsSection();
     }
     
     //Setting the layouts and drawing the textures
@@ -81,17 +100,26 @@ public class CardDesignerWindow : EditorWindow
         _headerSection.width = Screen.width;
         _headerSection.height = 40;
 
-        _bodySection.x = 0;
-        _bodySection.y = _headerSection.height;
-        _bodySection.width = Screen.width;
-        _bodySection.height = Screen.height - _headerSection.height;
+        _cardSettingsSection.x = 0;
+        _cardSettingsSection.y = _headerSection.height;
+        _cardSettingsSection.width = Screen.width;
+        _cardSettingsSection.height = 60;
         
-
+        _buttonsSection.x = 0;
+        _buttonsSection.y = Screen.height - 120;
+        _buttonsSection.width = Screen.width;
+        _buttonsSection.height = 120;
+        
+        _bodySection.x = 0;
+        _bodySection.y = _cardSettingsSection.height + _cardSettingsSection.y;
+        _bodySection.width = Screen.width;
+        _bodySection.height = Screen.height - _buttonsSection.height - _bodySection.y;
+        
         GUI.DrawTexture(_headerSection, _headerSectionTexture);
         GUI.DrawTexture(_bodySection, _bodySectionTexture);
     }
     
-    void DrawHeader()
+    void DrawHeaderSection()
     {
         GUILayout.BeginArea(_headerSection);
         
@@ -100,12 +128,11 @@ public class CardDesignerWindow : EditorWindow
         GUILayout.EndArea();
     }
 
-    void DrawBody()
+    void DrawCardSettingsSection()
     {
-        GUILayout.BeginArea(_bodySection);
+        GUILayout.BeginArea(_cardSettingsSection);
         
-        GUILayout.Label("New Card");
-        
+        EditorGUILayout.Space();
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Card name: ");
         _cardData.cardName = EditorGUILayout.TextField(_cardData.cardName);
@@ -116,9 +143,16 @@ public class CardDesignerWindow : EditorWindow
         EditorGUILayout.EndHorizontal();
         _cardData.cardDescription = EditorGUILayout.TextArea(_cardData.cardDescription);
         
+        GUILayout.EndArea();
+    }
+    
+    void DrawBodySection()
+    {
+        GUILayout.BeginArea(_bodySection);
+
         GUILayout.Label("Actions");
 
-        if (GUILayout.Button("Create new action", GUILayout.Height(40)))
+        if (GUILayout.Button("Create new action", GUILayout.Height(30)))
         {
             _actionDataList.Add((ActionData) ScriptableObject.CreateInstance(typeof(ActionData)));
             
@@ -206,31 +240,17 @@ public class CardDesignerWindow : EditorWindow
 
             EditorGUILayout.EndHorizontal();
         }
-        
-        EditorGUILayout.BeginHorizontal();
-        
-        if (GUILayout.Button("Create new behaviour", GUILayout.Height(20)))
-        {
-            GeneralSettings.OpenWindow(GeneralSettings.SettingType.BEHAVIOUR);
-        }
-        if (GUILayout.Button("Create new pattern", GUILayout.Height(20)))
-        {
-            GeneralSettings.OpenWindow(GeneralSettings.SettingType.PATTERN);
-        }
-        
-        EditorGUILayout.EndHorizontal();
 
-        bool canSave = true;
+        canSave = true;
 
         foreach (var action in _actionDataList)
         {
             foreach (var pattern in action.patterns)
             {
-                if (pattern == null)
-                {
-                    canSave = false;
-                    break;
-                }
+                if (pattern != null) continue;
+                
+                canSave = false;
+                break;
             }
             
             if (action.behaviour == null)
@@ -240,22 +260,44 @@ public class CardDesignerWindow : EditorWindow
             }
         }
 
+        GUILayout.EndArea();
+    }
+
+    void DrawButtonsSection()
+    {
+        GUILayout.BeginArea(_buttonsSection);
+        
+        EditorGUILayout.Space();
+        
         if (!canSave)
         {
             EditorGUILayout.HelpBox("All actions needs a [Behaviour] and [Pattern] before it can be created", MessageType.Warning);
         }
         else if (string.IsNullOrEmpty(_cardData.cardName) || string.IsNullOrEmpty(_cardData.cardDescription))
         {
-            EditorGUILayout.HelpBox("Cards needs a [Card name] and [Card description] before it can be created", MessageType.Warning);
+            EditorGUILayout.HelpBox("Cards needs a [Card name] and [Card description] before it can be created",
+                MessageType.Warning);
         }
-        else if (GUILayout.Button("Save card", GUILayout.Height(20)))
+        else if (GUILayout.Button("Save card", GUILayout.Height(40)))
         {
             SaveCard();
         }
         
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Create new behaviour", GUILayout.Height(20)))
+        {
+            GeneralSettings.OpenWindow(GeneralSettings.SettingType.BEHAVIOUR);
+        }
+        if (GUILayout.Button("Create new pattern", GUILayout.Height(20)))
+        {
+            GeneralSettings.OpenWindow(GeneralSettings.SettingType.PATTERN);
+        }
+        EditorGUILayout.EndHorizontal();
+        
         GUILayout.EndArea();
     }
-
     void SaveCard()
     {
         //Default path for saving action data 
