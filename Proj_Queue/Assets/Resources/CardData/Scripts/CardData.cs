@@ -8,5 +8,5 @@ public class CardData : ScriptableObject
     public string cardName;
     public string cardDescription;
     
-    public List<ActionData> actions;
+    public List<ActionData> actions = new List<ActionData>();
 }
