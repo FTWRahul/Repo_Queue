@@ -11,7 +11,6 @@ public class BehaviourData : ScriptableObject
         
         /// <summary>
         /// Takes a pattern and its origin point and removes all the patterns that fall outside board.
-        /// 
         /// </summary>
         /// <param name="patterns"></param>
         /// <param name="origin"></param>
@@ -32,13 +31,10 @@ public class BehaviourData : ScriptableObject
                         break;
                     }
                     returnPat.Add(resultingPos);
-                    //tempPat.positions.Add(pos);
-                    //Board.boardInstance.CellLayer[resultingPos.x, resultingPos.y].Highlight();
                 }
 
                 tempPat.positions = returnPat;
                 returnList.Add(tempPat);
-                //returnList.Add(tempPat);
             }
 
             return returnList;

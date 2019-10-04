@@ -15,23 +15,24 @@ public class DamageBehaviourData : BehaviourData
     {
         patterns = base.InterpretPattern(patterns, origin);
         List<PatternData> returnList = new List<PatternData>();
-                                              
+        
         foreach (PatternData pat in patterns)
         {
-            /*PatternData tempPat = pat;
+            PatternData tempPat = CreateInstance<PatternData>();
+            List<Vector2Int> returnPat = new List<Vector2Int>();
             foreach (Vector2Int pos in pat.positions)
             {
-                Vector2Int resultingPos = origin + pos;
+                Vector2Int resultingPos = pos;
                                               
                // Conditions for modifying the pattern
                
-               tempPat.positions.Add(pos);
+               returnPat.Add(resultingPos);
             }
-            returnList.Add(tempPat);*/
+            tempPat.positions = returnPat;
+            returnList.Add(tempPat);        
         }
 
-        return patterns;
-        // return returnList;
+        return returnList;
 
     }
 }
