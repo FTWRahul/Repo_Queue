@@ -8,12 +8,7 @@ public class DropArea : MonoBehaviour , IDropHandler , IPointerEnterHandler, IPo
     
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
-        Draggable draggable = eventData.pointerDrag.GetComponent<Draggable>();
-
-        if (draggable != null)
-        {
-            draggable.SetDropArea(transform);
-        }
+        SetParent(eventData);
     }
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
@@ -26,5 +21,15 @@ public class DropArea : MonoBehaviour , IDropHandler , IPointerEnterHandler, IPo
     {
         Debug.Log("OnPointerExit");
         //TODO: unhighlight card
+    }
+
+    protected virtual void SetParent(PointerEventData eventData)
+    {
+        Draggable draggable = eventData.pointerDrag.GetComponent<Draggable>();
+        
+        if (draggable != null)
+        {
+            draggable.SetDropArea(transform);
+        }
     }
 }

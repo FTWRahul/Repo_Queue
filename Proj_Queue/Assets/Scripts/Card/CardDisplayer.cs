@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 public class CardDisplayer : MonoBehaviour
 {
+    public Card cardInfo;
     private string _name;
     public string Name
     {
@@ -53,5 +54,11 @@ public class CardDisplayer : MonoBehaviour
         }
     }
     [SerializeField] private TextMeshProUGUI energyTmp;
-    
+
+    public void Init(Card card)
+    {
+        cardInfo = card;
+        Name = card.cardName;
+        Description = card.cardDescription;
+    }
 }
