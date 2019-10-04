@@ -386,19 +386,19 @@ public class ActionSettings : EditorWindow
     private static ActionSettings _window;
 
     private static ActionData _actionData;
-    
+
     public static void OpenWindow()
     {
         _window = (ActionSettings) GetWindow(typeof(ActionSettings));
-        _window.minSize = new Vector2(250,200);
+        _window.minSize = new Vector2(250, 200);
         _window.Show();
     }
-    
+
     private void OnEnable()
     {
         InitData();
     }
-    
+
     void InitData()
     {
         //Creating the instances of behaviour data scriptable objects
@@ -408,26 +408,28 @@ public class ActionSettings : EditorWindow
     private void OnGUI()
     {
         GUILayout.Label("Action");
-        
+
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Action Name:");
         _actionData.actionName = EditorGUILayout.TextField(_actionData.actionName);
         EditorGUILayout.EndHorizontal();
-            
+
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Behaviour");
-        _actionData.behaviour = (BehaviourData) EditorGUILayout.ObjectField(_actionData.behaviour, typeof(BehaviourData), false);
+        _actionData.behaviour =
+            (BehaviourData) EditorGUILayout.ObjectField(_actionData.behaviour, typeof(BehaviourData), false);
 
         GUILayout.Label("Pattern");
         EditorGUILayout.BeginVertical();
-        
+
         for (int j = 0; j < _actionData.patterns.Count; j++)
         {
-            _actionData.patterns[j] = (PatternData) EditorGUILayout.ObjectField(_actionData.patterns[j], typeof(PatternData), false);
+            _actionData.patterns[j] =
+                (PatternData) EditorGUILayout.ObjectField(_actionData.patterns[j], typeof(PatternData), false);
         }
-        
+
         EditorGUILayout.BeginHorizontal();
-        
+
         if (GUILayout.Button(("-"), GUILayout.Height(20)))
         {
             if (_actionData.patterns.Count > 1)
@@ -435,40 +437,13 @@ public class ActionSettings : EditorWindow
                 _actionData.patterns.RemoveAt(_actionData.patterns.Count - 1);
             }
         }
-        if(GUILayout.Button(("+"), GUILayout.Height(20)))
+
+        if (GUILayout.Button(("+"), GUILayout.Height(20)))
         {
             _actionData.patterns.Add((PatternData) ScriptableObject.CreateInstance(typeof(PatternData)));
         }
 
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.EndVertical();
-       
-        
-        
-            
-            /*
-            
-
-            EditorGUILayout.EndHorizontal();
-
-        canSave = true;
-
-        foreach (var action in _actionDataList)
-        {
-            foreach (var pattern in action.patterns)
-            {
-                if (pattern != null) continue;
-                
-                canSave = false;
-                break;
-            }
-            
-            if (action.behaviour == null)
-            {
-                canSave = false;
-                break;
-            }
-        }*/
     }
 }
-                
