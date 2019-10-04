@@ -40,6 +40,7 @@ public class CardDesignerWindow : EditorWindow
     //Init all data and textures
     private void OnEnable()
     {
+        
         InitData();
         InitTexture();
         
