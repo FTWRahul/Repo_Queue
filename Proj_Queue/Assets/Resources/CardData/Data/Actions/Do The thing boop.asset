@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df0b0a13067a4212bb8e9f72c53749cc, type: 3}
+  m_Name: Do The thing boop
+  m_EditorClassIdentifier: 
+  actionName: Do The thing boop
+  patterns:
+  - {fileID: 11400000, guid: b26bd07aea6bd4548bf307633c41a520, type: 2}
+  - {fileID: 11400000, guid: 66fae36248acc744bb5fa62d4fc0f644, type: 2}
+  - {fileID: 11400000, guid: c35db44d9154dc84481641c12cc51c2e, type: 2}
+  - {fileID: 11400000, guid: 7e23b3eb7f8811847a14f3554076dd72, type: 2}
+  behaviour: {fileID: 11400000, guid: 1766e1cd5c486cf4fa811d1bdc375136, type: 2}
