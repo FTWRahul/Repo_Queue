@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9adc7eea54feb2c4db34841daea39112, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfCardsToDeal: 1
+  amountOfCardsToDeal: 0
   originalDeck: []
   handPanel: {fileID: 0}
   schedulePanels: []
