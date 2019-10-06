@@ -40,8 +40,7 @@ public class GameManager : MonoBehaviour
 
 
         _cellSelector = FindObjectOfType<CellSelector>();
-        if (OnReceiveSelectedCellEvent != null) 
-            _cellSelector.OnCellSelectedEvent += OnCellSelected;
+        _cellSelector.OnCellSelectedEvent += OnCellSelected;
         
         board.BoardHighlighter.HighlightMovementCells(CurrentPlayer.gameObject);
         
