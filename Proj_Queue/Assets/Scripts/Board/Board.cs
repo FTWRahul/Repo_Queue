@@ -6,6 +6,7 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     [SerializeField] private GameObject cellPrefab;
+    [SerializeField] private GameManager gameManager;
 
     public static Board boardInstance { get; private set; }
     public BoardHighlighter BoardHighlighter { get; private set; }
@@ -15,7 +16,15 @@ public class Board : MonoBehaviour
     public int Height { get; private set; }
     public int Width { get; private set;}
 
-    private void Start()
+    public Player CurrentPlayer
+    {
+        get
+        {
+           return gameManager.CurrentPlayer;
+        }
+    }
+
+    private void Awake()
     {
         if (Board.boardInstance == null)
         {
@@ -25,6 +34,8 @@ public class Board : MonoBehaviour
         {
             Destroy(boardInstance);
         }
+
+        gameManager = FindObjectOfType<GameManager>();
         BoardHighlighter = GetComponent<BoardHighlighter>();
     }
 
