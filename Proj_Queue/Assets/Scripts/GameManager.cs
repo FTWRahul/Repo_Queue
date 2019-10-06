@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         go.MakePlayer(playerData);
         go.canvas.SetActive(false);
         board.PlacePlayer(go.gameObject, new Vector2Int(2, 5));
-
+        OnReceiveSelectedCellEvent += CurrentPlayer.Move;
         
         Player go1 = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
         otherPlayer = go1;
@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
         _cellSelector.OnCellSelectedEvent += OnCellSelected;
         
         board.BoardHighlighter.HighlightMovementCells(CurrentPlayer.gameObject);
-        
     }
     
     /// <summary>
