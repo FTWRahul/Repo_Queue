@@ -28,14 +28,15 @@ public class GameManager : MonoBehaviour
         Player go = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
         CurrentPlayer = go;
         go.MakePlayer(playerData);
-        go.canvas.SetActive(false);
+        go.canvas.SetActive(true);
         board.PlacePlayer(go.gameObject, new Vector2Int(2, 5));
         OnReceiveSelectedCellEvent += CurrentPlayer.Move;
+        CurrentPlayer.StartTurn();
         
         Player go1 = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
         otherPlayer = go1;
         go1.MakePlayer(player1Data);
-        go1.canvas.SetActive(true);
+        go1.canvas.SetActive(false);
         board.PlacePlayer(go1.gameObject, new Vector2Int(2, 0));
 
 
@@ -55,6 +56,8 @@ public class GameManager : MonoBehaviour
         CurrentPlayer = otherPlayer;
         CurrentPlayer.canvas.SetActive(true);
         OnReceiveSelectedCellEvent += CurrentPlayer.Move;
+        CurrentPlayer.StartTurn();
+        
         otherPlayer = temp;
         otherPlayer.canvas.SetActive(false);
         OnReceiveSelectedCellEvent -= otherPlayer.Move;

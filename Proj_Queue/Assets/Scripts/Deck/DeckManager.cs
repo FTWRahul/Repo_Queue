@@ -40,7 +40,7 @@ public class DeckManager : MonoBehaviour
     }
 
     [ContextMenu("Deal card")]
-    void DealCard()
+    public void DealCard()
     {
         for (int i = 0; i < amountOfCardsToDeal; i++)
         {
