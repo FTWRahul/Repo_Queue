@@ -42,9 +42,9 @@ public class GameManager : MonoBehaviour
         _cellSelector = FindObjectOfType<CellSelector>();
         if (OnReceiveSelectedCellEvent != null) 
             _cellSelector.OnCellSelectedEvent += OnCellSelected;
-        //EndPlayerTurn();
-        //board.BoardHighlighter.HighlightMovementCells(CurrentPlayer);
-        //Turn(CurrentPlayer);
+        
+        board.BoardHighlighter.HighlightMovementCells(CurrentPlayer.gameObject);
+        
     }
     
     /// <summary>
@@ -63,11 +63,6 @@ public class GameManager : MonoBehaviour
         
         board.BoardHighlighter.DehighlightCells();
         
-        board.BoardHighlighter.HighlightMovementCells(CurrentPlayer.gameObject);
-    }
-
-    private void Turn(GameObject player)
-    {
         board.BoardHighlighter.HighlightMovementCells(CurrentPlayer.gameObject);
     }
 
