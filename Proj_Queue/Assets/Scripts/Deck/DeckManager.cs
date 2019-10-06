@@ -17,7 +17,7 @@ public class DeckManager : MonoBehaviour
     public GameObject cardPrefab;
     
     
-    private void Start()
+    private void Awake()
     {
         handPanel = GetComponentInChildren<HandArea>().transform;
         

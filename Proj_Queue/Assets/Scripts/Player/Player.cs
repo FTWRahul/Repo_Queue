@@ -10,10 +10,10 @@ public class Player : MonoBehaviour
     public int Health => _health;
    // public List<Pattern> movementPatterns;
     public List<PatternData> movementPatterns;
-
     public List<Card> originalDeck;
-
     public Renderer rend;
+
+    public GameObject canvas;
     public void Awake()
     {
         rend = GetComponent<Renderer>();

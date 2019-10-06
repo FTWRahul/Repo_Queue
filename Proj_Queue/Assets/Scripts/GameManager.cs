@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     [field: SerializeField] public GameObject CurrentPlayer { get; private set; }
     [SerializeField] private GameObject otherPlayer;
-
+    
     void Start()
     {
         board.MakeBoard(boardData);
@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
 
         player.MakePlayer(playerData);
         
+        player.canvas.SetActive(false);
+        
         board.PlacePlayer(player.gameObject, new Vector2Int(2, 5));
 
 
@@ -38,6 +40,8 @@ public class GameManager : MonoBehaviour
         Player player1 = go1.GetComponent<Player>();
 
         player1.MakePlayer(player1Data);
+        
+        player1.canvas.SetActive(true);
 
         board.PlacePlayer(player1.gameObject, new Vector2Int(2, 0));
 
@@ -50,11 +54,13 @@ public class GameManager : MonoBehaviour
     /// Changes the current player and removes all the previous possible move space
     /// </summary>
     [ContextMenu("EndTurn")]
-    void EndPlayerTurn()
+    public void EndPlayerTurn()
     {
         GameObject temp = CurrentPlayer;
         CurrentPlayer = otherPlayer;
+        CurrentPlayer.GetComponent<Player>().canvas.SetActive(true);
         otherPlayer = temp;
+        otherPlayer.GetComponent<Player>().canvas.SetActive(false);
         
         board.BoardHighlighter.DehighlightCells();
         

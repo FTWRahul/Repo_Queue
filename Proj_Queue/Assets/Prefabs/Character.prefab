@@ -110,6 +110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementPatterns: []
   originalDeck: []
+  rend: {fileID: 0}
+  canvas: {fileID: 3857528525006108023}
 --- !u!114 &1122398347112681882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +130,18 @@ MonoBehaviour:
   schedulePanels: []
   cardPrefab: {fileID: 273331613007367424, guid: f7aa6df5bc789904daacef1e0d466f99,
     type: 3}
+--- !u!114 &9167449297085135096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473658997675536049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b448fe3a8f300444aa5cebe8de3a567f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9131600918625040393
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,11 +149,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1122398347112681857}
     m_Modifications:
-    - target: {fileID: 5418190330563022206, guid: 729daaf4fb89b6b468283a41e1aaff4b,
-        type: 3}
-      propertyPath: m_Name
-      value: Player canvas
-      objectReference: {fileID: 0}
     - target: {fileID: 5418190330563022194, guid: 729daaf4fb89b6b468283a41e1aaff4b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -245,11 +254,63 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5418190330563022206, guid: 729daaf4fb89b6b468283a41e1aaff4b,
+        type: 3}
+      propertyPath: m_Name
+      value: Player canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418190330563022206, guid: 729daaf4fb89b6b468283a41e1aaff4b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2368349689539061136, guid: 729daaf4fb89b6b468283a41e1aaff4b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2368349689539061136, guid: 729daaf4fb89b6b468283a41e1aaff4b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2368349689539061136, guid: 729daaf4fb89b6b468283a41e1aaff4b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2368349689539061136, guid: 729daaf4fb89b6b468283a41e1aaff4b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 9167449297085135096}
+    - target: {fileID: 2368349689539061136, guid: 729daaf4fb89b6b468283a41e1aaff4b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EndTurn
+      objectReference: {fileID: 0}
+    - target: {fileID: 2368349689539061136, guid: 729daaf4fb89b6b468283a41e1aaff4b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 729daaf4fb89b6b468283a41e1aaff4b, type: 3}
+--- !u!1 &3857528525006108023 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5418190330563022206, guid: 729daaf4fb89b6b468283a41e1aaff4b,
+    type: 3}
+  m_PrefabInstance: {fileID: 9131600918625040393}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3857528525006108027 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5418190330563022194, guid: 729daaf4fb89b6b468283a41e1aaff4b,
+    type: 3}
+  m_PrefabInstance: {fileID: 9131600918625040393}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3473658997675536049 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5660212000212162232, guid: 729daaf4fb89b6b468283a41e1aaff4b,
     type: 3}
   m_PrefabInstance: {fileID: 9131600918625040393}
   m_PrefabAsset: {fileID: 0}
