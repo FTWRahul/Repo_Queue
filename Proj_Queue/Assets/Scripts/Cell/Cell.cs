@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -10,23 +11,26 @@ public class Cell : MonoBehaviour
     public Color defaultColor;
     [SerializeField] private Color highlightedColor;
     public bool highlighted;
+    public Renderer rend;
     
-    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+
+
+    public void Awake()
+    {
+        rend = GetComponent<Renderer>();
+        
+    }
 
     public void Highlight()
     {
         highlighted = true;
-        var block = new MaterialPropertyBlock();
-        block.SetColor(BaseColor, highlightedColor);
-        GetComponent<Renderer>().SetPropertyBlock(block);
+        rend.material.color = highlightedColor;
     }
 
     public void Dehighlight()
     {
         highlighted = false;
-        var block = new MaterialPropertyBlock();
-        block.SetColor(BaseColor, defaultColor);
-        GetComponent<Renderer>().SetPropertyBlock(block);
+        rend.material.color = defaultColor;
     }
 }
 

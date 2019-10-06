@@ -12,9 +12,12 @@ public class Player : MonoBehaviour
     public List<PatternData> movementPatterns;
 
     public List<Card> originalDeck;
-    
-    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
-    
+
+    public Renderer rend;
+    public void Awake()
+    {
+        rend = GetComponent<Renderer>();
+    }
 
     public void MakePlayer(PlayerData playerData)
     {
@@ -25,10 +28,8 @@ public class Player : MonoBehaviour
         {
             originalDeck.Add(new Card(cardData));
         }
-        
-        var block = new MaterialPropertyBlock();
-        block.SetColor(BaseColor, playerData.color);
-        GetComponent<Renderer>().SetPropertyBlock(block);
+
+        rend.material.color = playerData.color;
         
         
         //Some shit about adding player deck to the deck manager :(
