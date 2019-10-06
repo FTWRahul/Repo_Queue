@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public Renderer rend;
 
     public GameObject canvas;
+    private DeckManager _deckManager;
     public void Awake()
     {
         rend = GetComponent<Renderer>();
@@ -33,7 +34,9 @@ public class Player : MonoBehaviour
         
         
         //Some shit about adding player deck to the deck manager :(
-        GetComponent<DeckManager>().SetDeck(originalDeck);
+        _deckManager = GetComponent<DeckManager>();
+        _deckManager.SetDeck(originalDeck);
+        
     }
 
     public void TakeDamage(int amount)
@@ -51,5 +54,10 @@ public class Player : MonoBehaviour
         Board.boardInstance.ChangePlayerPos(gameObject, cellPos);
         //Physically lerping the player
         transform.DOMove(Board.boardInstance.CellLayer[cellPos.x, cellPos.y].transform.position + Vector3.up, 2f).SetEase(Ease.OutQuint);
+    }
+
+    public void StartTurn()
+    {
+        _deckManager.DealCard();
     }
 }

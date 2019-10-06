@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
         go.canvas.SetActive(true);
         board.PlacePlayer(go.gameObject, new Vector2Int(2, 5));
         OnReceiveSelectedCellEvent += CurrentPlayer.Move;
+        CurrentPlayer.StartTurn();
         
         Player go1 = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
         otherPlayer = go1;
@@ -55,6 +56,8 @@ public class GameManager : MonoBehaviour
         CurrentPlayer = otherPlayer;
         CurrentPlayer.canvas.SetActive(true);
         OnReceiveSelectedCellEvent += CurrentPlayer.Move;
+        CurrentPlayer.StartTurn();
+        
         otherPlayer = temp;
         otherPlayer.canvas.SetActive(false);
         OnReceiveSelectedCellEvent -= otherPlayer.Move;
