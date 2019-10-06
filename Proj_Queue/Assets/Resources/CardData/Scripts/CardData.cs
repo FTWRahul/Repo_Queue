@@ -9,4 +9,5 @@ public class CardData : ScriptableObject
     public string cardDescription;
     
     public List<ActionData> actions = new List<ActionData>();
+  
 }

@@ -18,6 +18,22 @@ public class Card
 
         actions = cardData.actions;
     }
+    
+    public void ReceiveSelectedCell(Vector2Int cellPos)
+    {
+        foreach (var action in actions)
+        {
+            action.originCell = cellPos;
+        }
+    }
+    
+    public void DisplayAction()
+    {
+        foreach (var action in actions)
+        {
+            action.DisplayPossiblePattern(Board.boardInstance.GetPlayerPosition(Board.boardInstance.CurrentPlayer.gameObject));
+        }
+    }
 }
 
 

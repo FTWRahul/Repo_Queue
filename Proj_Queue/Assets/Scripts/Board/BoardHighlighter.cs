@@ -21,6 +21,8 @@ public class BoardHighlighter : MonoBehaviour
         }
     }
     
+    
+    //TODO:: weird  move to the player
     public void HighlightMovementCells(GameObject player)
     {
         Vector2Int playerPos = _board.GetPlayerPosition(player);

@@ -32,7 +32,6 @@ public class Player : MonoBehaviour
 
         rend.material.color = playerData.color;
         
-        
         //Some shit about adding player deck to the deck manager :(
         _deckManager = GetComponent<DeckManager>();
         _deckManager.SetDeck(originalDeck);
@@ -56,6 +55,7 @@ public class Player : MonoBehaviour
         transform.DOMove(Board.boardInstance.CellLayer[cellPos.x, cellPos.y].transform.position + Vector3.up, 2f).SetEase(Ease.OutQuint);
     }
 
+    //TODO:: weird 
     public void StartTurn()
     {
         _deckManager.DealCard();

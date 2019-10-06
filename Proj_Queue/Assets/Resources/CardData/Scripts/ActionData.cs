@@ -9,6 +9,8 @@ public class ActionData : ScriptableObject
 
     public List<PatternData> patterns;
     public BehaviourData behaviour;
+
+    public Vector2Int originCell;
     
     /// <summary>
     /// Highlights all the possible moves on the board based on the behaviour.
@@ -23,5 +25,4 @@ public class ActionData : ScriptableObject
             Board.boardInstance.BoardHighlighter.HighlightCells(patternToSend[i]);
         }
     }
-    
 }

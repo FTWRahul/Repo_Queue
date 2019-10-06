@@ -6,7 +6,7 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     [SerializeField] private GameObject cellPrefab;
-    [SerializeField] private GameManager gameManager;
+    public GameManager gameManager;
 
     public static Board boardInstance { get; private set; }
     public BoardHighlighter BoardHighlighter { get; private set; }
@@ -91,7 +91,7 @@ public class Board : MonoBehaviour
         PlayerLayer[playerPos.x, playerPos.y] = null;
         
         PlayerLayer[cellPos.x, cellPos.y] = player;
-        BoardHighlighter.DehighlightCells();
+        /*BoardHighlighter.DehighlightCells();*/
         //PlacePlayer(player, cellPos);
     }
 

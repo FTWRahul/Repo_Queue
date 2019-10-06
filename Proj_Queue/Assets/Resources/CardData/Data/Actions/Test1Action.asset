@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Test1Action
   patterns:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  behaviour: {fileID: 0}
+  - {fileID: 11400000, guid: 6022d2a827b773e4d97c303c6c4843ae, type: 2}
+  behaviour: {fileID: 11400000, guid: 1766e1cd5c486cf4fa811d1bdc375136, type: 2}

@@ -61,4 +61,6 @@ public class CardDisplayer : MonoBehaviour
         Name = card.cardName;
         Description = card.cardDescription;
     }
+    
+
 }

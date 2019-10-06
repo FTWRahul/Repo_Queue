@@ -70,6 +70,12 @@ public class GameManager : MonoBehaviour
     void OnCellSelected(Vector2Int cellPos)
     {
         OnReceiveSelectedCellEvent(cellPos);
+        board.BoardHighlighter.DehighlightCells();
+    }
+
+    public void UnsubscribeDelegate()
+    {
+        OnReceiveSelectedCellEvent -= CurrentPlayer.Move;
     }
     
 }
