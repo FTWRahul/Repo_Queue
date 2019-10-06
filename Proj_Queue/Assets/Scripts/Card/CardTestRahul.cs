@@ -17,7 +17,7 @@ public class CardTestRahul : MonoBehaviour
     public void DisplayPattern()
     {
         
-        card.actions[0].DisplayPossiblePattern(Board.boardInstance.GetPlayerPosition(FindObjectOfType<GameManager>().CurrentPlayer));
+        card.actions[0].DisplayPossiblePattern(Board.boardInstance.GetPlayerPosition(FindObjectOfType<GameManager>().CurrentPlayer.gameObject));
         
     }
 }

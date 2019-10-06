@@ -12,39 +12,36 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerData playerData;
     [SerializeField] private PlayerData player1Data;
 
-    [field: SerializeField] public GameObject CurrentPlayer { get; private set; }
-    [SerializeField] private GameObject otherPlayer;
+    [field: SerializeField] public Player CurrentPlayer { get; private set; }
+    [SerializeField] private Player otherPlayer;
+
+    private CellSelector _cellSelector;
+    
+    public delegate void OnCellSelectorDelegate(Vector2Int cellPos);
+    public event OnCellSelectorDelegate OnReceiveSelectedCellEvent = delegate { };
+    
     
     void Start()
     {
         board.MakeBoard(boardData);
 
-        GameObject go = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-
+        Player go = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
         CurrentPlayer = go;
+        go.MakePlayer(playerData);
+        go.canvas.SetActive(false);
+        board.PlacePlayer(go.gameObject, new Vector2Int(2, 5));
 
-        Player player = go.GetComponent<Player>();
-
-        player.MakePlayer(playerData);
         
-        player.canvas.SetActive(false);
-        
-        board.PlacePlayer(player.gameObject, new Vector2Int(2, 5));
-
-
-
-        GameObject go1 = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-
+        Player go1 = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
         otherPlayer = go1;
+        go1.MakePlayer(player1Data);
+        go1.canvas.SetActive(true);
+        board.PlacePlayer(go1.gameObject, new Vector2Int(2, 0));
 
-        Player player1 = go1.GetComponent<Player>();
 
-        player1.MakePlayer(player1Data);
-        
-        player1.canvas.SetActive(true);
-
-        board.PlacePlayer(player1.gameObject, new Vector2Int(2, 0));
-
+        _cellSelector = FindObjectOfType<CellSelector>();
+        if (OnReceiveSelectedCellEvent != null) 
+            _cellSelector.OnCellSelectedEvent += OnCellSelected;
         //EndPlayerTurn();
         //board.BoardHighlighter.HighlightMovementCells(CurrentPlayer);
         //Turn(CurrentPlayer);
@@ -56,19 +53,27 @@ public class GameManager : MonoBehaviour
     [ContextMenu("EndTurn")]
     public void EndPlayerTurn()
     {
-        GameObject temp = CurrentPlayer;
+        Player temp = CurrentPlayer;
         CurrentPlayer = otherPlayer;
-        CurrentPlayer.GetComponent<Player>().canvas.SetActive(true);
+        CurrentPlayer.canvas.SetActive(true);
+        OnReceiveSelectedCellEvent += CurrentPlayer.Move;
         otherPlayer = temp;
-        otherPlayer.GetComponent<Player>().canvas.SetActive(false);
+        otherPlayer.canvas.SetActive(false);
+        OnReceiveSelectedCellEvent -= otherPlayer.Move;
         
         board.BoardHighlighter.DehighlightCells();
         
-        board.BoardHighlighter.HighlightMovementCells(CurrentPlayer);
+        board.BoardHighlighter.HighlightMovementCells(CurrentPlayer.gameObject);
     }
 
     private void Turn(GameObject player)
     {
         board.BoardHighlighter.HighlightMovementCells(CurrentPlayer.gameObject);
     }
+
+    void OnCellSelected(Vector2Int cellPos)
+    {
+        OnReceiveSelectedCellEvent(cellPos);
+    }
+    
 }
