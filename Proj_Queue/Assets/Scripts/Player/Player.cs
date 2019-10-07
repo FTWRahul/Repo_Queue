@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     public delegate void OnCardDropDelegate();
     public event OnCardDropDelegate CardDropEvent = delegate { };
     
+    public delegate void OnCardDragDelegate();
+    public event OnCardDragDelegate CardDragEvent = delegate { };
     public void Awake()
     {
         _renderer = GetComponent<Renderer>();
@@ -88,6 +90,14 @@ public class Player : MonoBehaviour
             }
         }
     }
+    protected virtual void OnMakePlayerEvent()
+    {
+        MakePlayerEvent();
+    }
+    public void OnStartPlayerTurnEvent()
+    {
+        StartPlayerTurnEvent();
+    }
     
     public void OnEndPlayerTurnEvent()
     {
@@ -99,13 +109,9 @@ public class Player : MonoBehaviour
         CardDropEvent();
     }
 
-    protected virtual void OnMakePlayerEvent()
-    {
-        MakePlayerEvent();
-    }
 
-    public void OnStartPlayerTurnEvent()
+    protected virtual void OnCardDragEvent()
     {
-        StartPlayerTurnEvent();
+        CardDragEvent();
     }
 }

@@ -28,6 +28,7 @@ public class DeckManager : MonoBehaviour
         _player.StartPlayerTurnEvent += DealCard;
         _player.EndPlayerTurnEvent += EndTurn;
         _player.CardDropEvent += EnabledDraggable;
+        _player.CardDragEvent += DisableDraggable;
 
         handPanel = GetComponentInChildren<HandArea>().transform;
         
@@ -93,7 +94,18 @@ public class DeckManager : MonoBehaviour
         {
             if (card.GetComponent<Draggable>())
             {
-                card.GetComponent<Draggable>().enabled = !card.GetComponent<Draggable>().enabled;
+                card.GetComponent<Draggable>().enabled = true;
+            }
+        }
+    }
+
+    void DisableDraggable()
+    {
+        foreach (Transform card in handPanel)
+        {
+            if (card.GetComponent<Draggable>())
+            {
+                card.GetComponent<Draggable>().enabled = false;
             }
         }
     }

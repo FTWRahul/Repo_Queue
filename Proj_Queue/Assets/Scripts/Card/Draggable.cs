@@ -64,6 +64,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDrag
         if (_areaToDrop.GetComponent<ScheduleArea>())
         {
             _cardDisplayer.CardInfo.DisplayAction();
+            
             Board.boardInstance.gameManager.OnCardDropEvent();
             Board.boardInstance.gameManager.ReceiveSelectedCellEvent += _cardDisplayer.CardInfo.ReceiveSelectedCell;
             this.enabled = false;
