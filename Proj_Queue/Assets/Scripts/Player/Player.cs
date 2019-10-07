@@ -7,7 +7,6 @@ using DG.Tweening;
 public class Player : MonoBehaviour
 {
     private int _health;
-    public int Health => _health;
     
     private List<PatternData> _movementPatterns;
     public List<PatternData> MovementPatterns => _movementPatterns;
@@ -15,12 +14,15 @@ public class Player : MonoBehaviour
     
     private Renderer _renderer;
     public GameObject canvas;
-    
+
     public delegate void OnMakePlayerDelegate();
-    public event OnMakePlayerDelegate OnMakePlayerEvent = delegate { };
+    public event OnMakePlayerDelegate MakePlayerEvent = delegate { };
     
     public delegate void OnEndTurnDelegate();
     public event OnEndTurnDelegate EndPlayerTurnEvent = delegate { };
+    
+    public delegate void OnStartTurnDelegate();
+    public event OnStartTurnDelegate StartPlayerTurnEvent = delegate { };
 
     public delegate void OnCardDropDelegate();
     public event OnCardDropDelegate CardDropEvent = delegate { };
@@ -86,12 +88,7 @@ public class Player : MonoBehaviour
             }
         }
     }
-
-    //TODO:: deal card when turn starts
-    /*public void StartTurn()
-    {
-        _deckManager.DealCard();
-    }*/
+    
     public void OnEndPlayerTurnEvent()
     {
         EndPlayerTurnEvent();
@@ -100,5 +97,15 @@ public class Player : MonoBehaviour
     public void OnCardDropEvent()
     {
         CardDropEvent();
+    }
+
+    protected virtual void OnMakePlayerEvent()
+    {
+        MakePlayerEvent();
+    }
+
+    protected virtual void OnStartPlayerTurnEvent()
+    {
+        StartPlayerTurnEvent();
     }
 }

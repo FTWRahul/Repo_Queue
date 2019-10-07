@@ -24,8 +24,8 @@ public class DeckManager : MonoBehaviour
     private void OnEnable()
     {
         _player = GetComponent<Player>();
-        _player.OnMakePlayerEvent += InitDeck;
-        _player.OnMakePlayerEvent += DealCard;
+        _player.MakePlayerEvent += InitDeck;
+        _player.StartPlayerTurnEvent += DealCard;
         _player.EndPlayerTurnEvent += EndTurn;
         _player.CardDropEvent += EnabledDraggable;
 
