@@ -22,6 +22,9 @@ public class Player : MonoBehaviour
     public delegate void OnEndTurnDelegate();
     public event OnEndTurnDelegate EndPlayerTurnEvent = delegate { };
 
+    public delegate void OnCardDropDelegate();
+    public event OnCardDropDelegate CardDropEvent = delegate { };
+    
     public void Awake()
     {
         _renderer = GetComponent<Renderer>();
@@ -92,5 +95,10 @@ public class Player : MonoBehaviour
     public void OnEndPlayerTurnEvent()
     {
         EndPlayerTurnEvent();
+    }
+
+    public void OnCardDropEvent()
+    {
+        CardDropEvent();
     }
 }

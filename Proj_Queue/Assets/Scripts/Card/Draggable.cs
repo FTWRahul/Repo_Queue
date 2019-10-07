@@ -57,18 +57,17 @@ public class Draggable : MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDrag
     public void OnEndDrag(PointerEventData eventData)
     {
         transform.SetParent(_areaToDrop);
-        transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
-        
         _canvasGroup.blocksRaycasts = true;
 
+        Destroy(placeHolder);
+        
         if (_areaToDrop.GetComponent<ScheduleArea>())
         {
             _cardDisplayer.CardInfo.DisplayAction();
+            Board.boardInstance.gameManager.OnCardDropEvent();
+            Board.boardInstance.gameManager.ReceiveSelectedCellEvent += _cardDisplayer.CardInfo.ReceiveSelectedCell;
+            this.enabled = false;
         }
-        Destroy(placeHolder);
-        
-        Board.boardInstance.gameManager.OnCardDropEvent();
-        Board.boardInstance.gameManager.ReceiveSelectedCellEvent += _cardDisplayer.CardInfo.ReceiveSelectedCell;
     }
 
     public void SetDropArea(Transform area)

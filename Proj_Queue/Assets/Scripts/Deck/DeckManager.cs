@@ -27,7 +27,8 @@ public class DeckManager : MonoBehaviour
         _player.OnMakePlayerEvent += InitDeck;
         _player.OnMakePlayerEvent += DealCard;
         _player.EndPlayerTurnEvent += EndTurn;
-        
+        _player.CardDropEvent += EnabledDraggable;
+
         handPanel = GetComponentInChildren<HandArea>().transform;
         
         foreach (var scheduleArea in GetComponentsInChildren<ScheduleArea>())
@@ -85,6 +86,19 @@ public class DeckManager : MonoBehaviour
             for (int j = schedulePanels[i].childCount; j > 0; j--)
             {
                 schedulePanels[i].GetChild(j-1).SetParent(schedulePanels[i - 1]);
+            }
+        }
+    }
+
+    
+    //TODO:: need to call this method after a card has been receive cell position
+    private void EnabledDraggable()
+    {
+        foreach (Transform card in handPanel)
+        {
+            if (card.GetComponent<Draggable>())
+            {
+                card.GetComponent<Draggable>().enabled = !card.GetComponent<Draggable>().enabled;
             }
         }
     }
