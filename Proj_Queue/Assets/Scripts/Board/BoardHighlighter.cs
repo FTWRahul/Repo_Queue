@@ -20,34 +20,7 @@ public class BoardHighlighter : MonoBehaviour
             _board.CellLayer[pos.x, pos.y].Highlight();
         }
     }
-    
-    
-    //TODO:: weird  move to the player
-    public void HighlightMovementCells(GameObject player)
-    {
-        Vector2Int playerPos = _board.GetPlayerPosition(player);
-        
-        foreach (PatternData pattern in player.GetComponent<Player>().movementPatterns)
-        {
-            foreach (Vector2Int pos in pattern.positions)
-            {
-                Vector2Int resultingPos = playerPos + pos;
-                
-                if (resultingPos.x < 0 || resultingPos.x > _board.Width - 1 || resultingPos.y < 0 || resultingPos.y > _board.Height - 1) // outside of the board
-                {
-                    break;
-                }
 
-                if (_board.PlayerLayer[resultingPos.x, resultingPos.y] != null) // player is on cell
-                {
-                    break;
-                }
-                
-                _board.CellLayer[resultingPos.x, resultingPos.y].Highlight();
-            }
-        }
-    }
-    
     public void DehighlightCells()
     {
         foreach (Cell cell in _board.Cells)

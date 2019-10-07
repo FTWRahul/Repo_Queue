@@ -355,6 +355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 1434328494185644300, guid: b280519b485527e4aba962a08048ff9c,
     type: 3}
+  gameManager: {fileID: 0}
 --- !u!4 &1420250822
 Transform:
   m_ObjectHideFlags: 0
@@ -480,9 +481,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 1420250821}
   boardData: {fileID: 11400000, guid: 2a4b8e2fb4ffa09448db0f885f6ca804, type: 2}
+  playersAmount: 2
   playerPrefab: {fileID: 1122398347112681883, guid: c264e0ade1c6d4b4bac37455b9a08676,
     type: 3}
+  playersData:
+  - {fileID: 11400000, guid: ad3d4817ad37d4a49a3d602f129958a2, type: 2}
+  - {fileID: 11400000, guid: e3edeed5595de714d8fb26ca2595cd42, type: 2}
+  playersStartingPositions:
+  - {x: 2, y: 5}
+  - {x: 2, y: 0}
   playerData: {fileID: 11400000, guid: ad3d4817ad37d4a49a3d602f129958a2, type: 2}
   player1Data: {fileID: 11400000, guid: e3edeed5595de714d8fb26ca2595cd42, type: 2}
   <CurrentPlayer>k__BackingField: {fileID: 0}
   otherPlayer: {fileID: 0}
+  currentPlayerIndex: 0

@@ -3,29 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Static;
+using UnityEngine.Video;
 
 public class DeckManager : MonoBehaviour
 {
-    public int amountOfCardsToDeal;
+    [SerializeField] private GameObject cardPrefab;
+    [SerializeField] private int amountOfCardsToDeal;
     
-    public List<Card> originalDeck = new List<Card>();
-    public Stack<Card> deck = new Stack<Card>();
+    [SerializeField] private List<Card> originalDeck = new List<Card>();
+    [SerializeField] private Stack<Card> deck = new Stack<Card>();
 
-    public Transform handPanel;
-    public List<Transform> schedulePanels = new List<Transform>();
+    [SerializeField] private Transform handPanel;
+    [SerializeField] private List<Transform> schedulePanels = new List<Transform>();
+
+    //TODO:: do we need to store player ref for deck manager^^
+    private Player _player;
     
-    public GameObject cardPrefab;
     
-    
-    private void Awake()
+    //TODO:: start has null  error
+    private void OnEnable()
     {
+        _player = GetComponent<Player>();
+        _player.OnMakePlayerEvent += InitDeck;
+        
         handPanel = GetComponentInChildren<HandArea>().transform;
         
         foreach (var scheduleArea in GetComponentsInChildren<ScheduleArea>())
         {
             schedulePanels.Add(scheduleArea.transform);
         }
-        
+    }
+
+    void InitDeck()
+    {
+        originalDeck = _player.originalDeck;
         ResetDeck();
     }
 

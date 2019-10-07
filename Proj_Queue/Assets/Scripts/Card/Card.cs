@@ -31,7 +31,7 @@ public class Card
     {
         foreach (var action in actions)
         {
-            action.DisplayPossiblePattern(Board.boardInstance.GetPlayerPosition(Board.boardInstance.CurrentPlayer.gameObject));
+            action.DisplayPossiblePattern(Board.boardInstance.GetPlayerPosition(Board.boardInstance.CurrentPlayer));
         }
     }
 }

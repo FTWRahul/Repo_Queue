@@ -16,13 +16,7 @@ public class Board : MonoBehaviour
     public int Height { get; private set; }
     public int Width { get; private set;}
 
-    public Player CurrentPlayer
-    {
-        get
-        {
-           return gameManager.CurrentPlayer;
-        }
-    }
+    public GameObject CurrentPlayer => gameManager.GetCurrentPlayerGameObject();
 
     private void Awake()
     {
@@ -37,6 +31,7 @@ public class Board : MonoBehaviour
 
         gameManager = FindObjectOfType<GameManager>();
         BoardHighlighter = GetComponent<BoardHighlighter>();
+        gameManager.OnEndTurnEvent += BoardHighlighter.DehighlightCells;
     }
 
     public void MakeBoard(BoardData boardData)
