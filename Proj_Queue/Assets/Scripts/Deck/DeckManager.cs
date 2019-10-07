@@ -67,11 +67,6 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    public void SetDeck(List<Card> cards)
-    {
-        originalDeck = cards;
-    }
-    
     void EndTurn()
     {
         foreach (Transform card in schedulePanels[0])

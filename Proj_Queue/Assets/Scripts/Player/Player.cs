@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
         MakePlayerEvent();
     }
 
-    protected virtual void OnStartPlayerTurnEvent()
+    public void OnStartPlayerTurnEvent()
     {
         StartPlayerTurnEvent();
     }

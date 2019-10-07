@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
             ReceiveSelectedCellEvent += go.Move;
             EndTurnEvent += go.OnEndPlayerTurnEvent;
             StartTurnEvent += go.HighlightMovementCells;
+            StartTurnEvent += go.OnStartPlayerTurnEvent;
             CardDropEvent += go.OnCardDropEvent;
         }
     }
@@ -88,6 +89,7 @@ public class GameManager : MonoBehaviour
         players[currentPlayerIndex].canvas.SetActive(false);
         UnsubscribeDelegate();
         StartTurnEvent -= players[currentPlayerIndex].HighlightMovementCells;
+        StartTurnEvent -= players[currentPlayerIndex].OnStartPlayerTurnEvent;
         EndTurnEvent -= players[currentPlayerIndex].OnEndPlayerTurnEvent;
         CardDropEvent -= players[currentPlayerIndex].OnCardDropEvent;
         
@@ -103,6 +105,7 @@ public class GameManager : MonoBehaviour
         players[currentPlayerIndex].canvas.SetActive(true);
         ReceiveSelectedCellEvent += players[currentPlayerIndex].Move;
         StartTurnEvent += players[currentPlayerIndex].HighlightMovementCells;
+        StartTurnEvent += players[currentPlayerIndex].OnStartPlayerTurnEvent;
         EndTurnEvent += players[currentPlayerIndex].OnEndPlayerTurnEvent;
         CardDropEvent += players[currentPlayerIndex].OnCardDropEvent;
         
