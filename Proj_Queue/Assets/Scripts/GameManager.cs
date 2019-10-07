@@ -10,22 +10,28 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BoardData boardData;
     
     [SerializeField] private GameObject playerPrefab;
-
     [SerializeField] private List<PlayerData> playersData = new List<PlayerData>();
-    [SerializeField] private List<Player> players = new List<Player>();
     [SerializeField] private List<Vector2Int> playersStartingPositions = new List<Vector2Int>();
+    [SerializeField] private List<Player> players = new List<Player>();
     [SerializeField] private int currentPlayerIndex;
 
     private CellSelector _cellSelector;
     
     public delegate void OnCellSelectorDelegate(Vector2Int cellPos);
-    public event OnCellSelectorDelegate OnReceiveSelectedCellEvent = delegate { };
+    public event OnCellSelectorDelegate ReceiveSelectedCellEvent = delegate { };
 
     public delegate void OnEndTurnDelegate();
-    public event OnEndTurnDelegate OnEndTurnEvent = delegate { };
+    public event OnEndTurnDelegate EndTurnEvent = delegate { };
 
     public delegate void OnStartTurnDelegate();
-    public event OnStartTurnDelegate OnStartTurnEvent = delegate { };
+    public event OnStartTurnDelegate StartTurnEvent = delegate { };
+    
+    public delegate void OnCardDragDelegate();
+    public event OnCardDragDelegate CardDragEvent = delegate { };
+    
+    public delegate void OnCardDropDelegate();
+    public event OnCardDropDelegate CardDropEvent = delegate { };
+
 
     void Start()
     {
@@ -35,7 +41,7 @@ public class GameManager : MonoBehaviour
         _cellSelector = FindObjectOfType<CellSelector>();
         _cellSelector.OnCellSelectedEvent += OnCellSelected;
 
-        OnStartTurnEvent();
+        StartTurnEvent();
     }
 
     public GameObject GetCurrentPlayerGameObject()
@@ -43,34 +49,39 @@ public class GameManager : MonoBehaviour
         return players[currentPlayerIndex].gameObject;
     }
 
-    void InitPlayers()
+    private void InitPlayers()
     {
         for (int i = 0; i < playersData.Count; i++)
         {
             Player go = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
             players.Add(go);
-            if (i == 0)
-            {
-                currentPlayerIndex = i;
-                OnReceiveSelectedCellEvent += go.Move;
-                OnStartTurnEvent += go.HighlightMovementCells;
-            }
-            else
-            {
-                go.canvas.SetActive(false);
-            }
+            go.canvas.SetActive(false);
+            
             go.MakePlayer(playersData[i]);
             board.PlacePlayer(go.gameObject, playersStartingPositions[i]);
+
+            if (i != 0) continue;
+            
+            currentPlayerIndex = i;
+            go.canvas.SetActive(true);
+            ReceiveSelectedCellEvent += go.Move;
+            EndTurnEvent += go.OnEndPlayerTurnEvent;
+            StartTurnEvent += go.HighlightMovementCells;
         }
     }
-    
-    public void EndPlayerTurn()
+
+    public void OnEndPlayerTurnEvent()
     {
-        OnEndTurnEvent();
-        
+        EndTurnEvent();
+        Invoke("EndPlayerTurn", 2 );
+    }
+    
+    private void EndPlayerTurn()
+    {
         players[currentPlayerIndex].canvas.SetActive(false);
         UnsubscribeDelegate();
-        OnStartTurnEvent -= players[currentPlayerIndex].HighlightMovementCells;
+        StartTurnEvent -= players[currentPlayerIndex].HighlightMovementCells;
+        EndTurnEvent -= players[currentPlayerIndex].OnEndPlayerTurnEvent;
         
         if (currentPlayerIndex < players.Count-1)
         {
@@ -82,21 +93,33 @@ public class GameManager : MonoBehaviour
         }
         
         players[currentPlayerIndex].canvas.SetActive(true);
-        OnReceiveSelectedCellEvent += players[currentPlayerIndex].Move;
-        OnStartTurnEvent += players[currentPlayerIndex].HighlightMovementCells;
-
-        OnStartTurnEvent();
+        ReceiveSelectedCellEvent += players[currentPlayerIndex].Move;
+        StartTurnEvent += players[currentPlayerIndex].HighlightMovementCells;
+        EndTurnEvent += players[currentPlayerIndex].OnEndPlayerTurnEvent;
+        
+        StartTurnEvent();
     }
 
     void OnCellSelected(Vector2Int cellPos)
     {
-        OnReceiveSelectedCellEvent(cellPos);
+        ReceiveSelectedCellEvent(cellPos);
         //TODO:: call this method with delegate???
         board.BoardHighlighter.DehighlightCells();
     }
 
-    public void UnsubscribeDelegate()
+    private void UnsubscribeDelegate()
     {
-        OnReceiveSelectedCellEvent -= players[currentPlayerIndex].Move;
+        ReceiveSelectedCellEvent -= players[currentPlayerIndex].Move;
+    }
+
+    public void OnCardDragEvent()
+    {
+        CardDragEvent();
+    }
+
+    public void OnCardDropEvent()
+    {
+        UnsubscribeDelegate();
+        CardDropEvent();
     }
 }

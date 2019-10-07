@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     
     public delegate void OnMakePlayerDelegate();
     public event OnMakePlayerDelegate OnMakePlayerEvent = delegate { };
+    
+    public delegate void OnEndTurnDelegate();
+    public event OnEndTurnDelegate EndPlayerTurnEvent = delegate { };
 
     public void Awake()
     {
@@ -86,4 +89,8 @@ public class Player : MonoBehaviour
     {
         _deckManager.DealCard();
     }*/
+    public void OnEndPlayerTurnEvent()
+    {
+        EndPlayerTurnEvent();
+    }
 }

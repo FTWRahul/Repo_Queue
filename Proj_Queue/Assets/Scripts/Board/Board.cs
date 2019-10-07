@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Board : MonoBehaviour
 {
@@ -31,7 +32,8 @@ public class Board : MonoBehaviour
 
         gameManager = FindObjectOfType<GameManager>();
         BoardHighlighter = GetComponent<BoardHighlighter>();
-        gameManager.OnEndTurnEvent += BoardHighlighter.DehighlightCells;
+        gameManager.EndTurnEvent += BoardHighlighter.DehighlightCells;
+        gameManager.CardDragEvent += BoardHighlighter.DehighlightCells;
     }
 
     public void MakeBoard(BoardData boardData)

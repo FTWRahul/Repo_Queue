@@ -22,7 +22,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDrag
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
         placeHolder = new GameObject();
-        placeHolder.transform.SetParent(transform.parent);
+        Transform parent = transform.parent;
+            
+        placeHolder.transform.SetParent(parent);
         
         LayoutElement layoutElement = placeHolder.AddComponent<LayoutElement>();
         layoutElement.preferredHeight = 100;
@@ -30,11 +32,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDrag
         
         placeHolder.transform.SetSiblingIndex(transform.GetSiblingIndex());
         
-        _areaToDrop = transform.parent;
+        _areaToDrop = parent;
         transform.SetParent(_areaToDrop.parent);
         
         _canvasGroup.blocksRaycasts = false;
-        Board.boardInstance.BoardHighlighter.DehighlightCells();
+        
+        Board.boardInstance.gameManager.OnCardDragEvent();
     }
     
     void IDragHandler.OnDrag(PointerEventData eventData)
@@ -60,11 +63,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDrag
 
         if (_areaToDrop.GetComponent<ScheduleArea>())
         {
-            _cardDisplayer.cardInfo.DisplayAction();
+            _cardDisplayer.CardInfo.DisplayAction();
         }
         Destroy(placeHolder);
-        Board.boardInstance.gameManager.UnsubscribeDelegate();
-        Board.boardInstance.gameManager.OnReceiveSelectedCellEvent += _cardDisplayer.cardInfo.ReceiveSelectedCell;
+        
+        Board.boardInstance.gameManager.OnCardDropEvent();
+        Board.boardInstance.gameManager.ReceiveSelectedCellEvent += _cardDisplayer.CardInfo.ReceiveSelectedCell;
     }
 
     public void SetDropArea(Transform area)

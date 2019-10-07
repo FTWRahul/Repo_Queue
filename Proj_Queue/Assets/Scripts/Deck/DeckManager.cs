@@ -25,6 +25,8 @@ public class DeckManager : MonoBehaviour
     {
         _player = GetComponent<Player>();
         _player.OnMakePlayerEvent += InitDeck;
+        _player.OnMakePlayerEvent += DealCard;
+        _player.EndPlayerTurnEvent += EndTurn;
         
         handPanel = GetComponentInChildren<HandArea>().transform;
         
@@ -50,8 +52,7 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    [ContextMenu("Deal card")]
-    public void DealCard()
+    private void DealCard()
     {
         for (int i = 0; i < amountOfCardsToDeal; i++)
         {
@@ -69,17 +70,15 @@ public class DeckManager : MonoBehaviour
     {
         originalDeck = cards;
     }
-
-    [ContextMenu("End turn")]
+    
     void EndTurn()
     {
         foreach (Transform card in schedulePanels[0])
         {
-            //TODO:: call card execution  
-            Debug.Log(card.GetComponent<CardDisplayer>().Name + " was played");
+            Debug.Log(card.GetComponent<CardDisplayer>().Name);
             Destroy(card.gameObject);
         }
-
+        
         //Move cards starting from 2nd schedule deck
         for (int i = 1; i < schedulePanels.Count; i++)
         {

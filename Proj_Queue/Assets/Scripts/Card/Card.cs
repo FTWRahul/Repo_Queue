@@ -25,6 +25,8 @@ public class Card
         {
             action.originCell = cellPos;
         }
+
+        Board.boardInstance.gameManager.ReceiveSelectedCellEvent -= ReceiveSelectedCell;
     }
     
     public void DisplayAction()
