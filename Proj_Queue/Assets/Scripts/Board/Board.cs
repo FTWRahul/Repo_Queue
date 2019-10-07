@@ -6,10 +6,10 @@ using UnityEngine.Serialization;
 
 public class Board : MonoBehaviour
 {
+    public static Board boardInstance { get; private set; }
     [SerializeField] private GameObject cellPrefab;
     public GameManager gameManager;
 
-    public static Board boardInstance { get; private set; }
     public BoardHighlighter BoardHighlighter { get; private set; }
 
     public Cell[,] CellLayer { get; private set; }
@@ -98,6 +98,7 @@ public class Board : MonoBehaviour
         player.transform.position = CellLayer[pos.x, pos.y].transform.position;
         player.transform.position += Vector3.up * 1;
     }
+/*
 
     public Cell this[int x, int z]
     {
@@ -105,9 +106,9 @@ public class Board : MonoBehaviour
         {
             return CellLayer[x, z];
         }
-    }
+    }*/
     
-    public List<Cell> Cells
+    public List<Cell> GetCells
     {
         get
         {

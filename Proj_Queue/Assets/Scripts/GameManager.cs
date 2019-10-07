@@ -6,16 +6,16 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private Board board;
-    [SerializeField] private BoardData boardData;
+    private Board _board;
+    private CellSelector _cellSelector;
     
+    [SerializeField] private BoardData boardData;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private List<PlayerData> playersData = new List<PlayerData>();
     [SerializeField] private List<Vector2Int> playersStartingPositions = new List<Vector2Int>();
     [SerializeField] private List<Player> players = new List<Player>();
     [SerializeField] private int currentPlayerIndex;
 
-    private CellSelector _cellSelector;
     
     public delegate void OnCellSelectorDelegate(Vector2Int cellPos);
     public event OnCellSelectorDelegate ReceiveSelectedCellEvent = delegate { };
@@ -35,12 +35,18 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        board.MakeBoard(boardData);
+        _board = FindObjectOfType<Board>();
+        _board.MakeBoard(boardData);
+        
         InitPlayers();
         
         _cellSelector = FindObjectOfType<CellSelector>();
-        _cellSelector.OnCellSelectedEvent += OnCellSelected;
+        _cellSelector.CellHitEvent += ReceiveHitCellEvent;
+        OnStartTurnEvent();
+    }
 
+    void OnStartTurnEvent()
+    {
         StartTurnEvent();
     }
 
@@ -58,7 +64,7 @@ public class GameManager : MonoBehaviour
             go.canvas.SetActive(false);
             
             go.MakePlayer(playersData[i]);
-            board.PlacePlayer(go.gameObject, playersStartingPositions[i]);
+            _board.PlacePlayer(go.gameObject, playersStartingPositions[i]);
 
             if (i != 0) continue;
             
@@ -103,11 +109,11 @@ public class GameManager : MonoBehaviour
         StartTurnEvent();
     }
 
-    void OnCellSelected(Vector2Int cellPos)
+    void ReceiveHitCellEvent(Vector2Int cellPos)
     {
         ReceiveSelectedCellEvent(cellPos);
         //TODO:: call this method with delegate???
-        board.BoardHighlighter.DehighlightCells();
+        _board.BoardHighlighter.DehighlightCells();
     }
 
     private void UnsubscribeDelegate()

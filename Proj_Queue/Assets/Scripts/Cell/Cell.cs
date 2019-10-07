@@ -6,31 +6,29 @@ using UnityEngine.Serialization;
 
 public class Cell : MonoBehaviour
 {
-    [FormerlySerializedAs("CellPosition")] public Vector2Int cellPosition;
+    public Vector2Int cellPosition;
 
     public Color defaultColor;
-    [SerializeField] private Color highlightedColor;
+    public Renderer cellRenderer;
     public bool highlighted;
-    public Renderer rend;
     
-
+    [SerializeField] private Color highlightedColor;
 
     public void Awake()
     {
-        rend = GetComponent<Renderer>();
-        
+        cellRenderer = GetComponent<Renderer>();
     }
 
     public void Highlight()
     {
         highlighted = true;
-        rend.material.color = highlightedColor;
+        cellRenderer.material.color = highlightedColor;
     }
 
     public void Dehighlight()
     {
         highlighted = false;
-        rend.material.color = defaultColor;
+        cellRenderer.material.color = defaultColor;
     }
 }
 

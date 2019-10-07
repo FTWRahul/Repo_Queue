@@ -23,7 +23,7 @@ public class BoardHighlighter : MonoBehaviour
 
     public void DehighlightCells()
     {
-        foreach (Cell cell in _board.Cells)
+        foreach (Cell cell in _board.GetCells)
         {
             cell.Dehighlight();
         }
