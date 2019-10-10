@@ -10,8 +10,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDrag
     private Transform _areaToDrop = null;
     private CanvasGroup _canvasGroup;
     private CardDisplayer _cardDisplayer;
-
-    [SerializeField] private GameObject placeHolder;
+    
+    private GameObject _placeHolder;
 
     private void Start()
     {
@@ -21,22 +21,24 @@ public class Draggable : MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDrag
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
-        placeHolder = new GameObject();
+        //Adding a placeholder
+        _placeHolder = new GameObject();
         Transform parent = transform.parent;
             
-        placeHolder.transform.SetParent(parent);
+        _placeHolder.transform.SetParent(parent);
         
-        LayoutElement layoutElement = placeHolder.AddComponent<LayoutElement>();
+        LayoutElement layoutElement = _placeHolder.AddComponent<LayoutElement>();
         layoutElement.preferredHeight = 100;
         layoutElement.preferredWidth = 100;
         
-        placeHolder.transform.SetSiblingIndex(transform.GetSiblingIndex());
+        _placeHolder.transform.SetSiblingIndex(transform.GetSiblingIndex());
         
+        //Set returning parent
         _areaToDrop = parent;
         transform.SetParent(_areaToDrop.parent);
-        
         _canvasGroup.blocksRaycasts = false;
         
+        //Calling OnCardDragEvent on game manager??
         Board.boardInstance.gameManager.OnCardDragEvent();
     }
     
@@ -46,29 +48,29 @@ public class Draggable : MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDrag
         
         for (int i = 0; i < _areaToDrop.childCount; i++)
         {
-            if (transform.position.x < _areaToDrop.GetChild(i).position.x)
-            {
-                placeHolder.transform.SetSiblingIndex(i);
-                break;
-            }
+            if (!(transform.position.x < _areaToDrop.GetChild(i).position.x)) continue;
+            
+            _placeHolder.transform.SetSiblingIndex(i);
+            break;
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        //Setting new parent for returning
         transform.SetParent(_areaToDrop);
         _canvasGroup.blocksRaycasts = true;
 
-        Destroy(placeHolder);
+        //Destroying the placeholder
+        Destroy(_placeHolder);
         
-        if (_areaToDrop.GetComponent<ScheduleArea>())
-        {
-            _cardDisplayer.CardInfo.DisplayAction();
+        if (!_areaToDrop.GetComponent<ScheduleArea>()) return;
+        
+/*        _cardDisplayer.CardInfo.DisplayAction();*/
             
-            Board.boardInstance.gameManager.OnCardDropEvent();
-            Board.boardInstance.gameManager.ReceiveSelectedCellEvent += _cardDisplayer.CardInfo.ReceiveSelectedCell;
-            this.enabled = false;
-        }
+        Board.boardInstance.gameManager.OnCardDropEvent();
+/*        Board.boardInstance.gameManager.ReceiveSelectedCellEvent += _cardDisplayer.CardInfo.ReceiveSelectedCell;*/
+        this.enabled = false;
     }
 
     public void SetDropArea(Transform area)

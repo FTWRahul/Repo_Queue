@@ -6,17 +6,13 @@ using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
-    private int _health;
-    
-    private List<PatternData> _movementPatterns;
-    public List<PatternData> MovementPatterns => _movementPatterns;
-    public List<Card> originalDeck;
+    public List<PatternData> MovementPatterns { get; private set; }
+
+    private List<Card> _originalDeck = new List<Card>();
     
     private Renderer _renderer;
-    public GameObject canvas;
-
-    public delegate void OnMakePlayerDelegate();
-    public event OnMakePlayerDelegate MakePlayerEvent = delegate { };
+    private DeckManager _deckManager;
+    [SerializeField] private GameObject canvas;
     
     public delegate void OnEndTurnDelegate();
     public event OnEndTurnDelegate EndPlayerTurnEvent = delegate { };
@@ -29,49 +25,44 @@ public class Player : MonoBehaviour
     
     public delegate void OnCardDragDelegate();
     public event OnCardDragDelegate CardDragEvent = delegate { };
+    
     public void Awake()
     {
+        _deckManager = GetComponent<DeckManager>();
         _renderer = GetComponent<Renderer>();
         StartPlayerTurnEvent += HighlightMovementCells;
+        StartPlayerTurnEvent += _deckManager.DealCard;
+        EndPlayerTurnEvent += _deckManager.EndTurn;
+/*        CardDropEvent += _deckManager.handPanel.GetComponent<HandArea>().DisableDraggable;*/
+        
     }
 
     public void MakePlayer(PlayerData playerData)
     {
-        _health = playerData.health;
-        _movementPatterns = playerData.movementPatterns;
-
+        MovementPatterns = playerData.movementPatterns;
         foreach (CardData cardData in playerData.originalDeck)
         {
-            originalDeck.Add(new Card(cardData));
+            _originalDeck.Add(new Card(cardData));
         }
-
+        _deckManager.InitDeck(_originalDeck);
+        
         _renderer.material.color = playerData.color;
-        OnMakePlayerEvent();
-    }
-
-    public void TakeDamage(int amount)
-    {
-        _health -= amount;
+        canvas.SetActive(false);
     }
     
-    /// <summary>
-    /// Changes the reference to its on the board and moves itself
-    /// </summary>
-    /// <param name="cellPos"></param>
-    /// 
     public void Move(Vector2Int cellPos)
     {
-        //Changing refrence on board
+        //Changing reference on board
         Board.boardInstance.ChangePlayerPos(gameObject, cellPos);
         //Physically lerping the player
         transform.DOMove(Board.boardInstance.CellLayer[cellPos.x, cellPos.y].transform.position + Vector3.up, 2f).SetEase(Ease.OutQuint);
     }
     
-    public void HighlightMovementCells()
+    private void HighlightMovementCells()
     {
         Vector2Int thisPosition = Board.boardInstance.GetPlayerPosition(gameObject);
         
-        foreach (PatternData pattern in _movementPatterns)
+        foreach (PatternData pattern in MovementPatterns)
         {
             foreach (Vector2Int pos in pattern.positions)
             {
@@ -91,28 +82,29 @@ public class Player : MonoBehaviour
             }
         }
     }
-    protected virtual void OnMakePlayerEvent()
-    {
-        MakePlayerEvent();
-    }
+    
+    
     public void OnStartPlayerTurnEvent()
     {
-        StartPlayerTurnEvent();
+        Debug.Log("here");
+        StartPlayerTurnEvent?.Invoke();
+        canvas.SetActive(true);
     }
     
     public void OnEndPlayerTurnEvent()
     {
-        EndPlayerTurnEvent();
+        EndPlayerTurnEvent?.Invoke();
+        canvas.SetActive(false);
     }
 
     public void OnCardDropEvent()
     {
-        CardDropEvent();
+        CardDropEvent?.Invoke();
     }
 
 
     protected virtual void OnCardDragEvent()
     {
-        CardDragEvent();
+        CardDragEvent?.Invoke();
     }
 }

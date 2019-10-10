@@ -76,26 +76,12 @@ public class GameManager : MonoBehaviour
             //Adding player to players list
             players.Add(go);
             //Setting player's canvas inactive
-            go.canvas.SetActive(false);
-            
+
             go.MakePlayer(playersData[i]);
             _board.PlacePlayer(go.gameObject, playersStartingPositions[i]);
-
-            //If this player will be the current player 
-            if (i != 0) continue;
-            
-            currentPlayerIndex = i;
-            go.canvas.SetActive(true);
-            //Subscribing current player methods to delegates
-            // when selected cell will be received MOVE method on current player will called
-            ReceiveSelectedCellEvent += go.Move;
-            // On end turn event  - current player endPlayerTurnEvent called
-            EndTurnEvent += go.OnEndPlayerTurnEvent;
-            // On start turn event - current player OnStartPlayerTurnEvent will be called
-            StartTurnEvent += go.OnStartPlayerTurnEvent;
-            // On card drop event - current player CardDropEvent will be called
-            CardDropEvent += go.OnCardDropEvent;
         }
+        currentPlayerIndex = 0;
+        SubscribeCurrentPlayerToDelegates();
     }
 
     public void OnEndPlayerTurnEvent()
@@ -108,10 +94,6 @@ public class GameManager : MonoBehaviour
     
     private void EndPlayerTurn()
     {
-
-        //Setting current player canvas off
-        players[currentPlayerIndex].canvas.SetActive(false);
-        
         //Unsubscribe current player methods from delegates 
         UnsubscribeCurrentPlayerFromDelegate();
         
@@ -124,15 +106,12 @@ public class GameManager : MonoBehaviour
         {
             currentPlayerIndex = 0;
         }
-        
-        //Setting current player canvas on
-        players[currentPlayerIndex].canvas.SetActive(true);
-        
+
         //Subscribe current player methods to delegates
         SubscribeCurrentPlayerToDelegates();
 
         //Calling start turn event
-        StartTurnEvent();
+        OnStartTurnEvent();
     }
 
     private void ReceiveHitCellEvent(Vector2Int cellPos)
@@ -146,9 +125,14 @@ public class GameManager : MonoBehaviour
     
     private void SubscribeCurrentPlayerToDelegates()
     {
+        //Subscribing current player methods to delegates
+        // when selected cell will be received MOVE method on current player will called
         ReceiveSelectedCellEvent += players[currentPlayerIndex].Move;
+        // On start turn event - current player OnStartPlayerTurnEvent will be called
         StartTurnEvent += players[currentPlayerIndex].OnStartPlayerTurnEvent;
+        // On end turn event  - current player endPlayerTurnEvent called
         EndTurnEvent += players[currentPlayerIndex].OnEndPlayerTurnEvent;
+        // On card drop event - current player CardDropEvent will be called
         CardDropEvent += players[currentPlayerIndex].OnCardDropEvent;
     }
 

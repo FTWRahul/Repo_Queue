@@ -724,10 +724,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 273331613007367425}
-  - component: {fileID: 7870073407684268644}
   - component: {fileID: -894291830053748851}
   - component: {fileID: 5667404628825919485}
-  - component: {fileID: 7037235047935814524}
+  - component: {fileID: 2727463707247743770}
+  - component: {fileID: 7870073407684268644}
+  - component: {fileID: 8782466889121702152}
   m_Layer: 5
   m_Name: CardTemplate
   m_TagString: Untagged
@@ -756,18 +757,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7870073407684268644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 273331613007367424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84dc40270a1b8e40ad29983671ed0fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-894291830053748851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,7 +789,32 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &7037235047935814524
+--- !u!114 &2727463707247743770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273331613007367424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f8fc7a4a92a490490fb93b47ad63cb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardDisplayer: {fileID: 8782466889121702152}
+--- !u!114 &7870073407684268644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273331613007367424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e84dc40270a1b8e40ad29983671ed0fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8782466889121702152
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -814,8 +828,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameTmp: {fileID: 273331611754221630}
   descriptionTmp: {fileID: 273331612240310298}
-  damageTmp: {fileID: 273331612533640270}
-  energyTmp: {fileID: 273331612582258924}
 --- !u!1 &273331613019714148
 GameObject:
   m_ObjectHideFlags: 0

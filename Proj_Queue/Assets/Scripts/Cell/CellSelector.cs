@@ -34,6 +34,6 @@ public class CellSelector : MonoBehaviour
 
     protected virtual void OnCellHitEvent(Vector2Int cellPos)
     {
-        CellHitEvent(cellPos);
+        CellHitEvent?.Invoke(cellPos);
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Serialization;
 
 [System.Serializable]
@@ -18,24 +18,4 @@ public class Card
 
         actions = cardData.actions;
     }
-    
-    public void ReceiveSelectedCell(Vector2Int cellPos)
-    {
-        foreach (var action in actions)
-        {
-            action.originCell = cellPos;
-        }
-
-        Board.boardInstance.gameManager.ReceiveSelectedCellEvent -= ReceiveSelectedCell;
-    }
-    
-    public void DisplayAction()
-    {
-        foreach (var action in actions)
-        {
-            action.DisplayPossiblePattern(Board.boardInstance.GetPlayerPosition(Board.boardInstance.CurrentPlayer));
-        }
-    }
 }
-
-

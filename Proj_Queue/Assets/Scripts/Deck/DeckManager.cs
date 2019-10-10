@@ -13,34 +13,35 @@ public class DeckManager : MonoBehaviour
     [SerializeField] private List<Card> originalDeck = new List<Card>();
     [SerializeField] private Stack<Card> deck = new Stack<Card>();
 
-    [SerializeField] private Transform handPanel;
-    [SerializeField] private List<Transform> schedulePanels = new List<Transform>();
+    [SerializeField] private  HandArea handDeck;
+    [SerializeField] private List<ScheduleArea> schedulePanels = new List<ScheduleArea>();
+    
+    public delegate void OnCardDropDelegate();
+    public event OnCardDropDelegate CardDropEvent = delegate { };
+    
+/*    public delegate void OnCardDragDelegate();
+    public event OnCardDragDelegate CardDragEvent = delegate { };*/
+    
+    public delegate void OnCardReceivedCellDelegate();
+    public event OnCardReceivedCellDelegate CardReceivedCellEvent = delegate { };
 
-    //TODO:: do we need to store player ref for deck manager^^
-    private Player _player;
     
-    
-    //TODO:: start has null  error
     private void OnEnable()
     {
-        _player = GetComponent<Player>();
-        _player.MakePlayerEvent += InitDeck;
-        _player.StartPlayerTurnEvent += DealCard;
-        _player.EndPlayerTurnEvent += EndTurn;
-        _player.CardDropEvent += EnabledDraggable;
-        _player.CardDragEvent += DisableDraggable;
-
-        handPanel = GetComponentInChildren<HandArea>().transform;
+        handDeck = GetComponentInChildren<HandArea>();
         
         foreach (var scheduleArea in GetComponentsInChildren<ScheduleArea>())
         {
-            schedulePanels.Add(scheduleArea.transform);
+            schedulePanels.Add(scheduleArea);
         }
+
+        CardDropEvent += handDeck.DisableDraggable;
+        CardReceivedCellEvent += handDeck.EnableDraggable;
     }
 
-    void InitDeck()
+    public void InitDeck(List<Card> list)
     {
-        originalDeck = _player.originalDeck;
+        originalDeck = list;
         ResetDeck();
     }
 
@@ -54,7 +55,7 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    private void DealCard()
+    public void DealCard()
     {
         for (int i = 0; i < amountOfCardsToDeal; i++)
         {
@@ -62,16 +63,17 @@ public class DeckManager : MonoBehaviour
             {
                 ResetDeck();
             }
-
-            CardDisplayer go = Instantiate(cardPrefab, handPanel).GetComponent<CardDisplayer>();
+            
+            CardExecutor go = Instantiate(cardPrefab, handDeck.transform).GetComponent<CardExecutor>();
             go.Init(deck.Pop());
         }
     }
 
-    void EndTurn()
+    public void EndTurn()
     {
-        foreach (Transform card in schedulePanels[0])
+        foreach (Transform card in schedulePanels[0].transform)
         {
+            //TODO:: execute card
             Debug.Log(card.GetComponent<CardDisplayer>().Name);
             Destroy(card.gameObject);
         }
@@ -79,35 +81,16 @@ public class DeckManager : MonoBehaviour
         //Move cards starting from 2nd schedule deck
         for (int i = 1; i < schedulePanels.Count; i++)
         {
-            for (int j = schedulePanels[i].childCount; j > 0; j--)
+            for (int j = schedulePanels[i].transform.childCount; j > 0; j--)
             {
-                schedulePanels[i].GetChild(j-1).SetParent(schedulePanels[i - 1]);
+                schedulePanels[i].transform.GetChild(j-1).SetParent(schedulePanels[i - 1].transform);
             }
         }
     }
 
     
-    //TODO:: need to call this method after a card has been receive cell position
-    private void EnabledDraggable()
-    {
-        foreach (Transform card in handPanel)
-        {
-            if (card.GetComponent<Draggable>())
-            {
-                card.GetComponent<Draggable>().enabled = true;
-            }
-        }
-    }
 
-    void DisableDraggable()
-    {
-        foreach (Transform card in handPanel)
-        {
-            if (card.GetComponent<Draggable>())
-            {
-                card.GetComponent<Draggable>().enabled = false;
-            }
-        }
-    }
+
+    
 }
 

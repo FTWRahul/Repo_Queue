@@ -6,8 +6,6 @@ using UnityEngine.Serialization;
 
 public class CardDisplayer : MonoBehaviour
 {
-    public Card CardInfo { get; private set; }
-    
     private string _name;
     private string _description;
     
@@ -35,7 +33,6 @@ public class CardDisplayer : MonoBehaviour
     
     public void Init(Card card)
     {
-        CardInfo = card;
         Name = card.cardName;
         Description = card.cardDescription;
     }
