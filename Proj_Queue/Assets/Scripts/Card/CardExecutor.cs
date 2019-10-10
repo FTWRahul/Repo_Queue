@@ -2,32 +2,46 @@ using UnityEngine;
 
 public class CardExecutor : MonoBehaviour
 {
-    public Card CardInfo { get; private set; }
+    private Card CardInfo { get; set; }
     [SerializeField] private CardDisplayer cardDisplayer;
-    
+    [SerializeField] private Draggable draggable;
+
+    private void Start()
+    {
+        //Subscribing to the drop on schedule deck method
+        draggable.CardScheduledEvent += ScheduleTheCard;
+    }
 
     public void Init(Card card)
     {
-        Debug.Log("Init card");
         CardInfo = card;
         cardDisplayer.Init(CardInfo);
+        draggable.enabled = true;
     }
 
-    public void ReceiveSelectedCell(Vector2Int cellPos)
+    private void ReceiveSelectedCell(Vector2Int cellPos)
     {
         foreach (var action in CardInfo.actions)
         {
             action.originCell = cellPos;
         }
 
-        Board.boardInstance.gameManager.ReceiveSelectedCellEvent -= ReceiveSelectedCell;
+        //Unsubscribing from ReceiveSelectedCellEvent 
+        Board.BoardInstance.gameManager.ReceiveSelectedCellEvent -= ReceiveSelectedCell;
+        //Calling method when card was scheduled
+        Board.BoardInstance.gameManager.OnCardReceiveCellEvent();
     }
-    
-    public void DisplayAction()
+
+    private void ScheduleTheCard()
     {
+        
+        Board.BoardInstance.gameManager.OnCardDropEvent();
+        Board.BoardInstance.gameManager.ReceiveSelectedCellEvent += ReceiveSelectedCell;
+        draggable.enabled = false;
+        
         foreach (var action in CardInfo.actions)
         {
-            action.DisplayPossiblePattern(Board.boardInstance.GetPlayerPosition(Board.boardInstance.CurrentPlayer));
+            action.DisplayPossiblePattern(Board.BoardInstance.GetPlayerPosition(Board.BoardInstance.CurrentPlayer));
         }
     }
 }

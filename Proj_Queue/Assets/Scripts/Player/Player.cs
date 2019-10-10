@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
-    public List<PatternData> MovementPatterns { get; private set; }
+    private List<PatternData> MovementPatterns { get; set; }
 
     private List<Card> _originalDeck = new List<Card>();
     
@@ -23,18 +21,22 @@ public class Player : MonoBehaviour
     public delegate void OnCardDropDelegate();
     public event OnCardDropDelegate CardDropEvent = delegate { };
     
-    public delegate void OnCardDragDelegate();
-    public event OnCardDragDelegate CardDragEvent = delegate { };
+    public delegate void OnCardReceivedCellDelegate();
+    public event OnCardReceivedCellDelegate CardReceivedCellEvent = delegate { };
     
     public void Awake()
     {
         _deckManager = GetComponent<DeckManager>();
         _renderer = GetComponent<Renderer>();
+        
+        //Subscribing to all delegates
         StartPlayerTurnEvent += HighlightMovementCells;
         StartPlayerTurnEvent += _deckManager.DealCard;
-        EndPlayerTurnEvent += _deckManager.EndTurn;
-/*        CardDropEvent += _deckManager.handPanel.GetComponent<HandArea>().DisableDraggable;*/
         
+        EndPlayerTurnEvent += _deckManager.EndTurn;
+        
+        CardDropEvent += _deckManager.OnCardDropEvent;
+        CardReceivedCellEvent += _deckManager.OnCardReceivedCellEvent;
     }
 
     public void MakePlayer(PlayerData playerData)
@@ -53,14 +55,14 @@ public class Player : MonoBehaviour
     public void Move(Vector2Int cellPos)
     {
         //Changing reference on board
-        Board.boardInstance.ChangePlayerPos(gameObject, cellPos);
+        Board.BoardInstance.ChangePlayerPos(gameObject, cellPos);
         //Physically lerping the player
-        transform.DOMove(Board.boardInstance.CellLayer[cellPos.x, cellPos.y].transform.position + Vector3.up, 2f).SetEase(Ease.OutQuint);
+        transform.DOMove(Board.BoardInstance.CellLayer[cellPos.x, cellPos.y].transform.position + Vector3.up, 2f).SetEase(Ease.OutQuint);
     }
     
     private void HighlightMovementCells()
     {
-        Vector2Int thisPosition = Board.boardInstance.GetPlayerPosition(gameObject);
+        Vector2Int thisPosition = Board.BoardInstance.GetPlayerPosition(gameObject);
         
         foreach (PatternData pattern in MovementPatterns)
         {
@@ -68,17 +70,17 @@ public class Player : MonoBehaviour
             {
                 Vector2Int resultingPos = thisPosition + pos;
                 
-                if (resultingPos.x < 0 || resultingPos.x > Board.boardInstance.Width - 1 || resultingPos.y < 0 || resultingPos.y > Board.boardInstance.Height - 1) // outside of the board
+                if (resultingPos.x < 0 || resultingPos.x > Board.BoardInstance.Width - 1 || resultingPos.y < 0 || resultingPos.y > Board.BoardInstance.Height - 1) // outside of the board
                 {
                     break;
                 }
 
-                if (Board.boardInstance.PlayerLayer[resultingPos.x, resultingPos.y] != null) // player is on cell
+                if (Board.BoardInstance.PlayerLayer[resultingPos.x, resultingPos.y] != null) // player is on cell
                 {
                     break;
                 }
                 
-                Board.boardInstance.CellLayer[resultingPos.x, resultingPos.y].Highlight();
+                Board.BoardInstance.CellLayer[resultingPos.x, resultingPos.y].Highlight();
             }
         }
     }
@@ -86,25 +88,30 @@ public class Player : MonoBehaviour
     
     public void OnStartPlayerTurnEvent()
     {
-        Debug.Log("here");
+        //Calling start player turn event: DeckManager.DealCard
         StartPlayerTurnEvent?.Invoke();
+        //Enabling canvas
         canvas.SetActive(true);
     }
     
     public void OnEndPlayerTurnEvent()
     {
+        //Calling end turn event: deckManager.EndTurn
         EndPlayerTurnEvent?.Invoke();
+        //Disabling canvas
         canvas.SetActive(false);
     }
 
     public void OnCardDropEvent()
     {
+        //Calling card drop event: deck.Manager.OnCardDrop => handArea.DisableDraggable
         CardDropEvent?.Invoke();
     }
 
 
-    protected virtual void OnCardDragEvent()
+    public void OnCardReceivedCellEvent()
     {
-        CardDragEvent?.Invoke();
+        //Calling card drop event: deck.Manager.OnCardReceivedCell => handArea.EnableDraggable
+        CardReceivedCellEvent?.Invoke();
     }
 }

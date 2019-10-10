@@ -26,7 +26,7 @@ public class BehaviourData : ScriptableObject
                 {
                     Vector2Int resultingPos = origin + pos;
                 
-                    if (resultingPos.x < 0 || resultingPos.x > Board.boardInstance.Width - 1 || resultingPos.y < 0 || resultingPos.y > Board.boardInstance.Height - 1) // outside of the board
+                    if (resultingPos.x < 0 || resultingPos.x > Board.BoardInstance.Width - 1 || resultingPos.y < 0 || resultingPos.y > Board.BoardInstance.Height - 1) // outside of the board
                     {
                         break;
                     }

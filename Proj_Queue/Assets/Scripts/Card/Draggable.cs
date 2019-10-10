@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -9,14 +6,23 @@ public class Draggable : MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDrag
 {
     private Transform _areaToDrop = null;
     private CanvasGroup _canvasGroup;
-    private CardDisplayer _cardDisplayer;
+    private Outline _outline;
     
     private GameObject _placeHolder;
+    
+    public delegate void OnCardScheduled();
+    public event OnCardScheduled CardScheduledEvent = delegate { };
 
     private void Start()
     {
         _canvasGroup = GetComponent<CanvasGroup>();
-        _cardDisplayer = GetComponent<CardDisplayer>();
+        _outline = GetComponentInChildren<Outline>();
+        _outline.enabled = false;
+    }
+
+    public void ChangeOutline()
+    {
+        _outline.enabled = !_outline.enabled;
     }
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
@@ -39,7 +45,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDrag
         _canvasGroup.blocksRaycasts = false;
         
         //Calling OnCardDragEvent on game manager??
-        Board.boardInstance.gameManager.OnCardDragEvent();
+        Board.BoardInstance.gameManager.OnCardDragEvent();
     }
     
     void IDragHandler.OnDrag(PointerEventData eventData)
@@ -63,19 +69,20 @@ public class Draggable : MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDrag
 
         //Destroying the placeholder
         Destroy(_placeHolder);
-        
+
         if (!_areaToDrop.GetComponent<ScheduleArea>()) return;
         
-/*        _cardDisplayer.CardInfo.DisplayAction();*/
-            
-        Board.boardInstance.gameManager.OnCardDropEvent();
-/*        Board.boardInstance.gameManager.ReceiveSelectedCellEvent += _cardDisplayer.CardInfo.ReceiveSelectedCell;*/
-        this.enabled = false;
+        OnCardScheduledEvent();
     }
 
     public void SetDropArea(Transform area)
     {
         _areaToDrop = area;
         transform.rotation = area.transform.rotation;
+    }
+
+    protected virtual void OnCardScheduledEvent()
+    {
+        CardScheduledEvent?.Invoke();
     }
 }

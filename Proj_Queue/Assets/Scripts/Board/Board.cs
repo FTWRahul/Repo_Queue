@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Board : MonoBehaviour
 {
     public GameManager gameManager;
-    public static Board boardInstance { get; private set; }
+    public static Board BoardInstance { get; private set; }
     public BoardHighlighter BoardHighlighter { get; private set; }
 
     public Cell[,] CellLayer { get; private set; }
@@ -21,19 +18,17 @@ public class Board : MonoBehaviour
 
     private void Awake()
     {
-        if (Board.boardInstance == null)
+        if (Board.BoardInstance == null)
         {
-            boardInstance = this;
+            BoardInstance = this;
         }
         else
         {
-            Destroy(boardInstance);
+            Destroy(BoardInstance);
         }
 
         gameManager = FindObjectOfType<GameManager>();
         BoardHighlighter = GetComponent<BoardHighlighter>();
-        gameManager.EndTurnEvent += BoardHighlighter.DehighlightCells;
-        gameManager.CardDragEvent += BoardHighlighter.DehighlightCells;
     }
 
     public void MakeBoard(BoardData boardData)
@@ -99,7 +94,6 @@ public class Board : MonoBehaviour
         player.transform.position += Vector3.up * 1;
     }
 /*
-
     public Cell this[int x, int z]
     {
         get

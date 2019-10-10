@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Static;
-using UnityEngine.Video;
 
 public class DeckManager : MonoBehaviour
 {
@@ -18,10 +15,7 @@ public class DeckManager : MonoBehaviour
     
     public delegate void OnCardDropDelegate();
     public event OnCardDropDelegate CardDropEvent = delegate { };
-    
-/*    public delegate void OnCardDragDelegate();
-    public event OnCardDragDelegate CardDragEvent = delegate { };*/
-    
+
     public delegate void OnCardReceivedCellDelegate();
     public event OnCardReceivedCellDelegate CardReceivedCellEvent = delegate { };
 
@@ -88,9 +82,16 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    
+    public void OnCardDropEvent()
+    {
+        //Call disable draggable on hand area
+        CardDropEvent?.Invoke();
+    }
 
-
-    
+    public void OnCardReceivedCellEvent()
+    {
+        //Call enable draggable on hand area
+        CardReceivedCellEvent?.Invoke();
+    }
 }
 

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DropArea : MonoBehaviour , IDropHandler , IPointerEnterHandler, IPointerExitHandler
@@ -12,12 +10,12 @@ public class DropArea : MonoBehaviour , IDropHandler , IPointerEnterHandler, IPo
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        //TODO: highlight card 
+
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        //TODO: unhighlight card
+
     }
 
     protected virtual void SetParent(PointerEventData eventData)

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 273331611448644968}
   - component: {fileID: 273331611448644970}
   - component: {fileID: 273331611448644969}
+  - component: {fileID: 1007914136321197115}
   m_Layer: 5
   m_Name: CardFace
   m_TagString: Untagged
@@ -79,6 +80,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1007914136321197115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273331611448644975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 0.994378, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: 10}
+  m_UseGraphicAlpha: 1
 --- !u!1 &273331611754221628
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,6 +818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardDisplayer: {fileID: 8782466889121702152}
+  draggable: {fileID: 7870073407684268644}
 --- !u!114 &7870073407684268644
 MonoBehaviour:
   m_ObjectHideFlags: 0

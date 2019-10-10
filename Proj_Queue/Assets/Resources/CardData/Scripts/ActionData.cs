@@ -22,7 +22,7 @@ public class ActionData : ScriptableObject
         for (int i = 0; i < patternToSend.Count; i++)
         {
             //Debug.Log( "Display Pattern is " + patternToSend[i]);
-            Board.boardInstance.BoardHighlighter.HighlightCells(patternToSend[i]);
+            Board.BoardInstance.BoardHighlighter.HighlightCells(patternToSend[i]);
         }
     }
 }

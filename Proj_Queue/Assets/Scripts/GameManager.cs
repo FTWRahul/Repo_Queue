@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -36,6 +34,9 @@ public class GameManager : MonoBehaviour
     public delegate void OnCardDropDelegate();
     public event OnCardDropDelegate CardDropEvent = delegate { };
 
+    //On card scheduled delegate
+    public delegate void OnCardReceivedCellDelegate();
+    public event OnCardReceivedCellDelegate CardReceivedCellEvent = delegate { };
 
     void Start()
     {
@@ -49,8 +50,12 @@ public class GameManager : MonoBehaviour
         //Ref cell selector
         _cellSelector = FindObjectOfType<CellSelector>();
         
-        //Subscribing ReceiveHitCellEvent method to CellHitEvent delegate
+        //Subscribing ReceiveHitCellEvent method to CellHitEvent event
         _cellSelector.CellHitEvent += ReceiveHitCellEvent;
+        
+        //Subscribing boardhighlighter to events
+        EndTurnEvent += _board.BoardHighlighter.DehighlightCells;
+        CardDragEvent += _board.BoardHighlighter.DehighlightCells;
         
         OnStartTurnEvent();
     }
@@ -134,8 +139,9 @@ public class GameManager : MonoBehaviour
         EndTurnEvent += players[currentPlayerIndex].OnEndPlayerTurnEvent;
         // On card drop event - current player CardDropEvent will be called
         CardDropEvent += players[currentPlayerIndex].OnCardDropEvent;
+        //Card received cell event - current player card received cell will be called
+        CardReceivedCellEvent += players[currentPlayerIndex].OnCardReceivedCellEvent;
     }
-
     
     private void UnsubscribeCurrentPlayerFromDelegate()
     {
@@ -143,6 +149,7 @@ public class GameManager : MonoBehaviour
         StartTurnEvent -= players[currentPlayerIndex].OnStartPlayerTurnEvent;
         EndTurnEvent -= players[currentPlayerIndex].OnEndPlayerTurnEvent;
         CardDropEvent -= players[currentPlayerIndex].OnCardDropEvent;
+        CardReceivedCellEvent -= players[currentPlayerIndex].OnCardReceivedCellEvent;
     }
 
     public void OnCardDragEvent()
@@ -158,5 +165,10 @@ public class GameManager : MonoBehaviour
         
         //Call all methods which subscribed to CardDropEvent, if not null
         CardDropEvent?.Invoke();
+    }
+
+    public void OnCardReceiveCellEvent()
+    {
+        CardReceivedCellEvent?.Invoke();
     }
 }
