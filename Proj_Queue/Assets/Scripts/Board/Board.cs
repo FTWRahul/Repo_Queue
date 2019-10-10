@@ -6,17 +6,17 @@ using UnityEngine.Serialization;
 
 public class Board : MonoBehaviour
 {
-    public static Board boardInstance { get; private set; }
-    [SerializeField] private GameObject cellPrefab;
     public GameManager gameManager;
-
+    public static Board boardInstance { get; private set; }
     public BoardHighlighter BoardHighlighter { get; private set; }
 
     public Cell[,] CellLayer { get; private set; }
     public GameObject[,] PlayerLayer{ get; private set; }
     public int Height { get; private set; }
     public int Width { get; private set;}
-
+    
+    [SerializeField] private GameObject cellPrefab;
+    
     public GameObject CurrentPlayer => gameManager.GetCurrentPlayerGameObject();
 
     private void Awake()

@@ -16,42 +16,55 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Player> players = new List<Player>();
     [SerializeField] private int currentPlayerIndex;
 
-    
-    public delegate void OnCellSelectorDelegate(Vector2Int cellPos);
-    public event OnCellSelectorDelegate ReceiveSelectedCellEvent = delegate { };
-
-    public delegate void OnEndTurnDelegate();
-    public event OnEndTurnDelegate EndTurnEvent = delegate { };
-
+    //On start turn delegate
     public delegate void OnStartTurnDelegate();
     public event OnStartTurnDelegate StartTurnEvent = delegate { };
     
+    //On End turn delegate
+    public delegate void OnEndTurnDelegate();
+    public event OnEndTurnDelegate EndTurnEvent = delegate { };
+
+    //On cell selected delegate
+    public delegate void OnCellSelectorDelegate(Vector2Int cellPos);
+    public event OnCellSelectorDelegate ReceiveSelectedCellEvent = delegate { };
+
+    //On card drag delegate
     public delegate void OnCardDragDelegate();
     public event OnCardDragDelegate CardDragEvent = delegate { };
     
+    //On card drop delegate
     public delegate void OnCardDropDelegate();
     public event OnCardDropDelegate CardDropEvent = delegate { };
 
 
     void Start()
     {
+        //Ref and making the board
         _board = FindObjectOfType<Board>();
         _board.MakeBoard(boardData);
         
+        //Initializing the players 
         InitPlayers();
         
+        //Ref cell selector
         _cellSelector = FindObjectOfType<CellSelector>();
+        
+        //Subscribing ReceiveHitCellEvent method to CellHitEvent delegate
         _cellSelector.CellHitEvent += ReceiveHitCellEvent;
+        
         OnStartTurnEvent();
     }
 
     void OnStartTurnEvent()
     {
-        StartTurnEvent();
+        //Call all methods which subscribed to StartTurnEvent, if not null
+        StartTurnEvent?.Invoke();
     }
 
+    
     public GameObject GetCurrentPlayerGameObject()
     {
+        //Return current player game object
         return players[currentPlayerIndex].gameObject;
     }
 
@@ -60,39 +73,49 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < playersData.Count; i++)
         {
             Player go = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
+            //Adding player to players list
             players.Add(go);
+            //Setting player's canvas inactive
             go.canvas.SetActive(false);
             
             go.MakePlayer(playersData[i]);
             _board.PlacePlayer(go.gameObject, playersStartingPositions[i]);
 
+            //If this player will be the current player 
             if (i != 0) continue;
             
             currentPlayerIndex = i;
             go.canvas.SetActive(true);
+            //Subscribing current player methods to delegates
+            // when selected cell will be received MOVE method on current player will called
             ReceiveSelectedCellEvent += go.Move;
+            // On end turn event  - current player endPlayerTurnEvent called
             EndTurnEvent += go.OnEndPlayerTurnEvent;
-            StartTurnEvent += go.HighlightMovementCells;
+            // On start turn event - current player OnStartPlayerTurnEvent will be called
             StartTurnEvent += go.OnStartPlayerTurnEvent;
+            // On card drop event - current player CardDropEvent will be called
             CardDropEvent += go.OnCardDropEvent;
         }
     }
 
     public void OnEndPlayerTurnEvent()
     {
-        EndTurnEvent();
-        Invoke("EndPlayerTurn", 2 );
+        EndTurnEvent?.Invoke();
+        
+        //Calling it through Invoke to simulate coroutine
+        Invoke("EndPlayerTurn", 1 );
     }
     
     private void EndPlayerTurn()
     {
+
+        //Setting current player canvas off
         players[currentPlayerIndex].canvas.SetActive(false);
-        UnsubscribeDelegate();
-        StartTurnEvent -= players[currentPlayerIndex].HighlightMovementCells;
-        StartTurnEvent -= players[currentPlayerIndex].OnStartPlayerTurnEvent;
-        EndTurnEvent -= players[currentPlayerIndex].OnEndPlayerTurnEvent;
-        CardDropEvent -= players[currentPlayerIndex].OnCardDropEvent;
         
+        //Unsubscribe current player methods from delegates 
+        UnsubscribeCurrentPlayerFromDelegate();
+        
+        //Changing current player index
         if (currentPlayerIndex < players.Count-1)
         {
             currentPlayerIndex++;
@@ -102,36 +125,54 @@ public class GameManager : MonoBehaviour
             currentPlayerIndex = 0;
         }
         
+        //Setting current player canvas on
         players[currentPlayerIndex].canvas.SetActive(true);
-        ReceiveSelectedCellEvent += players[currentPlayerIndex].Move;
-        StartTurnEvent += players[currentPlayerIndex].HighlightMovementCells;
-        StartTurnEvent += players[currentPlayerIndex].OnStartPlayerTurnEvent;
-        EndTurnEvent += players[currentPlayerIndex].OnEndPlayerTurnEvent;
-        CardDropEvent += players[currentPlayerIndex].OnCardDropEvent;
         
+        //Subscribe current player methods to delegates
+        SubscribeCurrentPlayerToDelegates();
+
+        //Calling start turn event
         StartTurnEvent();
     }
 
-    void ReceiveHitCellEvent(Vector2Int cellPos)
+    private void ReceiveHitCellEvent(Vector2Int cellPos)
     {
-        ReceiveSelectedCellEvent(cellPos);
+        //Call all methods which subscribed to ReceiveSelectedCellEvent, if not null
+        ReceiveSelectedCellEvent?.Invoke(cellPos);
+        
         //TODO:: call this method with delegate???
         _board.BoardHighlighter.DehighlightCells();
     }
+    
+    private void SubscribeCurrentPlayerToDelegates()
+    {
+        ReceiveSelectedCellEvent += players[currentPlayerIndex].Move;
+        StartTurnEvent += players[currentPlayerIndex].OnStartPlayerTurnEvent;
+        EndTurnEvent += players[currentPlayerIndex].OnEndPlayerTurnEvent;
+        CardDropEvent += players[currentPlayerIndex].OnCardDropEvent;
+    }
 
-    private void UnsubscribeDelegate()
+    
+    private void UnsubscribeCurrentPlayerFromDelegate()
     {
         ReceiveSelectedCellEvent -= players[currentPlayerIndex].Move;
+        StartTurnEvent -= players[currentPlayerIndex].OnStartPlayerTurnEvent;
+        EndTurnEvent -= players[currentPlayerIndex].OnEndPlayerTurnEvent;
+        CardDropEvent -= players[currentPlayerIndex].OnCardDropEvent;
     }
 
     public void OnCardDragEvent()
     {
-        CardDragEvent();
+        //Call all methods which subscribed to CardDragEvent, if not null
+        CardDragEvent?.Invoke();
     }
 
     public void OnCardDropEvent()
     {
-        UnsubscribeDelegate();
-        CardDropEvent();
+        //Unsubscribe current player from ReceiveSelectedCellEvent
+        ReceiveSelectedCellEvent -= players[currentPlayerIndex].Move;
+        
+        //Call all methods which subscribed to CardDropEvent, if not null
+        CardDropEvent?.Invoke();
     }
 }

@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     public void Awake()
     {
         _renderer = GetComponent<Renderer>();
+        StartPlayerTurnEvent += HighlightMovementCells;
     }
 
     public void MakePlayer(PlayerData playerData)
