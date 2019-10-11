@@ -23,7 +23,7 @@ public class CardExecutor : MonoBehaviour
     {
         foreach (var action in CardInfo.actions)
         {
-            action.originCell = cellPos;
+            action.targetCell = cellPos;
         }
 
         //Unsubscribing from ReceiveSelectedCellEvent 

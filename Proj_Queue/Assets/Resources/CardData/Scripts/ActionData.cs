@@ -10,7 +10,7 @@ public class ActionData : ScriptableObject
     public List<PatternData> patterns;
     public BehaviourData behaviour;
 
-    public Vector2Int originCell;
+    public Vector2Int targetCell;
     
     /// <summary>
     /// Highlights all the possible moves on the board based on the behaviour.
