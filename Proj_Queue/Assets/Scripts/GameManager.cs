@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     public event OnStartTurnDelegate StartTurnEvent = delegate { };
     
     //On End turn delegate
+    public delegate void OnPressEndTurnButtonDelegate();
+    public event OnEndTurnDelegate PressEndTurnButtonEvent = delegate { };
+    
+    //On End turn delegate
     public delegate void OnEndTurnDelegate();
     public event OnEndTurnDelegate EndTurnEvent = delegate { };
 
@@ -55,6 +59,7 @@ public class GameManager : MonoBehaviour
         
         //Subscribing boardhighlighter to events
         EndTurnEvent += _board.BoardHighlighter.DehighlightCells;
+        EndTurnEvent += EndPlayerTurn;
         CardDragEvent += _board.BoardHighlighter.DehighlightCells;
         
         OnStartTurnEvent();
@@ -89,14 +94,16 @@ public class GameManager : MonoBehaviour
         SubscribeCurrentPlayerToDelegates();
     }
 
+    public void OnPressEndTurnButtonEvent()
+    {
+        PressEndTurnButtonEvent?.Invoke();
+    }
+
     public void OnEndPlayerTurnEvent()
     {
         EndTurnEvent?.Invoke();
-        
-        //Calling it through Invoke to simulate coroutine
-        Invoke("EndPlayerTurn", 1 );
     }
-    
+
     private void EndPlayerTurn()
     {
         //Unsubscribe current player methods from delegates 
@@ -135,8 +142,10 @@ public class GameManager : MonoBehaviour
         ReceiveSelectedCellEvent += players[currentPlayerIndex].Move;
         // On start turn event - current player OnStartPlayerTurnEvent will be called
         StartTurnEvent += players[currentPlayerIndex].OnStartPlayerTurnEvent;
+        // 
+        PressEndTurnButtonEvent += players[currentPlayerIndex].OnEndPlayerTurnEvent;
         // On end turn event  - current player endPlayerTurnEvent called
-        EndTurnEvent += players[currentPlayerIndex].OnEndPlayerTurnEvent;
+        EndTurnEvent += players[currentPlayerIndex].DisableCanvas;
         // On card drop event - current player CardDropEvent will be called
         CardDropEvent += players[currentPlayerIndex].OnCardDropEvent;
         //Card received cell event - current player card received cell will be called
@@ -147,7 +156,8 @@ public class GameManager : MonoBehaviour
     {
         ReceiveSelectedCellEvent -= players[currentPlayerIndex].Move;
         StartTurnEvent -= players[currentPlayerIndex].OnStartPlayerTurnEvent;
-        EndTurnEvent -= players[currentPlayerIndex].OnEndPlayerTurnEvent;
+        PressEndTurnButtonEvent -= players[currentPlayerIndex].OnEndPlayerTurnEvent;
+        EndTurnEvent -= players[currentPlayerIndex].DisableCanvas;
         CardDropEvent -= players[currentPlayerIndex].OnCardDropEvent;
         CardReceivedCellEvent -= players[currentPlayerIndex].OnCardReceivedCellEvent;
     }

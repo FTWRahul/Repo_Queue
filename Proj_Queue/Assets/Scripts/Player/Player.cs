@@ -98,6 +98,10 @@ public class Player : MonoBehaviour
     {
         //Calling end turn event: deckManager.EndTurn
         EndPlayerTurnEvent?.Invoke();
+    }
+
+    public void DisableCanvas()
+    {
         //Disabling canvas
         canvas.SetActive(false);
     }

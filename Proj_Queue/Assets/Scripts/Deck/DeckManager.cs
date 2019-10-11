@@ -4,6 +4,7 @@ using Static;
 
 public class DeckManager : MonoBehaviour
 {
+    [SerializeField] private int handLimit;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private int amountOfCardsToDeal;
     
@@ -65,6 +66,10 @@ public class DeckManager : MonoBehaviour
 
     public void EndTurn()
     {
+        Debug.Log(handDeck.transform.childCount);
+        if (handDeck.transform.childCount > handLimit) return;
+        
+        
         foreach (Transform card in schedulePanels[0].transform)
         {
             //TODO:: execute card
@@ -80,6 +85,8 @@ public class DeckManager : MonoBehaviour
                 schedulePanels[i].transform.GetChild(j-1).SetParent(schedulePanels[i - 1].transform);
             }
         }
+
+        Board.BoardInstance.gameManager.OnEndPlayerTurnEvent();
     }
 
     public void OnCardDropEvent()

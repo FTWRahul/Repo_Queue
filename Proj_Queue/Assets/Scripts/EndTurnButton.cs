@@ -11,6 +11,6 @@ public class EndTurnButton : MonoBehaviour
 
     public void EndTurn()
     {
-        _gameManager.OnEndPlayerTurnEvent();
+        _gameManager.OnPressEndTurnButtonEvent();
     }
 }

@@ -2,9 +2,6 @@
 
 public class HandArea : DropArea
 {
-    public int limit;
-    
-    //TODO:: need to call this method after a card has been receive cell position
     public void EnableDraggable()
     {
         foreach (Transform card in this.transform)
