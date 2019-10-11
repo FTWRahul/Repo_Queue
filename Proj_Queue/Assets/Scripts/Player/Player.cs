@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private Renderer _renderer;
     private DeckManager _deckManager;
     [SerializeField] private GameObject canvas;
+    [SerializeField] private GameObject endTurnButton;
     
     public delegate void OnEndTurnDelegate();
     public event OnEndTurnDelegate EndPlayerTurnEvent = delegate { };
@@ -110,6 +111,7 @@ public class Player : MonoBehaviour
     {
         //Calling card drop event: deck.Manager.OnCardDrop => handArea.DisableDraggable
         CardDropEvent?.Invoke();
+        endTurnButton.SetActive(false);
     }
 
 
@@ -117,5 +119,6 @@ public class Player : MonoBehaviour
     {
         //Calling card drop event: deck.Manager.OnCardReceivedCell => handArea.EnableDraggable
         CardReceivedCellEvent?.Invoke();
+        endTurnButton.SetActive(true);
     }
 }
