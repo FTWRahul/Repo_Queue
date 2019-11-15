@@ -4,10 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BaseBehaviour")]
 public class BehaviourData : ScriptableObject
 {
-        public virtual void Execute()
-        {
-               Debug.Log("Here"); 
-        }
+    protected List<PatternData> selectedPattern;
         
         /// <summary>
         /// Takes a pattern and its origin point and removes all the patterns that fall outside board.
@@ -38,7 +35,25 @@ public class BehaviourData : ScriptableObject
             }
 
             return returnList;
+        }
+
+        public virtual void Execute()
+        {
             
+        }
+
+        public virtual void Execute(PatternData pattern, Vector2Int origin)
+        {
+            List<PatternData> tempList = new List<PatternData> {pattern};
+            List<PatternData> useList = InterpretPattern(tempList, origin);
+
+            foreach (PatternData pat in useList)
+            {
+                foreach (Vector2Int pos in pat.positions)
+                {
+                    Debug.Log("Tile being affected is " + pos);
+                }
+            }
         }
 }
 

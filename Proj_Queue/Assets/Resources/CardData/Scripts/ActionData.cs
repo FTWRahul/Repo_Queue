@@ -11,7 +11,15 @@ public class ActionData : ScriptableObject
     public BehaviourData behaviour;
 
     public Vector2Int targetCell;
-    
+
+    private PatternData selectedPattern;
+
+    public PatternData SelectedPattern
+    {
+        get => selectedPattern;
+        set => selectedPattern = value;
+    }
+
     /// <summary>
     /// Highlights all the possible moves on the board based on the behaviour.
     /// </summary>
@@ -24,5 +32,10 @@ public class ActionData : ScriptableObject
             //Debug.Log( "Display Pattern is " + patternToSend[i]);
             Board.BoardInstance.BoardHighlighter.HighlightCells(patternToSend[i]);
         }
+    }
+
+    public void ExecuteAction()
+    {
+        behaviour.Execute(selectedPattern, targetCell);
     }
 }
