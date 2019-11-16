@@ -14,7 +14,7 @@ public class BoardHighlighter : MonoBehaviour
         foreach (Vector2Int pos in pattern.positions)
         {
              //Vector2Int resultingPos = origin + pos;
-            _board.CellLayer[pos.x, pos.y].Highlight();
+            _board.CellLayer[pos.x, pos.y].UpdateState(CellState.HIGHLIGHTED);
         }
     }
 
@@ -22,7 +22,7 @@ public class BoardHighlighter : MonoBehaviour
     {
         foreach (Cell cell in _board.GetCells)
         {
-            cell.Dehighlight();
+            cell.UpdateState(CellState.DEFAULT);
         }
     }
 }

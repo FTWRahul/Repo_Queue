@@ -24,7 +24,7 @@ public class CellSelector : MonoBehaviour
 
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, cellLayerMask)) return;
         
-        if (!hit.collider.GetComponent<Cell>().highlighted) return;
+        if (hit.collider.GetComponent<Cell>().state != CellState.HIGHLIGHTED) return;
         
         Vector2Int cellPos = hit.collider.gameObject.GetComponent<Cell>().cellPosition;
 
