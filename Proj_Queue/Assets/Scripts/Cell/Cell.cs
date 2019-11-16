@@ -47,17 +47,18 @@ public class Cell : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
     }
+/*
 
     public void Highlight()
     {
-        /*highlighted = true;*/
+        /*highlighted = true;#1#
         cellRenderer.material.color = highlightedColor;
     }
 
     public void Dehighlight()
     {
-        /*highlighted = false;*/
+        /*highlighted = false;#1#
         cellRenderer.material.color = defaultColor;
-    }
+    }*/
 }
 

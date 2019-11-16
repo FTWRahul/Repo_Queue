@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
                     break;
                 }
                 
-                Board.BoardInstance.CellLayer[resultingPos.x, resultingPos.y].Highlight();
+                Board.BoardInstance.CellLayer[resultingPos.x, resultingPos.y].UpdateState(CellState.HIGHLIGHTED);
             }
         }
     }

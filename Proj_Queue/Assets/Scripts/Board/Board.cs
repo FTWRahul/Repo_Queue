@@ -50,7 +50,7 @@ public class Board : MonoBehaviour
                 CellLayer[x, z] = cell;
 
                 cell.defaultColor = isWhite ? Color.white : Color.black;
-                cell.Dehighlight();
+                cell.UpdateState(CellState.DEFAULT);
 
                 isWhite = !isWhite;
             }
