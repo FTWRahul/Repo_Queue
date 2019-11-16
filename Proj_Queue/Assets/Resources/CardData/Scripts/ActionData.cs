@@ -34,7 +34,7 @@ public class ActionData : ScriptableObject
         }
     }
 
-    public void DisplaySelectedPattern(Vector2Int inPos)
+    public void DisplayHoveredPattern(Vector2Int inPos)
     {
         Vector2Int resetPos = inPos - targetCell;
         PatternData tempPatternData = null;
@@ -60,6 +60,35 @@ public class ActionData : ScriptableObject
             tempPatternData.positions[i] += targetCell;
         }
         Board.BoardInstance.BoardHighlighter.HoveredHighlightCells(tempPatternData);
+    }
+    
+    public void HideHoveredPattern(Vector2Int inPos)
+    {
+        Vector2Int resetPos = inPos - targetCell;
+        PatternData tempPatternData = null;
+        foreach (var pat in patterns)
+        {
+            foreach (var pos in pat.positions)
+            {
+                if (resetPos == pos)
+                {
+                    tempPatternData = pat;
+                    break;
+                }
+            }
+
+            if (tempPatternData != null)
+            {
+                break;
+            }
+        }
+
+        for (int i = 0; i < tempPatternData.positions.Count; i++)
+        {
+            tempPatternData.positions[i] += targetCell;
+        }
+
+        Board.BoardInstance.BoardHighlighter.HighlightCells(tempPatternData);
     }
     
     public void SelectPattern(Vector2Int inPos)
