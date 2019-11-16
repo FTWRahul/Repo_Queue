@@ -17,6 +17,15 @@ public class BoardHighlighter : MonoBehaviour
             _board.CellLayer[pos.x, pos.y].UpdateState(CellState.HIGHLIGHTED);
         }
     }
+    public void HighlightSelectedCells(PatternData pattern)
+    {
+        foreach (Vector2Int pos in pattern.positions)
+        {
+            //Vector2Int resultingPos = origin + pos;
+            _board.CellLayer[pos.x, pos.y].UpdateState(CellState.HOVERED);
+        }
+    }
+
 
     public void DehighlightCells()
     {

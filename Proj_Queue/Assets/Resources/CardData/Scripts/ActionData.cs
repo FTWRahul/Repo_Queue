@@ -33,6 +33,34 @@ public class ActionData : ScriptableObject
             Board.BoardInstance.BoardHighlighter.HighlightCells(patternToSend[i]);
         }
     }
+
+    public void DisplaySelectedPattern(Vector2Int inPos)
+    {
+        Vector2Int resetPos = inPos - targetCell;
+        PatternData tempPatternData = null;
+        foreach (var pat in patterns)
+        {
+            foreach (var pos in pat.positions)
+            {
+                if (resetPos == pos)
+                {
+                    tempPatternData = pat;
+                    break;
+                }
+            }
+
+            if (tempPatternData != null)
+            {
+                break;
+            }
+        }
+
+        for (int i = 0; i < tempPatternData.positions.Count; i++)
+        {
+            tempPatternData.positions[i] += targetCell;
+        }
+        Board.BoardInstance.BoardHighlighter.HighlightSelectedCells(tempPatternData);
+    }
     
     public void SelectPattern(Vector2Int inPos)
     {
