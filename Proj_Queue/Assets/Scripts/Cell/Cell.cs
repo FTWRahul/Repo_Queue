@@ -10,7 +10,7 @@ public enum CellState
     HIGHLIGHTED,
     HOVERED
 }
-public class Cell : MonoBehaviour
+public class Cell : MonoBehaviour 
 {
     public Vector2Int cellPosition;
 
@@ -32,6 +32,7 @@ public class Cell : MonoBehaviour
     public void UpdateState(CellState newState)
     {
         state = newState;
+        
         switch (state)
         {
             case CellState.DEFAULT:

@@ -59,7 +59,7 @@ public class ActionData : ScriptableObject
         {
             tempPatternData.positions[i] += targetCell;
         }
-        Board.BoardInstance.BoardHighlighter.HighlightSelectedCells(tempPatternData);
+        Board.BoardInstance.BoardHighlighter.HoveredHighlightCells(tempPatternData);
     }
     
     public void SelectPattern(Vector2Int inPos)

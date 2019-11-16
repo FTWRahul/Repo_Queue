@@ -107,5 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPosition: {x: 0, y: 0}
   defaultColor: {r: 0, g: 0, b: 0, a: 0}
+  cellRenderer: {fileID: 0}
+  state: 0
   highlightedColor: {r: 1, g: 0, b: 0, a: 0}
-  highlighted: 0
+  hoveredColor: {r: 0.9339623, g: 0.7782045, b: 0, a: 0}

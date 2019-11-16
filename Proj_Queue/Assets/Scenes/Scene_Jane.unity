@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -294,6 +295,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 256
+  m_MaxRayIntersections: 0
 --- !u!1 &1420250818
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,7 +342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 129eb0074ce8a1545baac848655aff9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gm: {fileID: 1823722121}
   cellLayerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -353,9 +369,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 055d00008d0b14d409f9a7e26cd7a81d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   cellPrefab: {fileID: 1434328494185644300, guid: b280519b485527e4aba962a08048ff9c,
     type: 3}
-  gameManager: {fileID: 0}
 --- !u!4 &1420250822
 Transform:
   m_ObjectHideFlags: 0
@@ -479,9 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04ec86b5cbe9a3e478a084aa605fb685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 1420250821}
   boardData: {fileID: 11400000, guid: 2a4b8e2fb4ffa09448db0f885f6ca804, type: 2}
-  playersAmount: 2
   playerPrefab: {fileID: 1122398347112681883, guid: c264e0ade1c6d4b4bac37455b9a08676,
     type: 3}
   playersData:
@@ -490,8 +504,5 @@ MonoBehaviour:
   playersStartingPositions:
   - {x: 2, y: 5}
   - {x: 2, y: 0}
-  playerData: {fileID: 11400000, guid: ad3d4817ad37d4a49a3d602f129958a2, type: 2}
-  player1Data: {fileID: 11400000, guid: e3edeed5595de714d8fb26ca2595cd42, type: 2}
-  <CurrentPlayer>k__BackingField: {fileID: 0}
-  otherPlayer: {fileID: 0}
+  players: []
   currentPlayerIndex: 0

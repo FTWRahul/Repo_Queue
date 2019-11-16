@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CellSelector : MonoBehaviour
 {
@@ -11,6 +8,9 @@ public class CellSelector : MonoBehaviour
     public delegate void CellSelectorDelegate(Vector2Int cellPos);
     public event CellSelectorDelegate CellHitEvent = delegate { };
 
+    private Cell currentCellSelected;
+    private Cell previousCellSelected;
+
     private void Awake()
     {
         _camera = Camera.main;
@@ -18,17 +18,42 @@ public class CellSelector : MonoBehaviour
 
     private void Update()
     {
-        if (!Input.GetMouseButtonDown(0)) return;
-        
+/*
+        previousCellSelected = currentCellSelected;
+   
+        if (previousCellSelected)
+        {
+            previousCellSelected.UpdateState(CellState.HIGHLIGHTED);
+        }
+        */
+
+        RaycastHit hit;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, cellLayerMask)) return;
         
-        if (hit.collider.GetComponent<Cell>().state != CellState.HIGHLIGHTED) return;
-        
-        Vector2Int cellPos = hit.collider.gameObject.GetComponent<Cell>().cellPosition;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, cellLayerMask))
+        {
+            Cell cell = hit.collider.GetComponent<Cell>();
 
-        OnCellHitEvent(cellPos);
+            if (cell.state != CellState.DEFAULT)
+            {
+                currentCellSelected = cell;
+                Vector2Int cellPos = cell.cellPosition;
+
+                if (currentCellSelected != previousCellSelected)
+                {
+                    previousCellSelected.UpdateState(CellState.HIGHLIGHTED);
+                }
+                else
+                {
+                    cell.UpdateState(CellState.HOVERED);
+                }
+                
+                if (Input.GetMouseButtonDown(0))
+                {
+                    OnCellHitEvent(cellPos);
+                }
+            }
+        }
     }
 
 
