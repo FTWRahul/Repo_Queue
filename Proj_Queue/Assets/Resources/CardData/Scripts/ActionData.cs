@@ -25,12 +25,35 @@ public class ActionData : ScriptableObject
     /// </summary>
     public void DisplayPossiblePattern(Vector2Int origin)
     {
+        targetCell = origin;
         List<PatternData> patternToSend = behaviour.InterpretPattern(patterns, origin);
 
         for (int i = 0; i < patternToSend.Count; i++)
         {
-            //Debug.Log( "Display Pattern is " + patternToSend[i]);
             Board.BoardInstance.BoardHighlighter.HighlightCells(patternToSend[i]);
+        }
+    }
+    
+    public void SelectPattern(Vector2Int inPos)
+    {
+        Vector2Int resetPos = inPos - targetCell;
+        PatternData tempPatternData = null;
+        foreach (var pat in patterns)
+        {
+            foreach (var pos in pat.positions)
+            {
+                if (resetPos == pos)
+                {
+                    tempPatternData = pat;
+                    break;
+                }
+            }
+
+            if (tempPatternData != null)
+            {
+                SelectedPattern = tempPatternData;
+                break;
+            }
         }
     }
 
