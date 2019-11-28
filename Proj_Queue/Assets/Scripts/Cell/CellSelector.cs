@@ -18,15 +18,8 @@ public class CellSelector : MonoBehaviour
 
     private void Update()
     {
-/*
         previousCellSelected = currentCellSelected;
-   
-        if (previousCellSelected)
-        {
-            previousCellSelected.UpdateState(CellState.HIGHLIGHTED);
-        }
-        */
-
+        
         RaycastHit hit;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         
@@ -39,7 +32,7 @@ public class CellSelector : MonoBehaviour
                 currentCellSelected = cell;
                 Vector2Int cellPos = cell.cellPosition;
 
-                if (currentCellSelected != previousCellSelected)
+                if (currentCellSelected != previousCellSelected && previousCellSelected != null)
                 {
                     previousCellSelected.UpdateState(CellState.HIGHLIGHTED);
                 }
@@ -52,6 +45,13 @@ public class CellSelector : MonoBehaviour
                 {
                     OnCellHitEvent(cellPos);
                 }
+            }
+        }
+        else
+        {
+            if (previousCellSelected)
+            {
+                previousCellSelected.UpdateState(CellState.HIGHLIGHTED);
             }
         }
     }
